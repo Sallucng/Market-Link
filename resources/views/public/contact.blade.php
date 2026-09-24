@@ -2,15 +2,7 @@
 
 @section('title', 'Contact Us — MarketLink Team')
 
-@section('styles')
-<style>
-    #contact-map {
-        height: 380px;
-        border-radius: 16px;
-        z-index: 1;
-    }
-</style>
-@endsection
+
 
 @section('content')
 <!-- Header -->
@@ -61,11 +53,19 @@
                     </div>
                 </div>
 
-                <!-- Embedded OpenStreetMap Map showing location (SRS §1.6) -->
+                <!-- Embedded Google Maps showing location (SRS §1.6) -->
                 <div class="card card-custom p-2 bg-white border-0 shadow-sm mt-4">
-                    <div id="contact-map"></div>
+                    <iframe 
+                        title="MarketLink Headquarters on Google Maps"
+                        src="https://maps.google.com/maps?q=100+Central+Square,+New+York,+NY+10001&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                        width="100%" 
+                        height="380" 
+                        style="border:0; border-radius: 12px;" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
                     <small class="text-muted text-center py-2 d-block">
-                        <i class="bi bi-geo-alt text-danger me-1"></i> MarketLink HQ Location — 100 Central Square (OpenStreetMap)
+                        <i class="bi bi-geo-alt text-danger me-1"></i> MarketLink HQ Location — 100 Central Square (Google Maps)
                     </small>
                 </div>
             </div>
@@ -119,27 +119,4 @@
 </section>
 @endsection
 
-@section('scripts')
-<script>
-    // Embedded OpenStreetMap for Contact Location (SRS §1.6)
-    const hqLat = 40.712776;
-    const hqLng = -74.005974;
 
-    const contactMap = L.map('contact-map').setView([hqLat, hqLng], 15);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(contactMap);
-
-    const pin = L.divIcon({
-        className: 'hq-pin',
-        html: `<div style="background-color:#15803d; color:white; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid white; box-shadow:0 3px 6px rgba(0,0,0,0.3);"><i class="bi bi-building"></i></div>`,
-        iconSize: [36, 36],
-        iconAnchor: [18, 36]
-    });
-
-    L.marker([hqLat, hqLng], { icon: pin })
-        .addTo(contactMap)
-        .bindPopup("<strong>MarketLink Headquarters</strong><br>100 Central Square, Suite 400")
-        .openPopup();
-</script>
-@endsection

@@ -26,10 +26,29 @@
                     <div><i class="bi bi-people-fill text-primary me-1"></i><strong>Attending Stalls:</strong> {{ $market->farmers->count() }} Farmers</div>
                 </div>
             </div>
-            <div class="col-lg-4 text-lg-end">
-                <a href="https://www.openstreetmap.org/directions?engine=fossgis_osrm_car&route=%3B{{ $market->latitude }}%2C{{ $market->longitude }}" 
+            <div class="col-lg-4 text-lg-end d-flex flex-column flex-sm-row justify-content-lg-end gap-2">
+                @auth
+                    @if(Auth::user()->isCustomer())
+                        @php
+                            $isMarketFav = \App\Models\Favorite::where('customer_id', Auth::id())
+                                ->where('item_type', 'market')
+                                ->where('item_id', $market->id)
+                                ->exists();
+                        @endphp
+                        <form action="{{ route('customer.favorites.toggle') }}" method="POST" class="d-inline">
+                            @csrf
+                            <input type="hidden" name="item_type" value="market">
+                            <input type="hidden" name="item_id" value="{{ $market->id }}">
+                            <button type="submit" class="btn {{ $isMarketFav ? 'btn-danger' : 'btn-outline-danger' }} rounded-pill px-3 py-2">
+                                <i class="bi {{ $isMarketFav ? 'bi-heart-fill' : 'bi-heart' }} me-1"></i>
+                                {{ $isMarketFav ? 'Preferred Market' : 'Bookmark as Preferred' }}
+                            </button>
+                        </form>
+                    @endif
+                @endauth
+                <a href="https://www.google.com/maps/dir/?api=1&destination={{ urlencode($market->address . ', ' . $market->city) }}" 
                    target="_blank" class="btn btn-outline-secondary rounded-pill px-3 py-2">
-                    <i class="bi bi-compass me-1"></i> OpenStreetMap Directions
+                    <i class="bi bi-geo-alt me-1"></i> Google Directions
                 </a>
             </div>
         </div>

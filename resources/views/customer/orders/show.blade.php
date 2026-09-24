@@ -139,8 +139,19 @@
 
                     @if($order->review)
                         <div class="p-3 bg-light rounded border">
-                            <div class="d-flex justify-content-between mb-1">
-                                <strong class="text-dark">Your Review:</strong>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div>
+                                    <strong class="text-dark">Your Review:</strong>
+                                    @if($order->review->product)
+                                        <span class="badge bg-success-subtle text-success ms-2">
+                                            <i class="bi bi-tag-fill me-1"></i>Product: {{ $order->review->product->name }}
+                                        </span>
+                                    @else
+                                        <span class="badge bg-secondary-subtle text-secondary ms-2">
+                                            <i class="bi bi-shop me-1"></i>Stall: {{ $order->farmer->stall_name }}
+                                        </span>
+                                    @endif
+                                </div>
                                 <span class="text-warning">
                                     @for($i=1; $i<=5; $i++)
                                         <i class="bi {{ $i <= $order->review->rating ? 'bi-star-fill' : 'bi-star' }}"></i>
@@ -160,8 +171,21 @@
                         <form action="{{ route('customer.orders.review', $order->id) }}" method="POST">
                             @csrf
                             <div class="mb-3">
+                                <label class="form-label small fw-semibold text-dark">Review Target:</label>
+                                <select name="product_id" class="form-select form-select-sm" style="max-width: 380px;">
+                                    <option value="">Farmer Stall Overall ({{ $order->farmer->stall_name }})</option>
+                                    @foreach($order->items as $item)
+                                        @if($item->product)
+                                            <option value="{{ $item->product->id }}">Individual Produce: {{ $item->product->name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                <div class="form-text small">You can rate the stall overall or review an individual purchased product (SRS §1.6).</div>
+                            </div>
+
+                            <div class="mb-3">
                                 <label class="form-label small fw-semibold text-dark">Star Rating (1 to 5):</label>
-                                <select name="rating" class="form-select form-select-sm" style="max-width: 200px;" required>
+                                <select name="rating" class="form-select form-select-sm" style="max-width: 220px;" required>
                                     <option value="5">5 Stars — Excellent Harvest</option>
                                     <option value="4">4 Stars — Very Good</option>
                                     <option value="3">3 Stars — Average</option>
@@ -172,7 +196,7 @@
 
                             <div class="mb-3">
                                 <label class="form-label small fw-semibold text-dark">Your Written Feedback:</label>
-                                <textarea name="comment" rows="3" class="form-control form-control-sm" placeholder="How was the freshness and stall pickup experience?" required></textarea>
+                                <textarea name="comment" rows="3" class="form-control form-control-sm" placeholder="How was the freshness, taste, and stall pickup experience?" required></textarea>
                             </div>
 
                             <button type="submit" class="btn btn-brand btn-sm rounded-pill px-4">

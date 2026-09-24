@@ -186,6 +186,7 @@
                             <ul class="dropdown-menu dropdown-menu-end shadow-sm" id="userMenu">
                                 @if(Auth::user()->isCustomer())
                                     <li><h6 class="dropdown-header">Customer Portal</h6></li>
+                                    <li><a class="dropdown-item fw-semibold" href="{{ route('customer.dashboard') }}"><i class="bi bi-speedometer2 me-2 text-success"></i>My Dashboard</a></li>
                                     <li><a class="dropdown-item" href="{{ route('customer.orders.index') }}"><i class="bi bi-box-seam me-2"></i>My Pre-Orders</a></li>
                                     <li><a class="dropdown-item" href="{{ route('customer.favorites.index') }}"><i class="bi bi-heart me-2"></i>Saved Favorites</a></li>
                                 @elseif(Auth::user()->isFarmer())

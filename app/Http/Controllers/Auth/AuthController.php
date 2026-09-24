@@ -99,7 +99,7 @@ class AuthController extends Controller
                 ->with('warning', 'Welcome! Your farmer registration is currently pending admin approval before your products appear in the public catalog.');
         }
 
-        return redirect()->route('home')->with('success', 'Welcome to MarketLink! Your customer account has been created.');
+        return redirect()->route('customer.dashboard')->with('success', 'Welcome to MarketLink! Your customer account has been created.');
     }
 
     public function logout(Request $request)
@@ -121,6 +121,6 @@ class AuthController extends Controller
             return redirect()->route('farmer.dashboard');
         }
 
-        return redirect()->intended(route('home'));
+        return redirect()->intended(route('customer.dashboard'));
     }
 }

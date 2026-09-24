@@ -95,13 +95,16 @@ class CheckoutController extends Controller
 
                 foreach ($items as $item) {
                     $product = Product::lockForUpdate()->find($item['id']);
-                    if ($product) {
-                        $product->stock_quantity = max(0, $product->stock_quantity - $item['quantity']);
-                        if ($product->stock_quantity == 0) {
-                            $product->is_sold_out = true;
-                        }
-                        $product->save();
+                    if (!$product || $product->stock_quantity < $item['quantity']) {
+                        $available = $product ? $product->stock_quantity : 0;
+                        throw new \Exception("Produce '{$item['name']}' has insufficient stock (Requested: {$item['quantity']}, Available: {$available}). Please update your cart.");
                     }
+
+                    $product->stock_quantity -= $item['quantity'];
+                    if ($product->stock_quantity == 0) {
+                        $product->is_sold_out = true;
+                    }
+                    $product->save();
 
                     OrderItem::create([
                         'order_id' => $order->id,

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Customer\CartController;
 use App\Http\Controllers\Customer\CheckoutController;
+use App\Http\Controllers\Customer\CustomerDashboardController;
 use App\Http\Controllers\Customer\FavoriteController;
 use App\Http\Controllers\Customer\OrderController;
 use App\Http\Controllers\Customer\ReviewController;
@@ -66,6 +67,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Customer Dashboard & Pre-Orders
     Route::prefix('customer')->name('customer.')->group(function () {
+        Route::get('/dashboard', [CustomerDashboardController::class, 'index'])->name('dashboard');
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
         Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
         Route::post('/orders/{id}/modify', [OrderController::class, 'modify'])->name('orders.modify');
