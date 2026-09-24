@@ -85,4 +85,25 @@ class AdminPortalTest extends TestCase
         $unapprovedUser->refresh();
         $this->assertTrue((bool)$unapprovedUser->is_approved);
     }
+
+    public function test_admin_dashboard_renders_analytics_charts_and_sidebar(): void
+    {
+        $response = $this->actingAs($this->adminUser)->get(route('admin.dashboard'));
+        $response->assertStatus(200);
+        $response->assertSee('marketRevenueBarChart');
+        $response->assertSee('orderStatusPieChart');
+        $response->assertSee('categoryDistributionChart');
+        $response->assertSee('See as Normal User');
+        $response->assertSee('admin-sidebar');
+    }
+
+    public function test_admin_can_view_reports_with_charts(): void
+    {
+        $response = $this->actingAs($this->adminUser)->get(route('admin.reports.index'));
+        $response->assertStatus(200);
+        $response->assertSee('reportMarketRevenueChart');
+        $response->assertSee('reportOrderStatusChart');
+        $response->assertSee('reportTopFarmersChart');
+        $response->assertSee('See as Normal User');
+    }
 }

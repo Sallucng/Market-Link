@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Farmer;
 use App\Models\Market;
 use App\Models\Order;
@@ -32,7 +33,45 @@ class DashboardController extends Controller
         $customers = User::where('role', 'customer')->latest()->take(10)->get();
         $recentOrders = Order::with('customer', 'farmer')->latest()->take(8)->get();
 
-        return view('admin.dashboard', compact('metrics', 'pendingFarmers', 'activeFarmers', 'customers', 'recentOrders'));
+        // Chart 1: Revenue & Order Counts per Market (SRS §1.6: "revenue generated per market")
+        $markets = Market::all();
+        $marketRevenueLabels = [];
+        $marketRevenueData = [];
+        $marketOrderCountData = [];
+
+        foreach ($markets as $m) {
+            $marketRevenueLabels[] = $m->name;
+            $marketRevenueData[] = (float) Order::where('market_id', $m->id)->where('order_status', 'completed')->sum('total_amount');
+            $marketOrderCountData[] = (int) Order::where('market_id', $m->id)->count();
+        }
+
+        // Chart 2: Order Pipeline Status Breakdown (SRS §1.5)
+        $statuses = ['placed', 'accepted', 'ready_for_pickup', 'completed', 'cancelled'];
+        $orderStatusLabels = ['Placed', 'Accepted', 'Ready for Pickup', 'Completed', 'Cancelled'];
+        $orderStatusData = [];
+        foreach ($statuses as $st) {
+            $orderStatusData[] = Order::where('order_status', $st)->count();
+        }
+
+        // Chart 3: Popular Categories (SRS §1.6: "popular categories")
+        $categories = Category::withCount('products')->get();
+        $categoryLabels = $categories->pluck('name')->toArray();
+        $categoryCounts = $categories->pluck('products_count')->toArray();
+
+        return view('admin.dashboard', compact(
+            'metrics',
+            'pendingFarmers',
+            'activeFarmers',
+            'customers',
+            'recentOrders',
+            'marketRevenueLabels',
+            'marketRevenueData',
+            'marketOrderCountData',
+            'orderStatusLabels',
+            'orderStatusData',
+            'categoryLabels',
+            'categoryCounts'
+        ));
     }
 
     public function approveFarmer($id)

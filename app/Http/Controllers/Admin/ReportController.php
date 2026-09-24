@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Farmer;
 use App\Models\Market;
 use App\Models\Order;
@@ -46,13 +47,28 @@ class ReportController extends Controller
             ->pluck('count', 'order_status')
             ->toArray();
 
+        // Chart data arrays for reports
+        $marketNames = $marketStats->pluck('name')->toArray();
+        $marketRevenues = $marketStats->pluck('revenue')->toArray();
+        $marketOrderCounts = $marketStats->pluck('orders_count')->toArray();
+
+        // Popular Categories distribution (SRS §1.6)
+        $categories = Category::withCount('products')->get();
+        $categoryNames = $categories->pluck('name')->toArray();
+        $categoryProductCounts = $categories->pluck('products_count')->toArray();
+
         return view('admin.reports.index', compact(
             'totalOrders',
             'completedOrders',
             'totalRevenue',
             'marketStats',
             'topFarmers',
-            'statusBreakdown'
+            'statusBreakdown',
+            'marketNames',
+            'marketRevenues',
+            'marketOrderCounts',
+            'categoryNames',
+            'categoryProductCounts'
         ));
     }
 }
