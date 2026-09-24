@@ -7,7 +7,7 @@
     #market-map {
         height: 600px;
         width: 100%;
-        border-radius: 16px;
+        border-radius: 12px;
         z-index: 1;
     }
     .market-sidebar {
@@ -16,11 +16,13 @@
     }
     .market-item-card {
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all 0.18s ease;
+        border: 1px solid var(--border-hairline);
     }
     .market-item-card:hover {
-        background-color: #f0fdf4 !important;
-        border-color: #15803d !important;
+        background-color: #f7f9f7 !important;
+        border-color: #2b5932 !important;
+        transform: translateY(-1px);
     }
 </style>
 @endsection
@@ -30,24 +32,24 @@
     <!-- Header & Filter Bar -->
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
         <div>
-            <span class="badge badge-brand px-3 py-1 rounded-pill mb-1">
+            <span class="badge-pastel-green mb-1">
                 <i class="bi bi-geo-alt-fill text-danger me-1"></i> OpenStreetMap Geolocation
             </span>
             <h2 class="heading-serif fw-bold text-dark mb-0">Local Farmers Markets & Stalls</h2>
         </div>
 
         <!-- Filter by Operating Day (SRS §1.6) -->
-        <div class="btn-group shadow-sm" role="group">
-            <a href="{{ route('markets.index') }}" class="btn btn-sm {{ !$dayFilter ? 'btn-success' : 'btn-outline-secondary' }}">
+        <div class="btn-group" role="group">
+            <a href="{{ route('markets.index') }}" class="btn btn-sm {{ !$dayFilter ? 'btn-brand' : 'btn-brand-outline' }}">
                 All Days
             </a>
-            <a href="{{ route('markets.index', ['day' => 'Saturday']) }}" class="btn btn-sm {{ $dayFilter == 'Saturday' ? 'btn-success' : 'btn-outline-secondary' }}">
+            <a href="{{ route('markets.index', ['day' => 'Saturday']) }}" class="btn btn-sm {{ $dayFilter == 'Saturday' ? 'btn-brand' : 'btn-brand-outline' }}">
                 Saturday
             </a>
-            <a href="{{ route('markets.index', ['day' => 'Sunday']) }}" class="btn btn-sm {{ $dayFilter == 'Sunday' ? 'btn-success' : 'btn-outline-secondary' }}">
+            <a href="{{ route('markets.index', ['day' => 'Sunday']) }}" class="btn btn-sm {{ $dayFilter == 'Sunday' ? 'btn-brand' : 'btn-brand-outline' }}">
                 Sunday
             </a>
-            <a href="{{ route('markets.index', ['day' => 'Wednesday']) }}" class="btn btn-sm {{ $dayFilter == 'Wednesday' ? 'btn-success' : 'btn-outline-secondary' }}">
+            <a href="{{ route('markets.index', ['day' => 'Wednesday']) }}" class="btn btn-sm {{ $dayFilter == 'Wednesday' ? 'btn-brand' : 'btn-brand-outline' }}">
                 Wednesday
             </a>
         </div>

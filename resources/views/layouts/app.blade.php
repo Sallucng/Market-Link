@@ -21,26 +21,41 @@
 
     <style>
         :root {
-            --brand-primary: #15803d;
-            --brand-primary-hover: #166534;
-            --brand-light: #f0fdf4;
-            --brand-accent: #f59e0b;
-            --text-dark: #1e293b;
-            --font-body: 'Plus Jakarta Sans', sans-serif;
-            --font-heading: 'Playfair Display', serif;
+            --brand-primary: #1b4332;
+            --brand-primary-hover: #133326;
+            --brand-accent: #c48b52;
+            --canvas-bg: #fbfbfa;
+            --surface-card: #ffffff;
+            --surface-subtle: #f7f6f2;
+            --border-hairline: #eae8e2;
+            --border-card: #e2dfd7;
+            --text-dark: #191c1e;
+            --text-muted: #66696d;
+            --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-heading: 'Playfair Display', Georgia, serif;
+            --font-mono: 'Geist Mono', 'SF Mono', Consolas, monospace;
         }
 
         body {
             font-family: var(--font-body);
             color: var(--text-dark);
-            background-color: #f8fafc;
+            background-color: var(--canvas-bg);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            letter-spacing: -0.01em;
+            -webkit-font-smoothing: antialiased;
         }
 
         .heading-serif {
             font-family: var(--font-heading);
+            letter-spacing: -0.025em;
+        }
+
+        .font-mono-meta {
+            font-family: var(--font-mono);
+            font-size: 0.82rem;
+            letter-spacing: 0.02em;
         }
 
         .navbar-brand {
@@ -48,53 +63,124 @@
             font-weight: 700;
             color: var(--brand-primary) !important;
             font-size: 1.45rem;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.03em;
         }
 
         .btn-brand {
             background-color: var(--brand-primary);
-            color: #fff;
-            border: none;
+            color: #ffffff;
+            border: 1px solid var(--brand-primary);
+            border-radius: 8px;
             font-weight: 600;
-            transition: all 0.2s ease-in-out;
+            font-size: 0.92rem;
+            letter-spacing: 0.01em;
+            padding: 0.52rem 1.25rem;
+            transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .btn-brand:hover {
+        .btn-brand:hover, .btn-brand:focus {
             background-color: var(--brand-primary-hover);
-            color: #fff;
+            border-color: var(--brand-primary-hover);
+            color: #ffffff;
             transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(27, 67, 50, 0.16);
+        }
+        .btn-brand:active {
+            transform: scale(0.98);
         }
 
         .btn-brand-outline {
-            border: 2px solid var(--brand-primary);
+            border: 1px solid var(--border-card);
             color: var(--brand-primary);
+            background-color: #ffffff;
+            border-radius: 8px;
             font-weight: 600;
-            background: transparent;
-            transition: all 0.2s;
+            font-size: 0.92rem;
+            padding: 0.52rem 1.15rem;
+            transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .btn-brand-outline:hover {
-            background-color: var(--brand-primary);
-            color: #fff;
+        .btn-brand-outline:hover, .btn-brand-outline:focus {
+            background-color: var(--surface-subtle);
+            border-color: #cfcbbe;
+            color: var(--brand-primary-hover);
+            transform: translateY(-1px);
         }
-
-        .bg-brand-light {
-            background-color: var(--brand-light);
-        }
-
-        .badge-brand {
-            background-color: #dcfce7;
-            color: #166534;
-            font-weight: 600;
+        .btn-brand-outline:active {
+            transform: scale(0.98);
         }
 
         .card-custom {
-            border: 1px solid #e2e8f0;
+            background-color: var(--surface-card);
+            border: 1px solid var(--border-hairline);
             border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            transition: all 0.25s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .card-custom:hover {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+            border-color: #d6d3c9;
+            box-shadow: 0 8px 20px -6px rgba(27, 67, 50, 0.07);
             transform: translateY(-2px);
+        }
+
+        /* Muted Pastel Badges (minimalist-ui) */
+        .badge-pastel-green {
+            background-color: #edf3ec;
+            color: #2b5932;
+            font-weight: 600;
+            font-size: 0.74rem;
+            letter-spacing: 0.02em;
+            border-radius: 6px;
+            padding: 4px 10px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .badge-pastel-amber {
+            background-color: #fbf3db;
+            color: #8a5c00;
+            font-weight: 600;
+            font-size: 0.74rem;
+            letter-spacing: 0.02em;
+            border-radius: 6px;
+            padding: 4px 10px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .badge-pastel-red {
+            background-color: #fdebec;
+            color: #9e2a2b;
+            font-weight: 600;
+            font-size: 0.74rem;
+            letter-spacing: 0.02em;
+            border-radius: 6px;
+            padding: 4px 10px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .badge-pastel-slate {
+            background-color: #f1f0ec;
+            color: #424340;
+            font-weight: 600;
+            font-size: 0.74rem;
+            letter-spacing: 0.02em;
+            border-radius: 6px;
+            padding: 4px 10px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .bento-card {
+            background: #ffffff;
+            border: 1px solid var(--border-hairline);
+            border-radius: 12px;
+            padding: 24px;
+            height: 100%;
+            transition: all 0.2s ease;
+        }
+        .bento-card:hover {
+            border-color: #cfcbbe;
+            box-shadow: 0 6px 18px -4px rgba(0, 0, 0, 0.04);
         }
 
         /* AI Floating Assistant */
@@ -112,25 +198,27 @@
             height: 480px;
             z-index: 1050;
             display: none;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.14);
+            border: 1px solid var(--border-card);
             border-radius: 16px;
             overflow: hidden;
+            background: #ffffff;
         }
     </style>
     @yield('styles')
 </head>
 <body>
 
-    <!-- Top Announcement Ribbon (if any active) -->
-    <div class="bg-success text-white py-1 px-3 text-center small fw-semibold">
-        <i class="bi bi-basket-fill me-1"></i> TechWiz 7: eGreen Basket Edition — In-person stall pickup only. Zero online convenience fees!
+    <!-- Top Announcement Ribbon -->
+    <div class="py-1 px-3 text-center small fw-semibold" style="background-color: var(--brand-primary); color: #edf3ec; font-size: 0.8rem; letter-spacing: 0.02em;">
+        <i class="bi bi-basket-fill me-1 text-warning"></i> TechWiz 7: eGreen Basket Edition — In-person stall pickup only. Zero online convenience fees.
     </div>
 
     <!-- Navigation Header -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top py-2">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-2" style="border-bottom: 1px solid var(--border-hairline);">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
-                <span class="p-2 bg-success text-white rounded-circle me-2 d-inline-flex align-items-center justify-content-center" style="width:36px; height:36px;">
+                <span class="p-2 text-white rounded-2 me-2 d-inline-flex align-items-center justify-content-center" style="width:34px; height:34px; background-color: var(--brand-primary);">
                     <i class="bi bi-flower2"></i>
                 </span>
                 MarketLink
@@ -142,35 +230,35 @@
             <div class="collapse navbar-collapse" id="navContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('home') ? 'active fw-bold text-success' : '' }}" href="{{ route('home') }}">Home</a>
+                        <a class="nav-link {{ request()->routeIs('home') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('markets.*') ? 'active fw-bold text-success' : '' }}" href="{{ route('markets.index') }}">
+                        <a class="nav-link {{ request()->routeIs('markets.*') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('markets.index') }}">
                             <i class="bi bi-geo-alt-fill text-danger me-1"></i>Markets & Map
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('products.*') ? 'active fw-bold text-success' : '' }}" href="{{ route('products.index') }}">
+                        <a class="nav-link {{ request()->routeIs('products.*') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('products.index') }}">
                             <i class="bi bi-grid-fill text-success me-1"></i>Farm Produce
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('about') ? 'active fw-bold text-success' : '' }}" href="{{ route('about') }}">About Us</a>
+                        <a class="nav-link {{ request()->routeIs('about') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('about') }}">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('contact') ? 'active fw-bold text-success' : '' }}" href="{{ route('contact') }}">Contact</a>
+                        <a class="nav-link {{ request()->routeIs('contact') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('contact') }}">Contact</a>
                     </li>
                 </ul>
 
                 <div class="d-flex align-items-center gap-2">
                     <!-- Pre-Order Cart Button -->
-                    <a href="{{ route('cart.index') }}" class="btn btn-outline-success position-relative me-2 rounded-pill px-3">
+                    <a href="{{ route('cart.index') }}" class="btn btn-brand-outline position-relative me-2 px-3 py-1">
                         <i class="bi bi-cart3 me-1"></i> Pickup Cart
                         @php
                             $cartCount = count(session('cart', []));
                         @endphp
                         @if($cartCount > 0)
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger font-mono-meta">
                                 {{ $cartCount }}
                             </span>
                         @endif

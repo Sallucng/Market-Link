@@ -4,61 +4,81 @@
 
 @section('content')
 
-<!-- Hero Section -->
-<section class="py-5 bg-white border-bottom position-relative overflow-hidden">
-    <div class="container py-4">
+<!-- Hero Section (minimalist-ui & humanize-ui editorial bento layout) -->
+<section class="py-5 border-bottom bg-white">
+    <div class="container py-lg-4">
         <div class="row align-items-center g-5">
             <div class="col-lg-6">
-                <span class="badge badge-brand px-3 py-2 rounded-pill mb-3">
-                    <i class="bi bi-patch-check-fill text-success me-1"></i> TechWiz 7 — Theme: eGreen Basket
-                </span>
-                <h1 class="display-4 fw-bold heading-serif text-dark mb-3">
-                    Farm Fresh Produce, <br><span class="text-success">Just a Click Away</span>
+                <div class="d-inline-flex align-items-center gap-2 badge-pastel-green mb-3">
+                    <i class="bi bi-shield-check"></i>
+                    <span>TechWiz 7 — Theme: eGreen Basket</span>
+                </div>
+
+                <h1 class="display-4 fw-bold heading-serif text-dark mb-3" style="letter-spacing: -0.035em; line-height: 1.12;">
+                    Farm Fresh Produce, <br>
+                    <span style="color: var(--brand-primary); font-style: italic;">Just a Click Away.</span>
                 </h1>
-                <p class="lead text-muted mb-4">
-                    Connect directly with local farmers market vendors. Discover weekly harvests, view stalls on an interactive map, and pre-order for hassle-free in-person pickup.
+
+                <p class="text-muted lead fs-6 mb-4 col-xl-11" style="line-height: 1.6;">
+                    Connect directly with verified local farmers market vendors. Discover this week's harvest, explore stall positions on an interactive map, and pre-order produce for convenient, in-person stall collection.
                 </p>
 
-                <!-- Market Day Quick Finder Form -->
-                <form action="{{ route('markets.index') }}" method="GET" class="card card-custom p-3 bg-light border-0 mb-4">
-                    <div class="row g-2 align-items-center">
-                        <div class="col-md-7">
-                            <label class="small text-muted fw-semibold mb-1"><i class="bi bi-calendar3 me-1"></i>Find Markets Open On:</label>
-                            <select name="day" class="form-select border-0 shadow-sm">
-                                <option value="">Select a Day (e.g. Saturday, Sunday)</option>
-                                <option value="Saturday">Saturday Harvest Markets</option>
-                                <option value="Sunday">Sunday Harvest Markets</option>
-                                <option value="Wednesday">Wednesday Mid-week Markets</option>
-                            </select>
+                <!-- Market Day Quick Finder Bento Card -->
+                <div class="card card-custom p-3 p-md-4 bg-white mb-4">
+                    <form action="{{ route('markets.index') }}" method="GET">
+                        <div class="row g-2 align-items-center">
+                            <div class="col-md-7">
+                                <label class="small text-muted fw-semibold mb-1 d-flex align-items-center">
+                                    <i class="bi bi-calendar3 text-success me-1"></i> Find Markets Open On:
+                                </label>
+                                <select name="day" class="form-select" style="border: 1px solid var(--border-card); border-radius: 8px;">
+                                    <option value="">Select Market Day (e.g. Saturday)</option>
+                                    <option value="Saturday">Saturday Harvest Markets</option>
+                                    <option value="Sunday">Sunday Harvest Markets</option>
+                                    <option value="Wednesday">Wednesday Mid-week Markets</option>
+                                </select>
+                            </div>
+                            <div class="col-md-5 pt-md-4">
+                                <button type="submit" class="btn btn-brand w-100">
+                                    <i class="bi bi-search me-1"></i> Locate Markets
+                                </button>
+                            </div>
                         </div>
-                        <div class="col-md-5 pt-md-3">
-                            <button type="submit" class="btn btn-brand w-100 py-2 shadow-sm">
-                                <i class="bi bi-search me-1"></i> Locate Markets
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
 
-                <div class="d-flex flex-wrap gap-4 text-secondary small">
-                    <div><i class="bi bi-check2-circle text-success fs-6 me-1"></i> <strong>In-Person Pickup</strong></div>
-                    <div><i class="bi bi-check2-circle text-success fs-6 me-1"></i> <strong>Zero Online Fees</strong></div>
-                    <div><i class="bi bi-check2-circle text-success fs-6 me-1"></i> <strong>OpenStreetMap Powered</strong></div>
+                <!-- Three Key Pillars (SRS §1.5) -->
+                <div class="d-flex flex-wrap gap-3">
+                    <div class="badge-pastel-slate">
+                        <i class="bi bi-shop me-1 text-success"></i> In-Person Stall Pickup
+                    </div>
+                    <div class="badge-pastel-slate">
+                        <i class="bi bi-currency-dollar me-1 text-warning"></i> Zero Online Markups
+                    </div>
+                    <div class="badge-pastel-slate">
+                        <i class="bi bi-map me-1 text-primary"></i> OpenStreetMap Powered
+                    </div>
                 </div>
             </div>
 
             <div class="col-lg-6">
                 <div class="position-relative">
-                    <img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=900&q=80" 
-                         alt="Fresh Farmers Market" 
-                         class="img-fluid rounded-4 shadow-lg w-100" 
-                         style="max-height: 480px; object-fit: cover;">
-                    <div class="position-absolute bottom-0 start-0 bg-white p-3 m-3 rounded-3 shadow-lg border d-none d-sm-flex align-items-center gap-3">
-                        <div class="bg-success text-white p-3 rounded-circle d-flex align-items-center justify-content-center">
-                            <i class="bi bi-shield-check fs-4"></i>
+                    <div class="card p-2 bg-white" style="border: 1px solid var(--border-hairline); border-radius: 16px; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.06);">
+                        <img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=900&q=80" 
+                             alt="Local Farmers Market Stall" 
+                             class="w-100" 
+                             style="height: 420px; object-fit: cover; border-radius: 12px;">
+                    </div>
+                    
+                    <!-- Tactile Overlay Badge -->
+                    <div class="position-absolute bottom-0 start-0 m-4 p-3 bg-white d-none d-sm-flex align-items-center gap-3" 
+                         style="border: 1px solid var(--border-card); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.08);">
+                        <div class="p-2 rounded-2 d-flex align-items-center justify-content-center" style="width: 42px; height: 42px; background-color: var(--brand-primary); color: #fff;">
+                            <i class="bi bi-shield-check fs-5"></i>
                         </div>
                         <div>
-                            <h6 class="mb-0 fw-bold">Pay at Stall Pickup</h6>
-                            <small class="text-muted">Direct vendor settlement — SRS Compliant</small>
+                            <div class="fw-bold text-dark small">Pay at Stall Pickup</div>
+                            <div class="text-muted" style="font-size: 0.74rem;">Direct vendor settlement — SRS §1.5 Compliant</div>
                         </div>
                     </div>
                 </div>
@@ -69,28 +89,28 @@
 
 <!-- Active Platform Announcements (SRS §1.6) -->
 @if($announcements->count() > 0)
-<section class="py-3 bg-brand-light border-bottom">
+<section class="py-2 border-bottom" style="background-color: #fbf3db;">
     <div class="container">
         @foreach($announcements as $ann)
-            <div class="d-flex align-items-center gap-3">
-                <span class="badge bg-success px-2 py-1 text-uppercase">{{ $ann->badge_type }}</span>
-                <span class="fw-semibold text-dark">{{ $ann->title }}:</span>
-                <span class="text-muted small">{{ $ann->content }}</span>
+            <div class="d-flex align-items-center gap-3 py-1">
+                <span class="badge-pastel-amber">{{ $ann->badge_type }}</span>
+                <span class="fw-bold text-dark small">{{ $ann->title }}:</span>
+                <span class="text-secondary small">{{ $ann->content }}</span>
             </div>
         @endforeach
     </div>
 </section>
 @endif
 
-<!-- Categories Grid -->
+<!-- Seasonal Categories Bento Grid (humanize-ui) -->
 <section class="py-5">
-    <div class="container">
+    <div class="container py-2">
         <div class="d-flex justify-content-between align-items-end mb-4">
             <div>
-                <span class="text-success fw-bold text-uppercase small">Browse Categories</span>
-                <h2 class="heading-serif fw-bold text-dark mb-0">Seasonal Goodness</h2>
+                <span class="badge-pastel-green mb-2">Curated Harvest</span>
+                <h2 class="heading-serif fw-bold text-dark mb-0">Browse by Fresh Produce Category</h2>
             </div>
-            <a href="{{ route('products.index') }}" class="btn btn-brand-outline btn-sm rounded-pill px-3">
+            <a href="{{ route('products.index') }}" class="btn btn-brand-outline btn-sm">
                 View All Categories <i class="bi bi-arrow-right ms-1"></i>
             </a>
         </div>
@@ -99,12 +119,13 @@
             @foreach($categories as $cat)
                 <div class="col-6 col-md-4 col-lg">
                     <a href="{{ route('products.index', ['category' => $cat->id]) }}" class="text-decoration-none">
-                        <div class="card card-custom h-100 text-center p-3 border-0 bg-white">
-                            <div class="mx-auto mb-2 p-3 bg-brand-light text-success rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 58px; height: 58px;">
-                                <i class="bi {{ $cat->icon ?: 'bi-basket2' }} fs-3"></i>
+                        <div class="bento-card text-center p-3">
+                            <div class="mx-auto mb-2 rounded-3 d-inline-flex align-items-center justify-content-center" 
+                                 style="width: 52px; height: 52px; background-color: #edf3ec; color: var(--brand-primary);">
+                                <i class="bi {{ $cat->icon ?: 'bi-basket2' }} fs-4"></i>
                             </div>
                             <h6 class="fw-bold text-dark mb-1">{{ $cat->name }}</h6>
-                            <small class="text-muted">{{ $cat->products_count }} Products</small>
+                            <span class="text-muted small font-mono-meta">{{ $cat->products_count }} Products</span>
                         </div>
                     </a>
                 </div>
@@ -113,15 +134,15 @@
     </div>
 </section>
 
-<!-- Featured Fresh Produce -->
+<!-- Featured Fresh Produce Grid -->
 <section class="py-5 bg-white border-top border-bottom">
-    <div class="container">
+    <div class="container py-2">
         <div class="d-flex justify-content-between align-items-end mb-4">
             <div>
-                <span class="text-success fw-bold text-uppercase small">This Week's Stock</span>
+                <span class="badge-pastel-green mb-2">Available for Pre-Order</span>
                 <h2 class="heading-serif fw-bold text-dark mb-0">Harvested from Local Growers</h2>
             </div>
-            <a href="{{ route('products.index') }}" class="btn btn-brand btn-sm rounded-pill px-3">
+            <a href="{{ route('products.index') }}" class="btn btn-brand btn-sm">
                 Full Catalog <i class="bi bi-arrow-right ms-1"></i>
             </a>
         </div>
@@ -131,36 +152,52 @@
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="card card-custom h-100 d-flex flex-column">
                         <div class="position-relative">
-                            <img src="{{ $product->image_url ?: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=600&q=80' }}" 
+                            <img src="{{ $product->image_url ?: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80' }}" 
+                                 onerror="this.src='https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80'"
                                  class="card-img-top" 
                                  alt="{{ $product->name }}" 
-                                 style="height: 180px; object-fit: cover; border-top-left-radius: 12px; border-top-right-left: 12px;">
-                            <span class="position-absolute top-0 end-0 m-2 badge bg-dark bg-opacity-75">
+                                 style="height: 175px; object-fit: cover; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+                            
+                            <span class="position-absolute top-0 end-0 m-2 badge-pastel-slate" style="background: rgba(255,255,255,0.92); backdrop-filter: blur(4px);">
                                 {{ $product->category->name }}
                             </span>
                         </div>
                         <div class="card-body p-3 d-flex flex-column">
-                            <small class="text-success fw-semibold mb-1">
-                                <i class="bi bi-shop me-1"></i>{{ $product->farmer->stall_name }}
-                            </small>
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <small class="text-success fw-semibold">
+                                    <i class="bi bi-shop me-1"></i>{{ $product->farmer->stall_name }}
+                                </small>
+                                @if($product->stock_quantity > 0)
+                                    <span class="badge-pastel-green" style="font-size: 0.68rem; padding: 2px 6px;">
+                                        {{ $product->stock_quantity }} {{ $product->unit }} left
+                                    </span>
+                                @else
+                                    <span class="badge-pastel-red" style="font-size: 0.68rem; padding: 2px 6px;">
+                                        Sold Out
+                                    </span>
+                                @endif
+                            </div>
+
                             <h6 class="card-title fw-bold text-dark mb-2">
                                 <a href="{{ route('products.show', $product->id) }}" class="text-dark text-decoration-none">
                                     {{ $product->name }}
                                 </a>
                             </h6>
+
                             <div class="d-flex align-items-baseline gap-1 mb-2">
-                                <span class="fs-5 fw-bold text-dark">${{ number_format($product->price, 2) }}</span>
+                                <span class="fs-5 fw-bold text-dark font-mono-meta">${{ number_format($product->price, 2) }}</span>
                                 <span class="text-muted small">/ {{ $product->unit }}</span>
                             </div>
-                            <p class="text-muted small flex-grow-1 text-truncate-2 mb-3">
-                                {{ Str::limit($product->description, 65) }}
+
+                            <p class="text-muted small flex-grow-1 mb-3" style="line-height: 1.5;">
+                                {{ Str::limit($product->description, 60) }}
                             </p>
                             
-                            <div class="mt-auto d-flex gap-2">
-                                <form action="{{ route('cart.add', $product->id) }}" method="POST" class="w-100">
+                            <div class="mt-auto">
+                                <form action="{{ route('cart.add', $product->id) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="btn btn-brand-outline w-100 btn-sm rounded-pill py-2">
-                                        <i class="bi bi-cart-plus me-1"></i> Pre-Order
+                                    <button type="submit" class="btn btn-brand-outline w-100 btn-sm py-2" {{ $product->stock_quantity < 1 ? 'disabled' : '' }}>
+                                        <i class="bi bi-cart-plus me-1"></i> {{ $product->stock_quantity < 1 ? 'Sold Out' : 'Pre-Order' }}
                                     </button>
                                 </form>
                             </div>
@@ -172,30 +209,37 @@
     </div>
 </section>
 
-<!-- Map & Discovery Feature Banner -->
-<section class="py-5 bg-brand-light">
+<!-- Map & Discovery Feature Bento Card -->
+<section class="py-5" style="background-color: var(--surface-subtle);">
     <div class="container py-3">
-        <div class="row align-items-center g-4">
-            <div class="col-lg-6">
-                <span class="badge bg-success text-white px-3 py-1 rounded-pill mb-2">Interactive OpenStreetMap</span>
-                <h2 class="heading-serif fw-bold text-dark mb-3">
-                    Locate Markets & Stall Pickup Points
-                </h2>
-                <p class="text-muted mb-4">
-                    Never arrive to a closed market again. Explore interactive map markers for community markets, view exact stall locations, operating days, and get pickup directions directly to the vendor's booth.
-                </p>
-                <div class="d-flex gap-3">
-                    <a href="{{ route('markets.index') }}" class="btn btn-brand px-4 py-2 rounded-pill">
-                        <i class="bi bi-map me-1"></i> Open Interactive Map
-                    </a>
+        <div class="card card-custom p-4 p-md-5 bg-white">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-7">
+                    <span class="badge-pastel-green mb-2">
+                        <i class="bi bi-geo-alt-fill me-1"></i> OpenStreetMap Interactive Map
+                    </span>
+                    <h2 class="heading-serif fw-bold text-dark mb-3">
+                        Locate Neighborhood Markets & Pickup Points
+                    </h2>
+                    <p class="text-muted mb-4" style="line-height: 1.6;">
+                        Never arrive at a closed market stall again. Explore interactive map coordinates for community markets, check attending vendor lineups, view pickup operating days, and get turn-by-turn directions directly to the vendor's stall.
+                    </p>
+                    <div class="d-flex gap-2">
+                        <a href="{{ route('markets.index') }}" class="btn btn-brand">
+                            <i class="bi bi-map me-1"></i> Open Interactive Map
+                        </a>
+                        <a href="{{ route('about') }}" class="btn btn-brand-outline">
+                            Learn How It Works
+                        </a>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="card card-custom p-2 bg-white border-0 shadow">
-                    <div class="p-3 bg-light rounded-3 text-center">
-                        <i class="bi bi-geo-alt-fill text-danger display-4 mb-2"></i>
-                        <h5 class="fw-bold mb-1">Live Stall Discovery</h5>
-                        <p class="text-muted small mb-0">OpenStreetMap integration powered by Leaflet.js</p>
+                <div class="col-lg-5">
+                    <div class="p-4 rounded-3 text-center" style="background-color: var(--canvas-bg); border: 1px dashed var(--border-card);">
+                        <div class="mx-auto mb-3 rounded-circle d-flex align-items-center justify-content-center" style="width: 64px; height: 64px; background-color: #edf3ec; color: var(--brand-primary);">
+                            <i class="bi bi-compass fs-2"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-1">Live Stall Discovery</h5>
+                        <p class="text-muted small mb-0">Explore neighborhood markets, schedule hours, and participating farmers across the city.</p>
                     </div>
                 </div>
             </div>

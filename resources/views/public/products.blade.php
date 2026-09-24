@@ -7,10 +7,10 @@
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <span class="badge badge-brand px-3 py-1 rounded-pill mb-1">Weekly Fresh Inventory</span>
+            <span class="badge-pastel-green mb-1">Weekly Fresh Inventory</span>
             <h2 class="heading-serif fw-bold text-dark mb-0">Browse Farm Produce</h2>
         </div>
-        <div class="text-muted small">
+        <div class="text-muted small font-mono-meta">
             Showing {{ $products->firstItem() ?? 0 }}-{{ $products->lastItem() ?? 0 }} of {{ $products->total() }} produce items
         </div>
     </div>
@@ -18,7 +18,7 @@
     <div class="row g-4">
         <!-- Filter Sidebar (SRS §1.6: Filters for price, category, market, and day) -->
         <div class="col-lg-3">
-            <div class="card card-custom p-4 bg-white border-0 shadow-sm sticky-top" style="top: 80px; z-index: 10;">
+            <div class="card card-custom p-4 bg-white sticky-top" style="top: 80px; z-index: 10;">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="fw-bold text-dark mb-0"><i class="bi bi-funnel me-1 text-success"></i> Filters</h5>
                     <a href="{{ route('products.index') }}" class="small text-muted text-decoration-none">Reset All</a>
@@ -74,7 +74,7 @@
                         <input type="number" step="0.5" name="max_price" value="{{ request('max_price') }}" class="form-control form-control-sm" placeholder="e.g. 10.00">
                     </div>
 
-                    <button type="submit" class="btn btn-brand btn-sm w-100 py-2 rounded-pill shadow-sm">
+                    <button type="submit" class="btn btn-brand btn-sm w-100 py-2">
                         Apply Filters
                     </button>
                 </form>
@@ -88,20 +88,21 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="card card-custom h-100 d-flex flex-column bg-white">
                             <div class="position-relative">
-                                <img src="{{ $product->image_url ?: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=600&q=80' }}" 
+                                <img src="{{ $product->image_url ?: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80' }}" 
+                                     onerror="this.src='https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80'"
                                      class="card-img-top" 
                                      alt="{{ $product->name }}" 
                                      style="height: 190px; object-fit: cover; border-top-left-radius: 12px; border-top-right-radius: 12px;">
-                                <span class="position-absolute top-0 end-0 m-2 badge bg-dark bg-opacity-75">
+                                <span class="position-absolute top-0 end-0 m-2 badge-pastel-slate" style="background: rgba(255,255,255,0.92);">
                                     {{ $product->category->name }}
                                 </span>
 
                                 @if($product->is_sold_out || $product->stock_quantity <= 0)
-                                    <div class="position-absolute top-0 start-0 m-2 badge bg-danger">
+                                    <div class="position-absolute top-0 start-0 m-2 badge-pastel-red">
                                         Sold Out
                                     </div>
                                 @else
-                                    <div class="position-absolute bottom-0 start-0 m-2 badge bg-success bg-opacity-90">
+                                    <div class="position-absolute bottom-0 start-0 m-2 badge-pastel-green">
                                         {{ $product->stock_quantity }} {{ $product->unit }} left
                                     </div>
                                 @endif
@@ -120,19 +121,19 @@
                                     <i class="bi bi-geo-alt me-1"></i>{{ $product->farmer->market->name ?? 'Local Market' }}
                                 </div>
                                 <div class="d-flex align-items-baseline gap-1 mb-2">
-                                    <span class="fs-5 fw-bold text-dark">${{ number_format($product->price, 2) }}</span>
+                                    <span class="fs-5 fw-bold text-dark font-mono-meta">${{ number_format($product->price, 2) }}</span>
                                     <span class="text-muted small">/ {{ $product->unit }}</span>
                                 </div>
 
                                 <div class="mt-auto pt-2">
                                     @if($product->is_sold_out || $product->stock_quantity <= 0)
-                                        <button class="btn btn-secondary btn-sm w-100 rounded-pill py-2" disabled>
+                                        <button class="btn btn-secondary btn-sm w-100 py-2" disabled>
                                             Sold Out
                                         </button>
                                     @else
                                         <form action="{{ route('cart.add', $product->id) }}" method="POST">
                                             @csrf
-                                            <button type="submit" class="btn btn-brand-outline btn-sm w-100 rounded-pill py-2">
+                                            <button type="submit" class="btn btn-brand-outline btn-sm w-100 py-2">
                                                 <i class="bi bi-cart-plus me-1"></i> Pre-Order for Pickup
                                             </button>
                                         </form>
