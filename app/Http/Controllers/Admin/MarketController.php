@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Market;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MarketController extends Controller
 {
@@ -30,14 +31,21 @@ class MarketController extends Controller
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',
             'description' => 'nullable|string',
-            'image_url' => 'nullable|url|max:500',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:3072',
+            'image_url' => 'nullable|string|max:500',
         ]);
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('markets', 'public');
+            $validated['image_url'] = '/storage/' . $path;
+        }
 
         $validated['map_provider'] = 'OpenStreetMap';
         if (empty($validated['image_url'])) {
             $validated['image_url'] = 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=800&q=80';
         }
 
+        unset($validated['image']);
         Market::create($validated);
 
         return redirect()->route('admin.markets.index')->with('success', 'Farmers market added successfully!');
@@ -62,9 +70,16 @@ class MarketController extends Controller
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',
             'description' => 'nullable|string',
-            'image_url' => 'nullable|url|max:500',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:3072',
+            'image_url' => 'nullable|string|max:500',
         ]);
 
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('markets', 'public');
+            $validated['image_url'] = '/storage/' . $path;
+        }
+
+        unset($validated['image']);
         $market->update($validated);
 
         return redirect()->route('admin.markets.index')->with('success', 'Market details updated successfully!');

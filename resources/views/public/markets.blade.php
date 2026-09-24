@@ -78,11 +78,19 @@
                 @forelse($markets as $market)
                     <div class="card card-custom p-3 mb-3 bg-white market-item-card" 
                          onclick="focusMarker({{ $market->latitude }}, {{ $market->longitude }}, '{{ addslashes($market->name) }}')">
-                        <div class="d-flex justify-content-between align-items-start mb-2">
-                            <h6 class="fw-bold text-dark mb-0">{{ $market->name }}</h6>
-                            <span class="badge bg-light text-dark border">{{ $market->city }}</span>
+                        <div class="d-flex gap-3 mb-2">
+                            <img src="{{ $market->image_url ?: 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=200&q=80' }}" 
+                                 alt="{{ $market->name }}" 
+                                 class="rounded-3 shadow-sm flex-shrink-0" 
+                                 style="width: 58px; height: 58px; object-fit: cover;">
+                            <div class="flex-grow-1 min-w-0">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <h6 class="fw-bold text-dark mb-0 text-truncate">{{ $market->name }}</h6>
+                                    <span class="badge bg-light text-dark border ms-1">{{ $market->city }}</span>
+                                </div>
+                                <p class="text-muted small mb-0 text-truncate"><i class="bi bi-geo-alt text-danger me-1"></i>{{ $market->address }}</p>
+                            </div>
                         </div>
-                        <p class="text-muted small mb-2"><i class="bi bi-geo-alt text-danger me-1"></i>{{ $market->address }}</p>
                         <div class="small text-secondary mb-2">
                             <div><i class="bi bi-calendar-check text-success me-1"></i><strong>Days:</strong> {{ $market->operating_days }}</div>
                             <div><i class="bi bi-clock text-warning me-1"></i><strong>Hours:</strong> {{ $market->timings }}</div>

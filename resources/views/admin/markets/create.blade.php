@@ -36,7 +36,7 @@
                     </div>
                 </div>
 
-                <form action="{{ route('admin.markets.store') }}" method="POST">
+                <form action="{{ route('admin.markets.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="row g-3 mb-3">
@@ -87,9 +87,20 @@
                         <textarea name="description" rows="3" class="form-control" placeholder="Community market description, parking access, amenities...">{{ old('description') }}</textarea>
                     </div>
 
-                    <div class="mb-4">
-                        <label class="form-label small fw-semibold text-dark">Image URL (Optional)</label>
-                        <input type="url" name="image_url" class="form-control" value="{{ old('image_url') }}" placeholder="https://images.unsplash.com/...">
+                    <div class="card p-3 bg-light border-0 rounded-3 mb-4">
+                        <label class="form-label small fw-bold text-dark mb-2"><i class="bi bi-image text-success me-1"></i> Market Photo</label>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-dark">Upload Image File</label>
+                                <input type="file" name="image" class="form-control form-control-sm" accept="image/jpeg,image/png,image/webp">
+                                <small class="text-muted" style="font-size: 0.76rem;">JPG, PNG, or WebP up to 3MB</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-dark">Or Paste External Image URL</label>
+                                <input type="url" name="image_url" class="form-control form-control-sm" value="{{ old('image_url') }}" placeholder="https://images.unsplash.com/...">
+                                <small class="text-muted" style="font-size: 0.76rem;">Leave empty for an automatic fresh produce banner</small>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center pt-3 border-top">

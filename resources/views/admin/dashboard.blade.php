@@ -27,59 +27,69 @@
     </div>
 
     <!-- Platform Key Metrics (SRS §1.6) -->
-    <div class="row g-3 mb-4">
-        <div class="col-sm-6 col-xl">
-            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm">
-                <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Total Farmers</span>
-                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1 small">Growers</span>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 mb-4 align-items-stretch">
+        <div class="col">
+            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+                <div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Total Farmers</span>
+                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1 small">Growers</span>
+                    </div>
+                    <h3 class="fw-bold text-dark mb-0 mt-2 stat-counter" data-target="{{ $metrics['total_farmers'] }}">0</h3>
                 </div>
-                <h3 class="fw-bold text-dark mb-0 mt-2 stat-counter" data-target="{{ $metrics['total_farmers'] }}">0</h3>
-                <small class="text-success fw-medium mt-1 d-block"><i class="bi bi-check-circle-fill me-1"></i>{{ $activeFarmers->count() }} Approved</small>
+                <small class="text-success fw-medium mt-2 d-block text-truncate"><i class="bi bi-check-circle-fill me-1"></i>{{ $activeFarmers->count() }} Approved</small>
             </div>
         </div>
 
-        <div class="col-sm-6 col-xl">
-            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm">
-                <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Customers</span>
-                    <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-2 py-1 small">Shoppers</span>
+        <div class="col">
+            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+                <div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Customers</span>
+                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-2 py-1 small">Shoppers</span>
+                    </div>
+                    <h3 class="fw-bold text-dark mb-0 mt-2 stat-counter" data-target="{{ $metrics['total_customers'] }}">0</h3>
                 </div>
-                <h3 class="fw-bold text-dark mb-0 mt-2 stat-counter" data-target="{{ $metrics['total_customers'] }}">0</h3>
-                <small class="text-muted mt-1 d-block">Registered shoppers</small>
+                <small class="text-muted mt-2 d-block text-truncate">Registered shoppers</small>
             </div>
         </div>
 
-        <div class="col-sm-6 col-xl">
-            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm">
-                <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Markets</span>
-                    <span class="badge bg-warning bg-opacity-10 text-dark rounded-pill px-2 py-1 small">Locations</span>
+        <div class="col">
+            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+                <div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Markets</span>
+                        <span class="badge bg-warning bg-opacity-10 text-dark rounded-pill px-2 py-1 small">Locations</span>
+                    </div>
+                    <h3 class="fw-bold text-dark mb-0 mt-2 stat-counter" data-target="{{ $metrics['total_markets'] }}">0</h3>
                 </div>
-                <h3 class="fw-bold text-dark mb-0 mt-2 stat-counter" data-target="{{ $metrics['total_markets'] }}">0</h3>
-                <small class="text-muted mt-1 d-block">Physical plazas</small>
+                <small class="text-muted mt-2 d-block text-truncate">Physical plazas</small>
             </div>
         </div>
 
-        <div class="col-sm-6 col-xl">
-            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm">
-                <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Pre-Orders</span>
-                    <span class="badge bg-info bg-opacity-10 text-info-emphasis rounded-pill px-2 py-1 small">Pickups</span>
+        <div class="col">
+            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+                <div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Pre-Orders</span>
+                        <span class="badge bg-info bg-opacity-10 text-info-emphasis rounded-pill px-2 py-1 small">Pickups</span>
+                    </div>
+                    <h3 class="fw-bold text-dark mb-0 mt-2 stat-counter" data-target="{{ $metrics['total_orders'] }}">0</h3>
                 </div>
-                <h3 class="fw-bold text-dark mb-0 mt-2 stat-counter" data-target="{{ $metrics['total_orders'] }}">0</h3>
-                <small class="text-muted mt-1 d-block">Stall reservations</small>
+                <small class="text-muted mt-2 d-block text-truncate">Stall reservations</small>
             </div>
         </div>
 
-        <div class="col-sm-6 col-xl">
-            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm">
-                <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Platform Volume</span>
-                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1 small">Sales</span>
+        <div class="col">
+            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+                <div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Platform Volume</span>
+                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1 small">Sales</span>
+                    </div>
+                    <h3 class="fw-bold text-success mb-0 mt-2 stat-counter" data-target="{{ $metrics['total_volume'] }}" data-is-currency="true">$0.00</h3>
                 </div>
-                <h3 class="fw-bold text-success mb-0 mt-2 stat-counter" data-target="{{ $metrics['total_volume'] }}" data-is-currency="true">$0.00</h3>
-                <small class="text-muted mt-1 d-block">Pay-at-pickup volume</small>
+                <small class="text-muted mt-2 d-block text-truncate">Pay-at-pickup volume</small>
             </div>
         </div>
     </div>
@@ -106,18 +116,36 @@
 
         <!-- Doughnut / Pie Chart: Pre-Order Pipeline Status -->
         <div class="col-lg-5">
-            <div class="card card-custom chart-card tilt-card p-4 bg-white border-0 shadow-sm h-100">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div>
-                        <h5 class="heading-serif fw-bold text-dark mb-1">
-                            <i class="bi bi-pie-chart-fill text-primary me-2"></i>Pre-Order Status Breakdown
-                        </h5>
-                        <small class="text-muted">Order lifecycle distribution (SRS §1.5)</small>
+            <div class="card card-custom chart-card tilt-card p-4 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+                <div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div>
+                            <h5 class="heading-serif fw-bold text-dark mb-1">
+                                <i class="bi bi-pie-chart-fill text-primary me-2"></i>Pre-Order Status Breakdown
+                            </h5>
+                            <small class="text-muted">Order lifecycle distribution (SRS §1.5)</small>
+                        </div>
+                        <span class="badge bg-light text-dark border font-mono-meta" id="orderStatusTotalBadge">{{ array_sum($orderStatusData) }} Total</span>
                     </div>
-                    <span class="badge bg-light text-dark border font-mono-meta">{{ array_sum($orderStatusData) }} Total</span>
+                    <div style="position: relative; height: 220px; width: 100%;">
+                        <canvas id="orderStatusPieChart"></canvas>
+                    </div>
                 </div>
-                <div style="position: relative; height: 280px; width: 100%;">
-                    <canvas id="orderStatusPieChart"></canvas>
+
+                <!-- Interactive Status Filters/Pills in Same Space (SRS §1.5 & Agentation feedback) -->
+                <div class="d-flex flex-wrap justify-content-center gap-1 mt-2 pt-2 border-top" id="chartStatusLegend">
+                    @php
+                        $statusColors = ['#eab308', '#3b82f6', '#8b5cf6', '#10b981', '#94a3b8'];
+                    @endphp
+                    @foreach($orderStatusLabels as $idx => $label)
+                        <span class="badge rounded-pill status-chart-pill px-2 py-1 bg-light text-dark border" 
+                              style="cursor: pointer; font-size: 0.74rem; transition: all 0.2s ease;"
+                              data-item-index="{{ $idx }}"
+                              title="Hover to highlight {{ $label }} in chart">
+                            <span class="d-inline-block rounded-circle me-1" style="width: 8px; height: 8px; background-color: {{ $statusColors[$idx] ?? '#94a3b8' }};"></span>
+                            {{ $label }}: <strong>{{ $orderStatusData[$idx] }}</strong>
+                        </span>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -210,8 +238,68 @@
                 </table>
             </div>
         @else
-            <div class="alert alert-success mb-0 small border-0 bg-success bg-opacity-10 text-success">
-                <i class="bi bi-check-circle-fill me-1"></i> All registered farmer stalls have been verified and approved!
+            <div class="p-3 rounded-3 bg-light border border-success border-opacity-25 mb-3">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="p-2 bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                            <i class="bi bi-shield-check fs-5"></i>
+                        </div>
+                        <div>
+                            <div class="fw-bold text-dark">Verification Queue Clear</div>
+                            <small class="text-muted">100% of registered grower accounts have been vetted and approved to trade.</small>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2 rounded-pill small">
+                            <i class="bi bi-patch-check-fill me-1"></i> {{ $activeFarmers->count() }} Active Stalls Vetted
+                        </span>
+                        <a href="{{ route('admin.markets.index') }}" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+                            <i class="bi bi-geo-alt me-1"></i> Markets ({{ $metrics['total_markets'] }})
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Farmers Roster Preview (Fills empty area with high-value operational context) -->
+            <div class="table-responsive">
+                <table class="table align-middle mb-0 table-sm">
+                    <thead class="table-light small">
+                        <tr>
+                            <th>Recently Active Stall</th>
+                            <th>Market Assigned</th>
+                            <th>Contact Person</th>
+                            <th>Status</th>
+                            <th class="text-end">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($activeFarmers->take(4) as $af)
+                            <tr>
+                                <td>
+                                    <div class="fw-semibold text-dark">{{ $af->stall_name }}</div>
+                                    <small class="text-muted">{{ $af->user->email }}</small>
+                                </td>
+                                <td>
+                                    <span class="badge bg-light text-dark border">{{ $af->market->name ?? 'Unassigned' }}</span>
+                                </td>
+                                <td class="small">{{ $af->contact_person }} ({{ $af->contact_number }})</td>
+                                <td>
+                                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1 small">
+                                        <i class="bi bi-check-circle me-1"></i> Live Trading
+                                    </span>
+                                </td>
+                                <td class="text-end">
+                                    <form action="{{ route('admin.farmers.suspend', $af->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Suspend trading for {{ addslashes($af->stall_name) }}?')">
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-warning btn-sm rounded-pill px-2 py-0" style="font-size: 0.76rem;" title="Suspend stall privileges">
+                                            Suspend
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         @endif
     </div>
@@ -459,13 +547,49 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // 2. Doughnut / Pie Chart: Pre-Order Pipeline Status Breakdown
+    // 2. Doughnut / Pie Chart: Pre-Order Pipeline Status Breakdown (SRS §1.5 & Agentation Interactive Upgrade)
     const orderStatusLabels = {!! json_encode($orderStatusLabels) !!};
     const orderStatusData = {!! json_encode($orderStatusData) !!};
 
     const ctxStatus = document.getElementById('orderStatusPieChart');
     if (ctxStatus) {
-        new Chart(ctxStatus, {
+        const centerDoughnutPlugin = {
+            id: 'centerDoughnutText',
+            beforeDraw: function(chart) {
+                if (chart.config.type !== 'doughnut') return;
+                const ctx = chart.ctx;
+                const active = chart.getActiveElements();
+                const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+
+                let mainText = total.toString();
+                let subText = 'TOTAL ORDERS';
+
+                if (active.length > 0) {
+                    const idx = active[0].index;
+                    const val = chart.data.datasets[0].data[idx];
+                    const pct = total > 0 ? Math.round((val / total) * 100) : 0;
+                    mainText = val + ' (' + pct + '%)';
+                    subText = chart.data.labels[idx].toUpperCase();
+                }
+
+                ctx.save();
+                const centerY = chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 2;
+                const centerX = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
+
+                ctx.font = 'bold 20px "Playfair Display", Georgia, serif';
+                ctx.fillStyle = '#1b4332';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(mainText, centerX, centerY - 8);
+
+                ctx.font = '600 10px "Plus Jakarta Sans", sans-serif';
+                ctx.fillStyle = '#64748b';
+                ctx.fillText(subText, centerX, centerY + 13);
+                ctx.restore();
+            }
+        };
+
+        const statusDoughnutChart = new Chart(ctxStatus, {
             type: 'doughnut',
             data: {
                 labels: orderStatusLabels,
@@ -479,30 +603,53 @@ document.addEventListener('DOMContentLoaded', function () {
                         '#94a3b8'  // Cancelled: Gray
                     ],
                     borderWidth: 2,
-                    borderColor: '#ffffff'
+                    borderColor: '#ffffff',
+                    hoverOffset: 12
                 }]
             },
+            plugins: [centerDoughnutPlugin],
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 animation: {
                     animateRotate: true,
                     animateScale: true,
-                    duration: 1300,
+                    duration: 1200,
                     easing: 'easeOutQuart'
                 },
                 plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            boxWidth: 12,
-                            padding: 12,
-                            font: { size: 12 }
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const pct = total > 0 ? ((context.raw / total) * 100).toFixed(1) : 0;
+                                return ' ' + context.label + ': ' + context.raw + ' orders (' + pct + '%)';
+                            }
                         }
                     }
                 },
-                cutout: '62%'
+                cutout: '66%'
             }
+        });
+
+        // Interactive status pills click/hover to highlight chart segment
+        document.querySelectorAll('.status-chart-pill').forEach(pill => {
+            const itemIdx = parseInt(pill.getAttribute('data-item-index'));
+            pill.addEventListener('mouseenter', () => {
+                pill.classList.remove('bg-light');
+                pill.classList.add('bg-white', 'shadow-sm', 'border-primary');
+                statusDoughnutChart.setActiveElements([{ datasetIndex: 0, index: itemIdx }]);
+                statusDoughnutChart.tooltip.setActiveElements([{ datasetIndex: 0, index: itemIdx }]);
+                statusDoughnutChart.update();
+            });
+            pill.addEventListener('mouseleave', () => {
+                pill.classList.remove('bg-white', 'shadow-sm', 'border-primary');
+                pill.classList.add('bg-light');
+                statusDoughnutChart.setActiveElements([]);
+                statusDoughnutChart.tooltip.setActiveElements([]);
+                statusDoughnutChart.update();
+            });
         });
     }
 

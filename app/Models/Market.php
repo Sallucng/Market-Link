@@ -19,6 +19,8 @@ class Market extends Model
         'latitude',
         'longitude',
         'map_provider',
+        'image_url',
+        'description',
     ];
 
     protected function casts(): array

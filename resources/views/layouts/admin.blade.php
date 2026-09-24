@@ -300,7 +300,7 @@
                     </span>
                     <div>
                         <div class="heading-serif fw-bold text-white fs-5" style="letter-spacing: -0.02em;">MarketLink</div>
-                        <div class="text-success-emphasis text-uppercase font-mono-meta" style="font-size: 0.65rem; letter-spacing: 0.06em;">Admin Backoffice</div>
+                        <div class="text-uppercase font-mono-meta fw-semibold" style="font-size: 0.68rem; letter-spacing: 0.08em; color: #52b788;">Admin Backoffice</div>
                     </div>
                 </a>
                 <button class="btn btn-link text-white-50 p-0 d-lg-none" id="sidebarCloseBtn">

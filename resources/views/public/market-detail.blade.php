@@ -14,42 +14,56 @@
     </nav>
 
     <!-- Market Header Card -->
-    <div class="card card-custom p-4 bg-white border-0 shadow-sm mb-4">
-        <div class="row align-items-center g-4">
-            <div class="col-lg-8">
-                <span class="badge badge-brand px-3 py-1 rounded-pill mb-2">Local Farmers Market</span>
-                <h1 class="heading-serif fw-bold text-dark mb-2">{{ $market->name }}</h1>
-                <p class="text-muted mb-3"><i class="bi bi-geo-alt-fill text-danger me-1"></i>{{ $market->address }}, {{ $market->city }}</p>
-                <div class="d-flex flex-wrap gap-4 text-secondary small">
-                    <div><i class="bi bi-calendar-event text-success me-1"></i><strong>Operating Days:</strong> {{ $market->operating_days }}</div>
-                    <div><i class="bi bi-clock-history text-warning me-1"></i><strong>Timings:</strong> {{ $market->timings }}</div>
-                    <div><i class="bi bi-people-fill text-primary me-1"></i><strong>Attending Stalls:</strong> {{ $market->farmers->count() }} Farmers</div>
-                </div>
+    <div class="card card-custom overflow-hidden bg-white border-0 shadow-sm mb-4">
+        <div class="row g-0">
+            <div class="col-lg-4 col-md-5">
+                <img src="{{ $market->image_url ?: 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=800&q=80' }}" 
+                     alt="{{ $market->name }}" 
+                     class="w-100 h-100" 
+                     style="object-fit: cover; min-height: 220px; max-height: 320px;">
             </div>
-            <div class="col-lg-4 text-lg-end d-flex flex-column flex-sm-row justify-content-lg-end gap-2">
-                @auth
-                    @if(Auth::user()->isCustomer())
-                        @php
-                            $isMarketFav = \App\Models\Favorite::where('customer_id', Auth::id())
-                                ->where('item_type', 'market')
-                                ->where('item_id', $market->id)
-                                ->exists();
-                        @endphp
-                        <form action="{{ route('customer.favorites.toggle') }}" method="POST" class="d-inline">
-                            @csrf
-                            <input type="hidden" name="item_type" value="market">
-                            <input type="hidden" name="item_id" value="{{ $market->id }}">
-                            <button type="submit" class="btn {{ $isMarketFav ? 'btn-danger' : 'btn-outline-danger' }} rounded-pill px-3 py-2">
-                                <i class="bi {{ $isMarketFav ? 'bi-heart-fill' : 'bi-heart' }} me-1"></i>
-                                {{ $isMarketFav ? 'Preferred Market' : 'Bookmark as Preferred' }}
-                            </button>
-                        </form>
+            <div class="col-lg-8 col-md-7 p-4 d-flex flex-column justify-content-between">
+                <div>
+                    <span class="badge badge-brand px-3 py-1 rounded-pill mb-2">Local Farmers Market</span>
+                    <h1 class="heading-serif fw-bold text-dark mb-2">{{ $market->name }}</h1>
+                    <p class="text-muted mb-2"><i class="bi bi-geo-alt-fill text-danger me-1"></i>{{ $market->address }}, {{ $market->city }}</p>
+                    
+                    @if($market->description)
+                        <p class="text-secondary small mb-3">{{ $market->description }}</p>
                     @endif
-                @endauth
-                <a href="https://www.google.com/maps/dir/?api=1&destination={{ urlencode($market->address . ', ' . $market->city) }}" 
-                   target="_blank" class="btn btn-outline-secondary rounded-pill px-3 py-2">
-                    <i class="bi bi-geo-alt me-1"></i> Google Directions
-                </a>
+
+                    <div class="d-flex flex-wrap gap-4 text-secondary small mb-3">
+                        <div><i class="bi bi-calendar-event text-success me-1"></i><strong>Operating Days:</strong> {{ $market->operating_days }}</div>
+                        <div><i class="bi bi-clock-history text-warning me-1"></i><strong>Timings:</strong> {{ $market->timings }}</div>
+                        <div><i class="bi bi-people-fill text-primary me-1"></i><strong>Attending Stalls:</strong> {{ $market->farmers->count() }} Farmers</div>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-wrap gap-2 pt-3 border-top">
+                    @auth
+                        @if(Auth::user()->isCustomer())
+                            @php
+                                $isMarketFav = \App\Models\Favorite::where('customer_id', Auth::id())
+                                    ->where('item_type', 'market')
+                                    ->where('item_id', $market->id)
+                                    ->exists();
+                            @endphp
+                            <form action="{{ route('customer.favorites.toggle') }}" method="POST" class="d-inline">
+                                @csrf
+                                <input type="hidden" name="item_type" value="market">
+                                <input type="hidden" name="item_id" value="{{ $market->id }}">
+                                <button type="submit" class="btn {{ $isMarketFav ? 'btn-danger' : 'btn-outline-danger' }} rounded-pill px-3 py-2 btn-sm">
+                                    <i class="bi {{ $isMarketFav ? 'bi-heart-fill' : 'bi-heart' }} me-1"></i>
+                                    {{ $isMarketFav ? 'Preferred Market' : 'Bookmark as Preferred' }}
+                                </button>
+                            </form>
+                        @endif
+                    @endauth
+                    <a href="https://www.google.com/maps/dir/?api=1&destination={{ urlencode($market->address . ', ' . $market->city) }}" 
+                       target="_blank" class="btn btn-outline-secondary rounded-pill px-3 py-2 btn-sm">
+                        <i class="bi bi-geo-alt me-1"></i> Google Directions
+                    </a>
+                </div>
             </div>
         </div>
     </div>

@@ -34,7 +34,7 @@
                     </div>
                 </div>
 
-                <form action="{{ route('admin.markets.update', $market->id) }}" method="POST">
+                <form action="{{ route('admin.markets.update', $market->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -86,9 +86,31 @@
                         <textarea name="description" rows="3" class="form-control">{{ old('description', $market->description) }}</textarea>
                     </div>
 
-                    <div class="mb-4">
-                        <label class="form-label small fw-semibold text-dark">Image URL</label>
-                        <input type="url" name="image_url" class="form-control" value="{{ old('image_url', $market->image_url) }}">
+                    <div class="card p-3 bg-light border-0 rounded-3 mb-4">
+                        <label class="form-label small fw-bold text-dark mb-2"><i class="bi bi-image text-success me-1"></i> Market Photo</label>
+                        
+                        @if($market->image_url)
+                            <div class="d-flex align-items-center gap-3 mb-3 p-2 bg-white rounded border">
+                                <img src="{{ $market->image_url }}" alt="{{ $market->name }}" class="rounded" style="width: 70px; height: 50px; object-fit: cover;">
+                                <div>
+                                    <span class="badge bg-success bg-opacity-10 text-success small mb-1">Current Image</span>
+                                    <div class="small text-muted text-truncate" style="max-width: 320px;">{{ $market->image_url }}</div>
+                                </div>
+                            </div>
+                        @endif
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-dark">Upload New Image File</label>
+                                <input type="file" name="image" class="form-control form-control-sm" accept="image/jpeg,image/png,image/webp">
+                                <small class="text-muted" style="font-size: 0.76rem;">JPG, PNG, or WebP up to 3MB</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-dark">Or Image URL</label>
+                                <input type="url" name="image_url" class="form-control form-control-sm" value="{{ old('image_url', $market->image_url) }}" placeholder="https://images.unsplash.com/...">
+                                <small class="text-muted" style="font-size: 0.76rem;">External direct image link</small>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center pt-3 border-top">

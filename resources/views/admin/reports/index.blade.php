@@ -24,9 +24,9 @@
     </div>
 
     <!-- Overview Stats Cards -->
-    <div class="row g-4 mb-4">
-        <div class="col-sm-6 col-lg-4">
-            <div class="card card-custom stat-card tilt-card p-4 bg-white border-0 shadow-sm">
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-4 align-items-stretch">
+        <div class="col">
+            <div class="card card-custom stat-card tilt-card p-4 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <div class="text-muted small fw-semibold text-uppercase font-mono-meta">Total Pre-Orders Placed</div>
@@ -40,8 +40,8 @@
             </div>
         </div>
 
-        <div class="col-sm-6 col-lg-4">
-            <div class="card card-custom stat-card tilt-card p-4 bg-white border-0 shadow-sm">
+        <div class="col">
+            <div class="card card-custom stat-card tilt-card p-4 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <div class="text-muted small fw-semibold text-uppercase font-mono-meta">Completed Pickups</div>
@@ -55,8 +55,8 @@
             </div>
         </div>
 
-        <div class="col-sm-6 col-lg-4">
-            <div class="card card-custom stat-card tilt-card p-4 bg-white border-0 shadow-sm">
+        <div class="col">
+            <div class="card card-custom stat-card tilt-card p-4 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <div class="text-muted small fw-semibold text-uppercase font-mono-meta">In-Person Sales Volume</div>
