@@ -29,56 +29,56 @@
     <!-- Platform Key Metrics (SRS §1.6) -->
     <div class="row g-3 mb-4">
         <div class="col-sm-6 col-xl">
-            <div class="card card-custom p-3 bg-white border-0 shadow-sm">
+            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm">
                 <div class="d-flex justify-content-between align-items-center">
                     <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Total Farmers</span>
                     <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1 small">Growers</span>
                 </div>
-                <h3 class="fw-bold text-dark mb-0 mt-2">{{ $metrics['total_farmers'] }}</h3>
+                <h3 class="fw-bold text-dark mb-0 mt-2 stat-counter" data-target="{{ $metrics['total_farmers'] }}">0</h3>
                 <small class="text-success fw-medium mt-1 d-block"><i class="bi bi-check-circle-fill me-1"></i>{{ $activeFarmers->count() }} Approved</small>
             </div>
         </div>
 
         <div class="col-sm-6 col-xl">
-            <div class="card card-custom p-3 bg-white border-0 shadow-sm">
+            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm">
                 <div class="d-flex justify-content-between align-items-center">
                     <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Customers</span>
                     <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-2 py-1 small">Shoppers</span>
                 </div>
-                <h3 class="fw-bold text-dark mb-0 mt-2">{{ $metrics['total_customers'] }}</h3>
+                <h3 class="fw-bold text-dark mb-0 mt-2 stat-counter" data-target="{{ $metrics['total_customers'] }}">0</h3>
                 <small class="text-muted mt-1 d-block">Registered shoppers</small>
             </div>
         </div>
 
         <div class="col-sm-6 col-xl">
-            <div class="card card-custom p-3 bg-white border-0 shadow-sm">
+            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm">
                 <div class="d-flex justify-content-between align-items-center">
                     <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Markets</span>
                     <span class="badge bg-warning bg-opacity-10 text-dark rounded-pill px-2 py-1 small">Locations</span>
                 </div>
-                <h3 class="fw-bold text-dark mb-0 mt-2">{{ $metrics['total_markets'] }}</h3>
+                <h3 class="fw-bold text-dark mb-0 mt-2 stat-counter" data-target="{{ $metrics['total_markets'] }}">0</h3>
                 <small class="text-muted mt-1 d-block">Physical plazas</small>
             </div>
         </div>
 
         <div class="col-sm-6 col-xl">
-            <div class="card card-custom p-3 bg-white border-0 shadow-sm">
+            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm">
                 <div class="d-flex justify-content-between align-items-center">
                     <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Pre-Orders</span>
                     <span class="badge bg-info bg-opacity-10 text-info-emphasis rounded-pill px-2 py-1 small">Pickups</span>
                 </div>
-                <h3 class="fw-bold text-dark mb-0 mt-2">{{ $metrics['total_orders'] }}</h3>
+                <h3 class="fw-bold text-dark mb-0 mt-2 stat-counter" data-target="{{ $metrics['total_orders'] }}">0</h3>
                 <small class="text-muted mt-1 d-block">Stall reservations</small>
             </div>
         </div>
 
         <div class="col-sm-6 col-xl">
-            <div class="card card-custom p-3 bg-white border-0 shadow-sm">
+            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm">
                 <div class="d-flex justify-content-between align-items-center">
                     <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Platform Volume</span>
                     <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1 small">Sales</span>
                 </div>
-                <h3 class="fw-bold text-success mb-0 mt-2">${{ number_format($metrics['total_volume'], 2) }}</h3>
+                <h3 class="fw-bold text-success mb-0 mt-2 stat-counter" data-target="{{ $metrics['total_volume'] }}" data-is-currency="true">$0.00</h3>
                 <small class="text-muted mt-1 d-block">Pay-at-pickup volume</small>
             </div>
         </div>
@@ -88,7 +88,7 @@
     <div class="row g-4 mb-4">
         <!-- Bar Chart: Revenue Generated per Market -->
         <div class="col-lg-7">
-            <div class="card card-custom p-4 bg-white border-0 shadow-sm h-100">
+            <div class="card card-custom chart-card tilt-card p-4 bg-white border-0 shadow-sm h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <h5 class="heading-serif fw-bold text-dark mb-1">
@@ -106,7 +106,7 @@
 
         <!-- Doughnut / Pie Chart: Pre-Order Pipeline Status -->
         <div class="col-lg-5">
-            <div class="card card-custom p-4 bg-white border-0 shadow-sm h-100">
+            <div class="card card-custom chart-card tilt-card p-4 bg-white border-0 shadow-sm h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <h5 class="heading-serif fw-bold text-dark mb-1">
@@ -126,7 +126,7 @@
     <div class="row g-4 mb-4">
         <!-- Doughnut / Pie Chart: Popular Categories -->
         <div class="col-lg-5">
-            <div class="card card-custom p-4 bg-white border-0 shadow-sm h-100">
+            <div class="card card-custom chart-card tilt-card p-4 bg-white border-0 shadow-sm h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <h5 class="heading-serif fw-bold text-dark mb-1">
@@ -144,7 +144,7 @@
 
         <!-- Bar Chart: Pre-Order Reservation Volume by Market -->
         <div class="col-lg-7">
-            <div class="card card-custom p-4 bg-white border-0 shadow-sm h-100">
+            <div class="card card-custom chart-card tilt-card p-4 bg-white border-0 shadow-sm h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <h5 class="heading-serif fw-bold text-dark mb-1">
@@ -162,7 +162,7 @@
     </div>
 
     <!-- Pending Farmer Approvals Section (SRS §1.6: Admin can view, approve, or suspend Farmer registrations) -->
-    <div class="card card-custom p-4 bg-white border-0 shadow-sm mb-4">
+    <div class="card card-custom table-card p-4 bg-white border-0 shadow-sm mb-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
                 <h5 class="heading-serif fw-bold text-dark mb-0">Farmer Approval Gate</h5>
@@ -220,7 +220,7 @@
     <div class="row g-4">
         <!-- Active Farmers Table -->
         <div class="col-lg-6">
-            <div class="card card-custom p-4 bg-white border-0 shadow-sm h-100">
+            <div class="card card-custom table-card p-4 bg-white border-0 shadow-sm h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="heading-serif fw-bold text-dark mb-0">Approved Farmer Stalls ({{ $activeFarmers->count() }})</h5>
                     <a href="{{ route('admin.moderation.products') }}" class="btn btn-sm btn-outline-secondary rounded-pill px-3">Produce Listings</a>
@@ -266,7 +266,7 @@
 
         <!-- Customer Moderation Table (SRS §1.6) -->
         <div class="col-lg-6">
-            <div class="card card-custom p-4 bg-white border-0 shadow-sm h-100">
+            <div class="card card-custom table-card p-4 bg-white border-0 shadow-sm h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="heading-serif fw-bold text-dark mb-0">Customer Accounts ({{ $customers->count() }})</h5>
                     <span class="badge bg-light text-dark border font-mono-meta">Moderation</span>
@@ -320,7 +320,89 @@
 @section('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // Common Chart.js styling defaults
+    // ----------------------------------------------------
+    // GSAP Motion Graphics & Entrances (antigravity-design-expert)
+    // ----------------------------------------------------
+    if (typeof gsap !== 'undefined') {
+        // Staggered entrance for Stat Cards
+        gsap.from('.stat-card', {
+            opacity: 0,
+            y: 28,
+            duration: 0.65,
+            stagger: 0.08,
+            ease: 'power3.out'
+        });
+
+        // Staggered entrance for Analytics Chart Cards
+        gsap.from('.chart-card', {
+            opacity: 0,
+            y: 24,
+            duration: 0.75,
+            delay: 0.25,
+            stagger: 0.12,
+            ease: 'power3.out'
+        });
+
+        // Entrance for Management Tables
+        gsap.from('.table-card', {
+            opacity: 0,
+            y: 20,
+            duration: 0.65,
+            delay: 0.45,
+            stagger: 0.1,
+            ease: 'power3.out'
+        });
+
+        // Smooth Counter Animation for Metric Numbers
+        document.querySelectorAll('.stat-counter').forEach(el => {
+            const target = parseFloat(el.getAttribute('data-target') || 0);
+            const isCurrency = el.getAttribute('data-is-currency') === 'true';
+            const counter = { val: 0 };
+
+            gsap.to(counter, {
+                val: target,
+                duration: 1.4,
+                delay: 0.15,
+                ease: 'power2.out',
+                onUpdate: () => {
+                    if (isCurrency) {
+                        el.innerText = '$' + counter.val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    } else {
+                        el.innerText = Math.round(counter.val).toLocaleString('en-US');
+                    }
+                }
+            });
+        });
+
+        // 3D Spatial Micro-Tilt Interaction on Hover
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                gsap.to(card, {
+                    rotateY: x * 5,
+                    rotateX: -y * 5,
+                    transformPerspective: 800,
+                    duration: 0.25,
+                    ease: 'power1.out'
+                });
+            });
+
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, {
+                    rotateY: 0,
+                    rotateX: 0,
+                    duration: 0.45,
+                    ease: 'power2.out'
+                });
+            });
+        });
+    }
+
+    // ----------------------------------------------------
+    // Chart.js Configuration with Animated Easings
+    // ----------------------------------------------------
     Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
     Chart.defaults.color = '#64748b';
 
@@ -347,6 +429,10 @@ document.addEventListener('DOMContentLoaded', function () {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                animation: {
+                    duration: 1200,
+                    easing: 'easeOutQuart'
+                },
                 plugins: {
                     legend: { display: false },
                     tooltip: {
@@ -399,6 +485,12 @@ document.addEventListener('DOMContentLoaded', function () {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                animation: {
+                    animateRotate: true,
+                    animateScale: true,
+                    duration: 1300,
+                    easing: 'easeOutQuart'
+                },
                 plugins: {
                     legend: {
                         position: 'bottom',
@@ -441,6 +533,12 @@ document.addEventListener('DOMContentLoaded', function () {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                animation: {
+                    animateRotate: true,
+                    animateScale: true,
+                    duration: 1300,
+                    easing: 'easeOutQuart'
+                },
                 plugins: {
                     legend: {
                         position: 'bottom',
@@ -477,6 +575,10 @@ document.addEventListener('DOMContentLoaded', function () {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                animation: {
+                    duration: 1200,
+                    easing: 'easeOutQuart'
+                },
                 plugins: {
                     legend: { display: false }
                 },

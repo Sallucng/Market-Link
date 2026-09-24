@@ -26,11 +26,11 @@
     <!-- Overview Stats Cards -->
     <div class="row g-4 mb-4">
         <div class="col-sm-6 col-lg-4">
-            <div class="card card-custom p-4 bg-white border-0 shadow-sm">
+            <div class="card card-custom stat-card tilt-card p-4 bg-white border-0 shadow-sm">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <div class="text-muted small fw-semibold text-uppercase font-mono-meta">Total Pre-Orders Placed</div>
-                        <h2 class="display-6 fw-bold text-dark mb-0 mt-1">{{ $totalOrders }}</h2>
+                        <h2 class="display-6 fw-bold text-dark mb-0 mt-1 stat-counter" data-target="{{ $totalOrders }}">0</h2>
                         <small class="text-muted">Platform reservations</small>
                     </div>
                     <div class="p-3 bg-success bg-opacity-10 text-success rounded-circle">
@@ -41,11 +41,11 @@
         </div>
 
         <div class="col-sm-6 col-lg-4">
-            <div class="card card-custom p-4 bg-white border-0 shadow-sm">
+            <div class="card card-custom stat-card tilt-card p-4 bg-white border-0 shadow-sm">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <div class="text-muted small fw-semibold text-uppercase font-mono-meta">Completed Pickups</div>
-                        <h2 class="display-6 fw-bold text-primary mb-0 mt-1">{{ $completedOrders }}</h2>
+                        <h2 class="display-6 fw-bold text-primary mb-0 mt-1 stat-counter" data-target="{{ $completedOrders }}">0</h2>
                         <small class="text-primary fw-medium">Settled at stall</small>
                     </div>
                     <div class="p-3 bg-primary bg-opacity-10 text-primary rounded-circle">
@@ -56,11 +56,11 @@
         </div>
 
         <div class="col-sm-6 col-lg-4">
-            <div class="card card-custom p-4 bg-white border-0 shadow-sm">
+            <div class="card card-custom stat-card tilt-card p-4 bg-white border-0 shadow-sm">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <div class="text-muted small fw-semibold text-uppercase font-mono-meta">In-Person Sales Volume</div>
-                        <h2 class="display-6 fw-bold text-success mb-0 mt-1">${{ number_format($totalRevenue, 2) }}</h2>
+                        <h2 class="display-6 fw-bold text-success mb-0 mt-1 stat-counter" data-target="{{ $totalRevenue }}" data-is-currency="true">$0.00</h2>
                         <small class="text-success fw-medium">Direct farmer earnings</small>
                     </div>
                     <div class="p-3 bg-success bg-opacity-10 text-success rounded-circle">
@@ -75,7 +75,7 @@
     <div class="row g-4 mb-4">
         <!-- Bar Chart: Revenue by Market -->
         <div class="col-lg-7">
-            <div class="card card-custom p-4 bg-white border-0 shadow-sm h-100">
+            <div class="card card-custom chart-card tilt-card p-4 bg-white border-0 shadow-sm h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <h5 class="heading-serif fw-bold text-dark mb-0">
@@ -93,7 +93,7 @@
 
         <!-- Doughnut / Pie Chart: Order Status Breakdown -->
         <div class="col-lg-5">
-            <div class="card card-custom p-4 bg-white border-0 shadow-sm h-100">
+            <div class="card card-custom chart-card tilt-card p-4 bg-white border-0 shadow-sm h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <h5 class="heading-serif fw-bold text-dark mb-0">
@@ -113,7 +113,7 @@
     <div class="row g-4 mb-4">
         <!-- Pie Chart: Category Popularity -->
         <div class="col-lg-5">
-            <div class="card card-custom p-4 bg-white border-0 shadow-sm h-100">
+            <div class="card card-custom chart-card tilt-card p-4 bg-white border-0 shadow-sm h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <h5 class="heading-serif fw-bold text-dark mb-0">
@@ -131,7 +131,7 @@
 
         <!-- Horizontal Bar Chart: Top Farmer Sales -->
         <div class="col-lg-7">
-            <div class="card card-custom p-4 bg-white border-0 shadow-sm h-100">
+            <div class="card card-custom chart-card tilt-card p-4 bg-white border-0 shadow-sm h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <h5 class="heading-serif fw-bold text-dark mb-0">
@@ -152,7 +152,7 @@
     <div class="row g-4 mb-4">
         <!-- Market Performance Table (SRS §1.6) -->
         <div class="col-lg-8">
-            <div class="card card-custom p-4 bg-white border-0 shadow-sm h-100">
+            <div class="card card-custom table-card p-4 bg-white border-0 shadow-sm h-100">
                 <h5 class="heading-serif fw-bold text-dark mb-3">Market Venue Performance Matrix</h5>
                 <div class="table-responsive">
                     <table class="table align-middle mb-0">
@@ -186,7 +186,7 @@
 
         <!-- Order Status Pipeline Breakdown -->
         <div class="col-lg-4">
-            <div class="card card-custom p-4 bg-white border-0 shadow-sm h-100">
+            <div class="card card-custom table-card p-4 bg-white border-0 shadow-sm h-100">
                 <h5 class="heading-serif fw-bold text-dark mb-3">Pipeline Status Ledger</h5>
                 <ul class="list-group list-group-flush">
                     @php
@@ -211,7 +211,7 @@
     </div>
 
     <!-- Most Active Farmers (SRS §1.6) -->
-    <div class="card card-custom p-4 bg-white border-0 shadow-sm">
+    <div class="card card-custom table-card p-4 bg-white border-0 shadow-sm">
         <h5 class="heading-serif fw-bold text-dark mb-3">Top Performing Active Growers</h5>
         <div class="table-responsive">
             <table class="table align-middle mb-0">
@@ -254,6 +254,89 @@
 @section('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    // ----------------------------------------------------
+    // GSAP Motion Graphics & Entrances (antigravity-design-expert)
+    // ----------------------------------------------------
+    if (typeof gsap !== 'undefined') {
+        // Staggered entrance for Stat Cards
+        gsap.from('.stat-card', {
+            opacity: 0,
+            y: 28,
+            duration: 0.65,
+            stagger: 0.1,
+            ease: 'power3.out'
+        });
+
+        // Staggered entrance for Analytics Chart Cards
+        gsap.from('.chart-card', {
+            opacity: 0,
+            y: 24,
+            duration: 0.75,
+            delay: 0.25,
+            stagger: 0.12,
+            ease: 'power3.out'
+        });
+
+        // Entrance for Management Tables
+        gsap.from('.table-card', {
+            opacity: 0,
+            y: 20,
+            duration: 0.65,
+            delay: 0.45,
+            stagger: 0.1,
+            ease: 'power3.out'
+        });
+
+        // Smooth Counter Animation for Metric Numbers
+        document.querySelectorAll('.stat-counter').forEach(el => {
+            const target = parseFloat(el.getAttribute('data-target') || 0);
+            const isCurrency = el.getAttribute('data-is-currency') === 'true';
+            const counter = { val: 0 };
+
+            gsap.to(counter, {
+                val: target,
+                duration: 1.4,
+                delay: 0.15,
+                ease: 'power2.out',
+                onUpdate: () => {
+                    if (isCurrency) {
+                        el.innerText = '$' + counter.val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    } else {
+                        el.innerText = Math.round(counter.val).toLocaleString('en-US');
+                    }
+                }
+            });
+        });
+
+        // 3D Spatial Micro-Tilt Interaction on Hover
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                gsap.to(card, {
+                    rotateY: x * 5,
+                    rotateX: -y * 5,
+                    transformPerspective: 800,
+                    duration: 0.25,
+                    ease: 'power1.out'
+                });
+            });
+
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, {
+                    rotateY: 0,
+                    rotateX: 0,
+                    duration: 0.45,
+                    ease: 'power2.out'
+                });
+            });
+        });
+    }
+
+    // ----------------------------------------------------
+    // Chart.js Configuration with Animated Easings
+    // ----------------------------------------------------
     Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
     Chart.defaults.color = '#64748b';
 
@@ -280,6 +363,10 @@ document.addEventListener('DOMContentLoaded', function () {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                animation: {
+                    duration: 1200,
+                    easing: 'easeOutQuart'
+                },
                 plugins: {
                     legend: { display: false },
                     tooltip: {
@@ -329,6 +416,12 @@ document.addEventListener('DOMContentLoaded', function () {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                animation: {
+                    animateRotate: true,
+                    animateScale: true,
+                    duration: 1300,
+                    easing: 'easeOutQuart'
+                },
                 plugins: {
                     legend: {
                         position: 'bottom',
@@ -360,6 +453,12 @@ document.addEventListener('DOMContentLoaded', function () {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                animation: {
+                    animateRotate: true,
+                    animateScale: true,
+                    duration: 1300,
+                    easing: 'easeOutQuart'
+                },
                 plugins: {
                     legend: {
                         position: 'bottom',
@@ -395,6 +494,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 indexAxis: 'y',
                 responsive: true,
                 maintainAspectRatio: false,
+                animation: {
+                    duration: 1200,
+                    easing: 'easeOutQuart'
+                },
                 plugins: {
                     legend: { display: false },
                     tooltip: {

@@ -70,8 +70,8 @@
                              style="height: 420px; object-fit: cover; border-radius: 12px;">
                     </div>
                     
-                    <!-- Tactile Overlay Badge -->
-                    <div class="position-absolute bottom-0 start-0 m-4 p-3 bg-white d-none d-sm-flex align-items-center gap-3" 
+                    <!-- Tactile Overlay Badge (Antigravity Floating Motion) -->
+                    <div class="position-absolute bottom-0 start-0 m-4 p-3 bg-white d-none d-sm-flex align-items-center gap-3 motion-float" 
                          style="border: 1px solid var(--border-card); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.08);">
                         <div class="p-2 rounded-2 d-flex align-items-center justify-content-center" style="width: 42px; height: 42px; background-color: var(--brand-primary); color: #fff;">
                             <i class="bi bi-shield-check fs-5"></i>
@@ -80,6 +80,13 @@
                             <div class="fw-bold text-dark small">Pay at Stall Pickup</div>
                             <div class="text-muted" style="font-size: 0.74rem;">Direct vendor settlement — SRS §1.5 Compliant</div>
                         </div>
+                    </div>
+
+                    <!-- Secondary Floating Badge -->
+                    <div class="position-absolute top-0 end-0 m-3 px-3 py-2 bg-white d-none d-md-flex align-items-center gap-2 motion-float-delayed"
+                         style="border: 1px solid var(--border-card); border-radius: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.08);">
+                        <i class="bi bi-clock-history text-success"></i>
+                        <span class="small fw-semibold text-dark">Pre-Order 24h Ahead</span>
                     </div>
                 </div>
             </div>
@@ -247,4 +254,21 @@
     </div>
 </section>
 
+@endsection
+
+@section('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    if (typeof gsap !== 'undefined') {
+        // Staggered card entrance on load
+        gsap.from('.card-custom', {
+            opacity: 0,
+            y: 20,
+            duration: 0.6,
+            stagger: 0.08,
+            ease: 'power3.out'
+        });
+    }
+});
+</script>
 @endsection

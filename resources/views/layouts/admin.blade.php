@@ -21,6 +21,9 @@
     <!-- Chart.js for Admin Analytics (SRS §1.6) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <!-- GSAP for Smooth Motion Graphics & Antigravity Interactions -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
     <!-- Agentation Visual Feedback Toolbar -->
     @vite(['resources/js/agentation.jsx'])
 
@@ -171,6 +174,86 @@
             transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
+        /* Antigravity Motion Graphics & Interactions */
+        .pulse-dot {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background-color: #10b981;
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            animation: pulse-ring 2.2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+            vertical-align: middle;
+        }
+        @keyframes pulse-ring {
+            0% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 7px rgba(16, 185, 129, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
+        }
+
+        .tilt-card {
+            transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+            will-change: transform;
+        }
+        .tilt-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 28px -6px rgba(17, 38, 29, 0.08), 0 4px 10px -2px rgba(0, 0, 0, 0.03);
+            border-color: #d1d5db !important;
+        }
+
+        .stat-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--brand-primary), #52b788);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+        .stat-card:hover::after {
+            opacity: 1;
+        }
+
+        .admin-nav-link i {
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.15s ease;
+        }
+        .admin-nav-link:hover i {
+            transform: scale(1.15) rotate(-3deg);
+        }
+
+        @keyframes float-subtle {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+        .motion-float {
+            animation: float-subtle 4s ease-in-out infinite;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
         .btn-brand {
             background-color: var(--brand-primary);
             color: #ffffff;
@@ -306,8 +389,8 @@
                     <i class="bi bi-list fs-5"></i>
                 </button>
                 <div>
-                    <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle px-2 py-1 small">
-                        <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i> System Live
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle px-2 py-1 small d-inline-flex align-items-center">
+                        <span class="pulse-dot me-1"></span> System Live
                     </span>
                     <span class="text-muted small ms-2 d-none d-md-inline">TechWiz 7: eGreen Basket Edition</span>
                 </div>

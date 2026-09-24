@@ -17,6 +17,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
 
+    <!-- GSAP for Smooth Motion Graphics & Antigravity Interactions -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
     @vite(['resources/js/agentation.jsx'])
 
     <style>
@@ -113,12 +116,42 @@
             border: 1px solid var(--border-hairline);
             border-radius: 12px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
-            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+            will-change: transform;
         }
         .card-custom:hover {
             border-color: #d6d3c9;
-            box-shadow: 0 8px 20px -6px rgba(27, 67, 50, 0.07);
-            transform: translateY(-2px);
+            box-shadow: 0 14px 28px -6px rgba(27, 67, 50, 0.09), 0 4px 10px -2px rgba(0, 0, 0, 0.04);
+            transform: translateY(-4px);
+        }
+
+        /* Antigravity Motion Graphics & Floating Physics */
+        @keyframes float-gentle {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .motion-float {
+            animation: float-gentle 4.5s ease-in-out infinite;
+            will-change: transform;
+        }
+
+        .motion-float-delayed {
+            animation: float-gentle 5s ease-in-out 1.5s infinite;
+            will-change: transform;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
         }
 
         /* Muted Pastel Badges (minimalist-ui) */
