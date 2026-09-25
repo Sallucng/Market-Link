@@ -423,6 +423,9 @@
 </head>
 <body>
 
+    <!-- Accessible Skip to Content Link (SRS §1.7 Accessibility) -->
+    <a href="#main-content" class="visually-hidden-focusable btn btn-brand position-fixed top-0 start-0 m-3 shadow" style="z-index: 9999;">Skip to main content</a>
+
     <!-- Navigation Header -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-2" style="border-bottom: 1px solid var(--border-hairline);">
         <div class="container">
@@ -540,7 +543,7 @@
     </div>
 
     <!-- Main Body Content -->
-    <main class="flex-grow-1">
+    <main id="main-content" role="main" class="flex-grow-1">
         @yield('content')
     </main>
 
