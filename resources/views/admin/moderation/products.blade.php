@@ -64,13 +64,22 @@
                                 @endif
                             </td>
                             <td class="text-end">
-                                <form action="{{ route('admin.moderation.products.toggle', $prod->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn btn-sm {{ $prod->is_available ? 'btn-outline-danger' : 'btn-outline-success' }} rounded-pill px-3">
-                                        <i class="bi {{ $prod->is_available ? 'bi-eye-slash' : 'bi-eye' }} me-1"></i>
-                                        {{ $prod->is_available ? 'Delist Item' : 'Restore Listing' }}
-                                    </button>
-                                </form>
+                                <div class="d-flex justify-content-end align-items-center gap-1">
+                                    <form action="{{ route('admin.moderation.products.toggle', $prod->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm {{ $prod->is_available ? 'btn-outline-warning text-dark' : 'btn-outline-success' }} rounded-pill px-3">
+                                            <i class="bi {{ $prod->is_available ? 'bi-eye-slash' : 'bi-eye' }} me-1"></i>
+                                            {{ $prod->is_available ? 'Delist' : 'Restore' }}
+                                        </button>
+                                    </form>
+                                    <form action="{{ route('admin.moderation.products.delete', $prod->id) }}" method="POST" onsubmit="return confirm('Permanently remove product {{ addslashes($prod->name) }} from the platform?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-2 py-1" title="Permanently Delete Listing">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

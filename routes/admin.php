@@ -41,6 +41,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::delete('/moderation/reviews/{id}', [ModerationController::class, 'deleteReview'])->name('moderation.reviews.delete');
     Route::get('/moderation/products', [ModerationController::class, 'products'])->name('moderation.products');
     Route::post('/moderation/products/{id}/toggle', [ModerationController::class, 'toggleProduct'])->name('moderation.products.toggle');
+    Route::delete('/moderation/products/{id}', [ModerationController::class, 'deleteProduct'])->name('moderation.products.delete');
 
     // 5. Reports & Analytics
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');

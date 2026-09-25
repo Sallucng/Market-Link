@@ -114,4 +114,131 @@ class AdminPortalTest extends TestCase
         $response->assertStatus(200);
         $response->assertHeader('content-type', 'text/csv; charset=UTF-8');
     }
+
+    public function test_admin_can_moderate_products_and_reviews(): void
+    {
+        $market = Market::create([
+            'name' => 'City Market',
+            'address' => '100 Main St',
+            'city' => 'Metro',
+            'operating_days' => 'Saturday',
+            'timings' => '08:00 AM - 01:00 PM',
+            'latitude' => 40.71,
+            'longitude' => -74.00,
+        ]);
+
+        $farmerUser = User::create([
+            'name' => 'Farmer Bob',
+            'username' => 'farmerbob',
+            'email' => 'bob@farmer.local',
+            'role' => 'farmer',
+            'is_approved' => true,
+            'password' => bcrypt('password'),
+        ]);
+
+        $farmer = Farmer::create([
+            'user_id' => $farmerUser->id,
+            'market_id' => $market->id,
+            'stall_name' => 'Bob Farms',
+            'contact_person' => 'Bob',
+            'contact_number' => '555-0001',
+            'address' => 'Stall 1',
+        ]);
+
+        $cat = \App\Models\Category::create(['name' => 'Fresh Herbs']);
+
+        $product = \App\Models\Product::create([
+            'farmer_id' => $farmer->id,
+            'category_id' => $cat->id,
+            'name' => 'Questionable Product',
+            'price' => 2.00,
+            'stock_quantity' => 10,
+            'unit' => 'bunch',
+            'is_available' => true,
+        ]);
+
+        // Toggle delist
+        $toggleRes = $this->actingAs($this->adminUser)->post(route('admin.moderation.products.toggle', $product->id));
+        $toggleRes->assertRedirect();
+        $this->assertFalse((bool)$product->fresh()->is_available);
+
+        // Delete product
+        $deleteRes = $this->actingAs($this->adminUser)->delete(route('admin.moderation.products.delete', $product->id));
+        $deleteRes->assertRedirect();
+        $this->assertDatabaseMissing('products', ['id' => $product->id]);
+
+        // Moderate review
+        $custUser = User::create([
+            'name' => 'Spam Customer',
+            'username' => 'spamcust',
+            'email' => 'spam@test.local',
+            'role' => 'customer',
+            'password' => bcrypt('password'),
+        ]);
+
+        $order = \App\Models\Order::create([
+            'customer_id' => $custUser->id,
+            'farmer_id' => $farmer->id,
+            'market_id' => $market->id,
+            'order_number' => 'ML-MOD-01',
+            'order_status' => 'completed',
+            'pickup_date' => now()->toDateString(),
+            'pickup_time_slot' => '08:00 AM - 10:00 AM',
+            'total_amount' => 5.00,
+            'payment_method' => 'pay_at_pickup',
+        ]);
+
+        $review = \App\Models\Review::create([
+            'order_id' => $order->id,
+            'customer_id' => $custUser->id,
+            'farmer_id' => $farmer->id,
+            'rating' => 1,
+            'comment' => 'Inappropriate review text violating policy',
+        ]);
+
+        $deleteRevRes = $this->actingAs($this->adminUser)->delete(route('admin.moderation.reviews.delete', $review->id));
+        $deleteRevRes->assertRedirect();
+        $this->assertDatabaseMissing('reviews', ['id' => $review->id]);
+    }
+
+    public function test_admin_can_manage_categories_and_announcements(): void
+    {
+        // Category
+        $catRes = $this->actingAs($this->adminUser)->post(route('admin.categories.store'), [
+            'name' => 'Artisanal Baked Goods',
+            'description' => 'Freshly baked breads and pastries',
+            'icon' => 'bi-cake2',
+        ]);
+        $catRes->assertRedirect();
+        $this->assertDatabaseHas('categories', ['name' => 'Artisanal Baked Goods']);
+
+        // Announcement
+        $annRes = $this->actingAs($this->adminUser)->post(route('admin.announcements.store'), [
+            'title' => 'Harvest Season Festival Next Week',
+            'content' => 'Join us next Saturday for the seasonal pumpkin festival.',
+            'badge_type' => 'info',
+        ]);
+        $annRes->assertRedirect();
+        $this->assertDatabaseHas('announcements', ['title' => 'Harvest Season Festival Next Week']);
+    }
+
+    public function test_admin_can_toggle_customer_status(): void
+    {
+        $customer = User::create([
+            'name' => 'Problem Customer',
+            'username' => 'problemcust',
+            'email' => 'problem@test.local',
+            'role' => 'customer',
+            'is_active' => true,
+            'password' => bcrypt('password'),
+        ]);
+
+        $res = $this->actingAs($this->adminUser)->post(route('admin.customers.toggle', $customer->id));
+        $res->assertRedirect();
+        $this->assertFalse((bool)$customer->fresh()->is_active);
+
+        $res2 = $this->actingAs($this->adminUser)->post(route('admin.customers.toggle', $customer->id));
+        $res2->assertRedirect();
+        $this->assertTrue((bool)$customer->fresh()->is_active);
+    }
 }

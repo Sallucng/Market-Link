@@ -38,4 +38,13 @@ class ModerationController extends Controller
         $action = $product->is_available ? 'restored' : 'hidden from public storefront';
         return back()->with('info', "Product '{$product->name}' was {$action}.");
     }
+
+    public function deleteProduct($id)
+    {
+        $product = Product::findOrFail($id);
+        $name = $product->name;
+        $product->delete();
+
+        return back()->with('success', "Inappropriate product listing '{$name}' was removed from the platform.");
+    }
 }
