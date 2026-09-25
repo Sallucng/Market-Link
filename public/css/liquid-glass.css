@@ -1,0 +1,245 @@
+/**
+ * iOS 27 Liquid Glass — Spatial Optical Dressing & Motion System
+ * Inspired by Apple VisionOS / iOS Liquid Glass design paradigms
+ */
+
+:root {
+  --lg-glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0.16) 100%);
+  --lg-glass-border: rgba(255, 255, 255, 0.42);
+  --lg-glass-rim: rgba(255, 255, 255, 0.85);
+  --lg-glass-shadow: 0 20px 48px -12px rgba(18, 38, 28, 0.14), 0 4px 12px -2px rgba(0, 0, 0, 0.05);
+  --lg-specular-color: rgba(255, 255, 255, 0.55);
+}
+
+/* Base Liquid Glass Element */
+.liquid-glass,
+.ios27-liquid-glass {
+  position: relative;
+  background: var(--lg-glass-bg) !important;
+  border: 1px solid var(--lg-glass-border) !important;
+  border-radius: 24px;
+  box-shadow:
+    var(--lg-glass-shadow),
+    inset 0 1.5px 2px var(--lg-glass-rim),
+    inset 0 -6px 18px rgba(255, 255, 255, 0.07),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.18) !important;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.2s ease;
+  transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  will-change: transform, backdrop-filter;
+  overflow: hidden;
+}
+
+/* Pointer-Tracked Specular Glare (The Apple Glass Sheen) */
+.liquid-glass::after,
+.ios27-liquid-glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    280px circle at var(--gx, 40%) var(--gy, 25%),
+    var(--lg-specular-color) 0%,
+    rgba(255, 255, 255, 0.12) 40%,
+    transparent 75%
+  );
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+  z-index: 1;
+}
+
+.liquid-glass:hover::after,
+.ios27-liquid-glass:hover::after {
+  opacity: 1;
+}
+
+/* Fallback for non-Chromium browsers (Safari/Firefox) */
+.lg-fallback-mode {
+  background: rgba(255, 255, 255, 0.68) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+}
+
+/* 1. iOS 27 Liquid Glass Floating Navigation Bar */
+.liquid-glass-nav {
+  position: sticky;
+  top: 14px;
+  z-index: 1040;
+  margin: 10px auto 0;
+  max-width: 1240px;
+  width: calc(100% - 32px);
+  border-radius: 40px !important;
+  padding: 8px 18px !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.58) 0%, rgba(255, 255, 255, 0.25) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.65) !important;
+  box-shadow:
+    0 16px 40px -10px rgba(27, 67, 50, 0.12),
+    0 2px 6px rgba(0, 0, 0, 0.04),
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.95),
+    inset 0 -2px 8px rgba(255, 255, 255, 0.12),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.3) !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.liquid-glass-nav:hover {
+  box-shadow:
+    0 24px 50px -8px rgba(27, 67, 50, 0.18),
+    inset 0 2px 3px rgba(255, 255, 255, 1),
+    inset 0 -4px 12px rgba(255, 255, 255, 0.16),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.45) !important;
+}
+
+/* 2. iOS 27 Liquid Glass Cards */
+.liquid-glass-card {
+  border-radius: 20px !important;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.52) 0%, rgba(255, 255, 255, 0.18) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  box-shadow:
+    0 18px 40px -8px rgba(0, 0, 0, 0.07),
+    inset 0 1.5px 1.5px rgba(255, 255, 255, 0.85),
+    inset 0 -3px 10px rgba(255, 255, 255, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.22) !important;
+}
+
+.liquid-glass-card:hover {
+  transform: translateY(-5px) scale(1.01) !important;
+  box-shadow:
+    0 26px 54px -10px rgba(27, 67, 50, 0.14),
+    inset 0 2px 2px rgba(255, 255, 255, 0.95),
+    inset 0 -4px 14px rgba(255, 255, 255, 0.12),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.35) !important;
+}
+
+/* 3. Interactive iOS 27 Liquid Glass Dynamic Island Widget */
+#ios27-liquid-island {
+  position: fixed;
+  z-index: 1060;
+  width: auto;
+  min-width: 290px;
+  max-width: 380px;
+  height: auto;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.28) 100%);
+  border: 1.2px solid rgba(255, 255, 255, 0.75);
+  box-shadow:
+    0 24px 60px -8px rgba(18, 48, 32, 0.22),
+    0 6px 16px -2px rgba(0, 0, 0, 0.06),
+    inset 0 2px 2.5px rgba(255, 255, 255, 1),
+    inset 0 -4px 14px rgba(255, 255, 255, 0.15),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  will-change: transform;
+}
+
+#ios27-liquid-island:active,
+#ios27-liquid-island.is-dragging {
+  cursor: grabbing;
+  box-shadow:
+    0 32px 70px -10px rgba(18, 48, 32, 0.3),
+    inset 0 2.5px 3px rgba(255, 255, 255, 1);
+}
+
+.island-grip {
+  width: 4px;
+  height: 24px;
+  border-radius: 4px;
+  background: rgba(27, 67, 50, 0.25);
+  flex-shrink: 0;
+}
+
+.island-badge {
+  background: rgba(27, 67, 50, 0.1);
+  color: #1b4332;
+  font-weight: 700;
+  font-size: 0.72rem;
+  padding: 3px 8px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid rgba(27, 67, 50, 0.15);
+}
+
+.island-action-btn {
+  background: #1b4332;
+  color: #ffffff !important;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+  box-shadow: 0 4px 12px rgba(27, 67, 50, 0.25);
+}
+
+.island-action-btn:hover {
+  background: #133326;
+  transform: scale(1.05);
+}
+
+/* Ambient Liquid Aurora Fluid Mesh Background (Creates the gorgeous backdrop that glass refracts) */
+.liquid-aurora-mesh {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.liquid-aurora-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.45;
+  mix-blend-mode: multiply;
+  animation: aurora-drift 12s infinite alternate ease-in-out;
+}
+
+.liquid-aurora-orb-1 {
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, #52b788 0%, rgba(82, 183, 136, 0) 70%);
+  top: -60px;
+  left: 10%;
+}
+
+.liquid-aurora-orb-2 {
+  width: 440px;
+  height: 440px;
+  background: radial-gradient(circle, #b7e4c7 0%, rgba(183, 228, 199, 0) 70%);
+  top: 40px;
+  right: 5%;
+  animation-duration: 16s;
+  animation-delay: -4s;
+}
+
+.liquid-aurora-orb-3 {
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, #ddb892 0%, rgba(221, 184, 146, 0) 70%);
+  bottom: -40px;
+  left: 35%;
+  animation-duration: 14s;
+  animation-delay: -8s;
+}
+
+@keyframes aurora-drift {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(30px, 20px) scale(1.08);
+  }
+  100% {
+    transform: translate(-20px, 35px) scale(0.95);
+  }
+}

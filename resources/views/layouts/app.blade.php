@@ -22,6 +22,9 @@
 
     @vite(['resources/js/agentation.jsx'])
 
+    <!-- iOS 27 Liquid Glass Styling (Optical Refraction & Prismatic Rim) -->
+    <link rel="stylesheet" href="{{ asset('css/liquid-glass.css') }}">
+
     <style>
         :root {
             --brand-primary: #1b4332;
@@ -247,8 +250,8 @@
         <i class="bi bi-basket-fill me-1 text-warning"></i> TechWiz 7: eGreen Basket Edition — In-person stall pickup only. Zero online convenience fees.
     </div>
 
-    <!-- Navigation Header -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-2" style="border-bottom: 1px solid var(--border-hairline);">
+    <!-- Navigation Header (iOS 27 Liquid Glass) -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top liquid-glass-nav liquid-glass">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
                 <span class="p-2 text-white rounded-2 me-2 d-inline-flex align-items-center justify-content-center" style="width:34px; height:34px; background-color: var(--brand-primary);">
@@ -426,13 +429,13 @@
 
     <!-- Floating AI Assistant Chatbot (SRS Section 1.6: Optional AI Assistant) -->
     <div id="ai-assistant-bubble">
-        <button id="ai-toggle-btn" class="btn btn-success rounded-circle shadow-lg d-flex align-items-center justify-content-center p-3" style="width: 58px; height: 58px;" title="Chat with MarketLink AI Assistant">
-            <i class="bi bi-robot fs-4"></i>
+        <button id="ai-toggle-btn" class="btn rounded-circle shadow-lg d-flex align-items-center justify-content-center p-3 liquid-glass" style="width: 58px; height: 58px; background: rgba(255, 255, 255, 0.7); border: 1.5px solid rgba(255, 255, 255, 0.9);" title="Chat with MarketLink AI Assistant">
+            <i class="bi bi-robot fs-4 text-success"></i>
         </button>
     </div>
 
-    <div id="ai-assistant-window" class="card shadow-lg border-0">
-        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center py-2 px-3">
+    <div id="ai-assistant-window" class="card shadow-lg border-0 liquid-glass-card liquid-glass">
+        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center py-2 px-3" style="background: rgba(27, 67, 50, 0.85) !important; backdrop-filter: blur(10px);">
             <div class="d-flex align-items-center gap-2">
                 <i class="bi bi-robot fs-5"></i>
                 <div>
@@ -442,14 +445,14 @@
             </div>
             <button id="ai-close-btn" class="btn btn-sm btn-link text-white p-0 fs-5 text-decoration-none">&times;</button>
         </div>
-        <div id="ai-messages" class="card-body p-3 overflow-auto" style="height: 360px; font-size: 0.88rem; background-color: #f8fafc;">
+        <div id="ai-messages" class="card-body p-3 overflow-auto" style="height: 360px; font-size: 0.88rem; background-color: rgba(248, 250, 252, 0.75);">
             <div class="d-flex mb-3">
                 <div class="bg-white p-2 rounded-3 shadow-sm border" style="max-width: 85%;">
                     👋 Hello! I can help you find fresh items, check market schedules, and answer pickup questions. How can I help today?
                 </div>
             </div>
         </div>
-        <div class="card-footer bg-white border-top p-2">
+        <div class="card-footer border-top p-2" style="background: rgba(255, 255, 255, 0.8);">
             <form id="ai-chat-form" class="d-flex gap-2">
                 <input type="text" id="ai-input" class="form-control form-control-sm" placeholder="Ask about timings, produce..." autocomplete="off">
                 <button type="submit" class="btn btn-sm btn-success px-3">Send</button>
@@ -457,9 +460,28 @@
         </div>
     </div>
 
+    <!-- Interactive iOS 27 Liquid Glass Dynamic Island -->
+    <div id="ios27-liquid-island" class="liquid-glass d-none d-md-flex" title="Drag me to bend and refract the page underneath">
+        <div class="island-grip" title="Drag to refract"></div>
+        <div class="d-flex align-items-center gap-2">
+            <span class="island-badge">
+                <i class="bi bi-droplet-half text-success"></i> iOS 27 Glass
+            </span>
+            <a href="{{ route('cart.index') }}" class="text-dark text-decoration-none small fw-bold d-flex align-items-center gap-1" title="View Pre-Order Basket">
+                <i class="bi bi-basket2 text-success"></i>
+                <span id="island-cart-count">{{ count(session('cart', [])) }} items</span>
+            </a>
+        </div>
+        <a href="{{ route('products.index') }}" class="island-action-btn ms-auto">
+            <i class="bi bi-compass"></i> Explore
+        </a>
+    </div>
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- iOS 27 Liquid Glass Optical Refraction Engine -->
+    <script src="{{ asset('js/liquid-glass.js') }}"></script>
 
     <!-- AI Assistant Interactive Script -->
     <script>

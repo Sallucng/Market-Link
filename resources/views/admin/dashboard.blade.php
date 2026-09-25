@@ -26,10 +26,10 @@
         </div>
     </div>
 
-    <!-- Platform Key Metrics (SRS §1.6) -->
+    <!-- Platform Key Metrics (SRS §1.6: iOS 27 Liquid Glass Stat Cards) -->
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 mb-4 align-items-stretch">
         <div class="col">
-            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+            <div class="card card-custom stat-card tilt-card liquid-glass-card liquid-glass p-3 border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
                 <div>
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Total Farmers</span>
@@ -42,7 +42,7 @@
         </div>
 
         <div class="col">
-            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+            <div class="card card-custom stat-card tilt-card liquid-glass-card liquid-glass p-3 border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
                 <div>
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Customers</span>
@@ -55,7 +55,7 @@
         </div>
 
         <div class="col">
-            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+            <div class="card card-custom stat-card tilt-card liquid-glass-card liquid-glass p-3 border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
                 <div>
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Markets</span>
@@ -68,7 +68,7 @@
         </div>
 
         <div class="col">
-            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+            <div class="card card-custom stat-card tilt-card liquid-glass-card liquid-glass p-3 border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
                 <div>
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Pre-Orders</span>
@@ -81,7 +81,7 @@
         </div>
 
         <div class="col">
-            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+            <div class="card card-custom stat-card tilt-card liquid-glass-card liquid-glass p-3 border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
                 <div>
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Platform Volume</span>
@@ -98,7 +98,7 @@
     <div class="row g-4 mb-4">
         <!-- Bar Chart: Revenue Generated per Market -->
         <div class="col-lg-7">
-            <div class="card card-custom chart-card tilt-card p-4 bg-white border-0 shadow-sm h-100">
+            <div class="card card-custom chart-card tilt-card liquid-glass-card liquid-glass p-4 border-0 shadow-sm h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <h5 class="heading-serif fw-bold text-dark mb-1">
@@ -116,7 +116,7 @@
 
         <!-- Doughnut / Pie Chart: Pre-Order Pipeline Status -->
         <div class="col-lg-5">
-            <div class="card card-custom chart-card tilt-card p-4 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+            <div class="card card-custom chart-card tilt-card liquid-glass-card liquid-glass p-4 border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
                 <div>
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <div>

@@ -27,6 +27,9 @@
     <!-- Agentation Visual Feedback Toolbar -->
     @vite(['resources/js/agentation.jsx'])
 
+    <!-- iOS 27 Liquid Glass Styling -->
+    <link rel="stylesheet" href="{{ asset('css/liquid-glass.css') }}">
+
     <style>
         :root {
             --brand-primary: #1b4332;
@@ -517,6 +520,9 @@
             }
         });
     </script>
+
+    <!-- iOS 27 Liquid Glass Optical Refraction Engine -->
+    <script src="{{ asset('js/liquid-glass.js') }}"></script>
 
     @yield('scripts')
 </body>

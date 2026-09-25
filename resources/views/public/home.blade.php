@@ -4,12 +4,19 @@
 
 @section('content')
 
-<!-- Hero Section (minimalist-ui & humanize-ui editorial bento layout) -->
-<section class="py-5 border-bottom bg-white">
-    <div class="container py-lg-4">
+<!-- Hero Section (iOS 27 Liquid Glass & Antigravity Editorial Layout) -->
+<section class="py-5 border-bottom bg-white position-relative overflow-hidden">
+    <!-- Ambient Liquid Aurora Mesh (Drifting gradients that glass lenses refract) -->
+    <div class="liquid-aurora-mesh" aria-hidden="true">
+        <div class="liquid-aurora-orb liquid-aurora-orb-1"></div>
+        <div class="liquid-aurora-orb liquid-aurora-orb-2"></div>
+        <div class="liquid-aurora-orb liquid-aurora-orb-3"></div>
+    </div>
+
+    <div class="container py-lg-4 position-relative" style="z-index: 2;">
         <div class="row align-items-center g-5">
             <div class="col-lg-6">
-                <div class="d-inline-flex align-items-center gap-2 badge-pastel-green mb-3">
+                <div class="d-inline-flex align-items-center gap-2 badge-pastel-green mb-3 liquid-glass px-3 py-1 rounded-pill">
                     <i class="bi bi-shield-check"></i>
                     <span>TechWiz 7 — Theme: eGreen Basket</span>
                 </div>
@@ -23,15 +30,15 @@
                     Connect directly with verified local farmers market vendors. Discover this week's harvest, explore stall positions on an interactive map, and pre-order produce for convenient, in-person stall collection.
                 </p>
 
-                <!-- Market Day Quick Finder Bento Card -->
-                <div class="card card-custom p-3 p-md-4 bg-white mb-4">
+                <!-- Market Day Quick Finder Liquid Glass Card -->
+                <div class="card card-custom liquid-glass-card liquid-glass p-3 p-md-4 mb-4">
                     <form action="{{ route('markets.index') }}" method="GET">
                         <div class="row g-2 align-items-center">
                             <div class="col-md-7">
                                 <label class="small text-muted fw-semibold mb-1 d-flex align-items-center">
                                     <i class="bi bi-calendar3 text-success me-1"></i> Find Markets Open On:
                                 </label>
-                                <select name="day" class="form-select" style="border: 1px solid var(--border-card); border-radius: 8px;">
+                                <select name="day" class="form-select bg-white bg-opacity-75" style="border: 1px solid rgba(255,255,255,0.7); border-radius: 8px;">
                                     <option value="">Select Market Day (e.g. Saturday)</option>
                                     <option value="Saturday">Saturday Harvest Markets</option>
                                     <option value="Sunday">Sunday Harvest Markets</option>
@@ -39,7 +46,7 @@
                                 </select>
                             </div>
                             <div class="col-md-5 pt-md-4">
-                                <button type="submit" class="btn btn-brand w-100">
+                                <button type="submit" class="btn btn-brand w-100 shadow-sm">
                                     <i class="bi bi-search me-1"></i> Locate Markets
                                 </button>
                             </div>
@@ -47,15 +54,15 @@
                     </form>
                 </div>
 
-                <!-- Three Key Pillars (SRS §1.5) -->
-                <div class="d-flex flex-wrap gap-3">
-                    <div class="badge-pastel-slate">
+                <!-- Three Key Pillars (SRS §1.5) with iOS 27 Liquid Glass Badges -->
+                <div class="d-flex flex-wrap gap-2">
+                    <div class="liquid-glass px-3 py-2 rounded-pill small fw-semibold text-dark shadow-sm">
                         <i class="bi bi-shop me-1 text-success"></i> In-Person Stall Pickup
                     </div>
-                    <div class="badge-pastel-slate">
+                    <div class="liquid-glass px-3 py-2 rounded-pill small fw-semibold text-dark shadow-sm">
                         <i class="bi bi-currency-dollar me-1 text-warning"></i> Zero Online Markups
                     </div>
-                    <div class="badge-pastel-slate">
+                    <div class="liquid-glass px-3 py-2 rounded-pill small fw-semibold text-dark shadow-sm">
                         <i class="bi bi-map me-1 text-primary"></i> OpenStreetMap Powered
                     </div>
                 </div>
@@ -63,17 +70,17 @@
 
             <div class="col-lg-6">
                 <div class="position-relative">
-                    <div class="card p-2 bg-white" style="border: 1px solid var(--border-hairline); border-radius: 16px; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.06);">
+                    <div class="card p-2 bg-white" style="border: 1px solid var(--border-hairline); border-radius: 24px; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.08);">
                         <img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=900&q=80" 
                              alt="Local Farmers Market Stall" 
                              class="w-100" 
-                             style="height: 420px; object-fit: cover; border-radius: 12px;">
+                             style="height: 420px; object-fit: cover; border-radius: 20px;">
                     </div>
                     
-                    <!-- Tactile Overlay Badge (Antigravity Floating Motion) -->
-                    <div class="position-absolute bottom-0 start-0 m-4 p-3 bg-white d-none d-sm-flex align-items-center gap-3 motion-float" 
-                         style="border: 1px solid var(--border-card); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.08);">
-                        <div class="p-2 rounded-2 d-flex align-items-center justify-content-center" style="width: 42px; height: 42px; background-color: var(--brand-primary); color: #fff;">
+                    <!-- Tactile Overlay Badge (iOS 27 Liquid Glass Lens) -->
+                    <div class="position-absolute bottom-0 start-0 m-4 p-3 liquid-glass-card liquid-glass d-none d-sm-flex align-items-center gap-3 motion-float" 
+                         style="border-radius: 18px;">
+                        <div class="p-2 rounded-3 d-flex align-items-center justify-content-center shadow-sm" style="width: 44px; height: 44px; background-color: var(--brand-primary); color: #fff;">
                             <i class="bi bi-shield-check fs-5"></i>
                         </div>
                         <div>
@@ -82,9 +89,9 @@
                         </div>
                     </div>
 
-                    <!-- Secondary Floating Badge -->
-                    <div class="position-absolute top-0 end-0 m-3 px-3 py-2 bg-white d-none d-md-flex align-items-center gap-2 motion-float-delayed"
-                         style="border: 1px solid var(--border-card); border-radius: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.08);">
+                    <!-- Secondary Floating Badge (iOS 27 Liquid Glass Pill) -->
+                    <div class="position-absolute top-0 end-0 m-3 px-3 py-2 liquid-glass-card liquid-glass d-none d-md-flex align-items-center gap-2 motion-float-delayed"
+                         style="border-radius: 30px;">
                         <i class="bi bi-clock-history text-success"></i>
                         <span class="small fw-semibold text-dark">Pre-Order 24h Ahead</span>
                     </div>
