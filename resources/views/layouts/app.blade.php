@@ -442,19 +442,13 @@
                         <a class="nav-link {{ request()->routeIs('home') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('markets.*') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('markets.index') }}">
-                            <i class="bi bi-geo-alt-fill text-danger me-1"></i>Markets and Map
-                        </a>
+                        <a class="nav-link {{ request()->routeIs('markets.*') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('markets.index') }}">Markets and Map</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('products.*') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('products.index') }}">
-                            <i class="bi bi-grid-fill text-success me-1"></i>Farm Products
-                        </a>
+                        <a class="nav-link {{ request()->routeIs('products.*') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('products.index') }}">Farm Products</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('farmers.*') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('farmers.index') }}">
-                            <i class="bi bi-people-fill text-success me-1"></i>Farmers
-                        </a>
+                        <a class="nav-link {{ request()->routeIs('farmers.*') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('farmers.index') }}">Farmers</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('about') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('about') }}">About Us</a>

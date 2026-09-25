@@ -255,7 +255,7 @@
                         @foreach($bestSellers as $prod)
                             <li class="list-group-item px-0 py-2 d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center gap-2">
-                                    <img src="{{ $prod->image_url ?: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=100&q=80' }}" 
+                                    <img src="{{ $prod->image_url ?: 'https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=100&q=80' }}" 
                                          alt="{{ $prod->name }}" 
                                          class="rounded" 
                                          style="width: 42px; height: 42px; object-fit: cover;">

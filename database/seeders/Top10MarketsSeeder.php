@@ -143,8 +143,8 @@ class Top10MarketsSeeder extends Seeder
                 'bio' => 'Regenerative grower focused on antioxidant-rich rainbow chard, purple carrots, and organic brassicas.',
                 'image' => 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=600&q=80',
                 'products' => [
-                    ['name' => 'Rainbow Swiss Chard', 'price' => 3.75, 'unit' => 'bunch'],
-                    ['name' => 'Organic Purple Carrots', 'price' => 4.20, 'unit' => 'lb'],
+                    ['name' => 'Rainbow Swiss Chard', 'price' => 3.75, 'unit' => 'bunch', 'image' => 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=600&q=80'],
+                    ['name' => 'Organic Purple Carrots', 'price' => 4.20, 'unit' => 'lb', 'image' => 'https://images.unsplash.com/photo-1447175008436-054170c2e979?auto=format&fit=crop&w=600&q=80'],
                 ]
             ],
             [
@@ -154,8 +154,8 @@ class Top10MarketsSeeder extends Seeder
                 'bio' => 'Coastal orchard yielding sweet golden raspberries, Meyer lemons, and cold-pressed citrus preserves.',
                 'image' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80',
                 'products' => [
-                    ['name' => 'Meyer Lemons', 'price' => 5.00, 'unit' => 'bag'],
-                    ['name' => 'Golden Raspberries', 'price' => 6.50, 'unit' => 'pint'],
+                    ['name' => 'Meyer Lemons', 'price' => 5.00, 'unit' => 'bag', 'image' => 'https://images.unsplash.com/photo-1590502593747-42a996133562?auto=format&fit=crop&w=600&q=80'],
+                    ['name' => 'Golden Raspberries', 'price' => 6.50, 'unit' => 'pint', 'image' => 'https://images.unsplash.com/photo-1577069861033-55d04cec4ef5?auto=format&fit=crop&w=600&q=80'],
                 ]
             ],
             [
@@ -165,8 +165,8 @@ class Top10MarketsSeeder extends Seeder
                 'bio' => 'Artisanal grass-fed goat cheese, cultured pasture butter, and farmstead organic yogurt.',
                 'image' => 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80',
                 'products' => [
-                    ['name' => 'Farmstead Chèvre Goat Cheese', 'price' => 8.50, 'unit' => 'wheel'],
-                    ['name' => 'Cultured Herb Butter', 'price' => 6.00, 'unit' => 'block'],
+                    ['name' => 'Farmstead Chèvre Goat Cheese', 'price' => 8.50, 'unit' => 'wheel', 'image' => 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=600&q=80'],
+                    ['name' => 'Cultured Herb Butter', 'price' => 6.00, 'unit' => 'block', 'image' => 'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=600&q=80'],
                 ]
             ],
             [
@@ -176,8 +176,8 @@ class Top10MarketsSeeder extends Seeder
                 'bio' => 'Hand-harvested culinary herbs, fresh ginger, horseradish, and heritage heirloom garlic varieties.',
                 'image' => 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80',
                 'products' => [
-                    ['name' => 'Heirloom Hardneck Garlic', 'price' => 3.50, 'unit' => 'braid'],
-                    ['name' => 'Fresh Rosemary & Thyme Bundle', 'price' => 2.80, 'unit' => 'bunch'],
+                    ['name' => 'Heirloom Hardneck Garlic', 'price' => 3.50, 'unit' => 'braid', 'image' => 'https://images.unsplash.com/photo-1540148426945-6cf22a6b2383?auto=format&fit=crop&w=600&q=80'],
+                    ['name' => 'Fresh Rosemary & Thyme Bundle', 'price' => 2.80, 'unit' => 'bunch', 'image' => 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=600&q=80'],
                 ]
             ],
             [
@@ -187,8 +187,8 @@ class Top10MarketsSeeder extends Seeder
                 'bio' => 'Treatment-free sustainable beekeeping delivering raw basswood honey, bee pollen, and beeswax food wraps.',
                 'image' => 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=600&q=80',
                 'products' => [
-                    ['name' => 'Raw Forest Basswood Honey', 'price' => 12.00, 'unit' => 'jar'],
-                    ['name' => 'Wildflower Comb Honey', 'price' => 14.50, 'unit' => 'box'],
+                    ['name' => 'Raw Forest Basswood Honey', 'price' => 12.00, 'unit' => 'jar', 'image' => 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?auto=format&fit=crop&w=600&q=80'],
+                    ['name' => 'Wildflower Comb Honey', 'price' => 14.50, 'unit' => 'box', 'image' => 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=600&q=80'],
                 ]
             ],
             [
@@ -198,8 +198,8 @@ class Top10MarketsSeeder extends Seeder
                 'bio' => 'Hyper-fresh living butterhead lettuce, micro basil, and crisp watercress harvested morning of market.',
                 'image' => 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=80',
                 'products' => [
-                    ['name' => 'Living Butterhead Lettuce', 'price' => 3.25, 'unit' => 'head'],
-                    ['name' => 'Genovese Micro Basil', 'price' => 4.50, 'unit' => 'clamshell'],
+                    ['name' => 'Living Butterhead Lettuce', 'price' => 3.25, 'unit' => 'head', 'image' => 'https://images.unsplash.com/photo-1556801712-76c8eb07bbc9?auto=format&fit=crop&w=600&q=80'],
+                    ['name' => 'Genovese Micro Basil', 'price' => 4.50, 'unit' => 'clamshell', 'image' => 'https://images.unsplash.com/photo-1618375569909-3c8616cf7733?auto=format&fit=crop&w=600&q=80'],
                 ]
             ],
             [
@@ -209,8 +209,8 @@ class Top10MarketsSeeder extends Seeder
                 'bio' => 'Dry-farmed heirloom winter squash, pie pumpkins, crisp Asian pears, and freshly roasted squash seeds.',
                 'image' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80',
                 'products' => [
-                    ['name' => 'Honeynut Squash', 'price' => 2.90, 'unit' => 'lb'],
-                    ['name' => 'Crisp Asian Pears', 'price' => 5.25, 'unit' => 'bag'],
+                    ['name' => 'Honeynut Squash', 'price' => 2.90, 'unit' => 'lb', 'image' => 'https://plus.unsplash.com/premium_photo-1666823706503-46b8b71593fc?auto=format&fit=crop&w=600&q=80'],
+                    ['name' => 'Crisp Asian Pears', 'price' => 5.25, 'unit' => 'bag', 'image' => 'https://images.unsplash.com/photo-1514756331096-242fdeb70d4a?auto=format&fit=crop&w=600&q=80'],
                 ]
             ],
         ];
@@ -256,9 +256,9 @@ class Top10MarketsSeeder extends Seeder
                     ]
                 );
 
-                // Add products for this farmer
+                // Add or update products for this farmer
                 foreach ($fData['products'] as $pData) {
-                    Product::firstOrCreate(
+                    Product::updateOrCreate(
                         ['farmer_id' => $farmer->id, 'name' => $pData['name']],
                         [
                             'category_id' => ($index % 2 === 0 ? $vegCat->id : ($index % 3 === 0 ? $honeyCat->id : $fruitCat->id)),
@@ -268,7 +268,7 @@ class Top10MarketsSeeder extends Seeder
                             'stock_quantity' => rand(20, 50),
                             'weekly_recurring_stock' => rand(25, 45),
                             'is_available' => true,
-                            'image_url' => $fData['image'],
+                            'image_url' => $pData['image'] ?? 'https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=600&q=80',
                         ]
                     );
                 }

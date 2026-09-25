@@ -237,7 +237,7 @@ class DatabaseSeeder extends Seeder
             'weekly_recurring_stock' => 30,
             'is_sold_out' => false,
             'is_available' => true,
-            'image_url' => 'https://images.unsplash.com/photo-1524179091875-bf99a9a6fa57?auto=format&fit=crop&w=600&q=80',
+            'image_url' => 'https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&w=600&q=80',
         ]);
 
         $p3 = Product::create([
@@ -251,7 +251,7 @@ class DatabaseSeeder extends Seeder
             'weekly_recurring_stock' => 40,
             'is_sold_out' => false,
             'is_available' => true,
-            'image_url' => 'https://images.unsplash.com/photo-1596560548464-f010549b84d7?auto=format&fit=crop&w=600&q=80',
+            'image_url' => 'https://plus.unsplash.com/premium_photo-1675365780148-a00379c54123?auto=format&fit=crop&w=600&q=80',
         ]);
 
         $p4 = Product::create([
@@ -265,7 +265,7 @@ class DatabaseSeeder extends Seeder
             'weekly_recurring_stock' => 25,
             'is_sold_out' => false,
             'is_available' => true,
-            'image_url' => 'https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=600&q=80',
+            'image_url' => 'https://images.unsplash.com/photo-1506976785307-8732e854ad03?auto=format&fit=crop&w=600&q=80',
         ]);
 
         // Products for Farmer 2
@@ -294,7 +294,7 @@ class DatabaseSeeder extends Seeder
             'weekly_recurring_stock' => 20,
             'is_sold_out' => false,
             'is_available' => true,
-            'image_url' => 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=600&q=80',
+            'image_url' => 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?auto=format&fit=crop&w=600&q=80',
         ]);
 
         $p7 = Product::create([

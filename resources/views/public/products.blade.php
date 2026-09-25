@@ -88,8 +88,8 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="card card-custom h-100 d-flex flex-column bg-white position-relative">
                             <div class="position-relative">
-                                <img src="{{ $product->image_url ?: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80' }}" 
-                                     onerror="this.src='https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80'"
+                                <img src="{{ $product->image_url ?: 'https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=600&q=80' }}" 
+                                     onerror="this.src='https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=600&q=80'"
                                      class="card-img-top" 
                                      alt="{{ $product->name }}" 
                                      style="height: 190px; object-fit: cover; border-top-left-radius: 12px; border-top-right-radius: 12px;">

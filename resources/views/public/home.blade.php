@@ -100,20 +100,6 @@
     </div>
 </section>
 
-<!-- Active Platform Announcements (SRS §1.6) -->
-@if($announcements->count() > 0)
-<section class="py-2 border-bottom" style="background-color: #fbf3db;">
-    <div class="container">
-        @foreach($announcements as $ann)
-            <div class="d-flex align-items-center gap-3 py-1">
-                <span class="badge-pastel-amber">{{ $ann->badge_type }}</span>
-                <span class="fw-bold text-dark small">{{ $ann->title }}:</span>
-                <span class="text-secondary small">{{ $ann->content }}</span>
-            </div>
-        @endforeach
-    </div>
-</section>
-@endif
 
 <!-- Seasonal Categories Bento Grid -->
 <section class="py-5">
@@ -198,8 +184,8 @@
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="card card-custom h-100 d-flex flex-column position-relative">
                         <div class="position-relative">
-                            <img src="{{ $product->image_url ?: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80' }}" 
-                                 onerror="this.src='https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80'"
+                            <img src="{{ $product->image_url ?: 'https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=600&q=80' }}" 
+                                 onerror="this.src='https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=600&q=80'"
                                  class="card-img-top" 
                                  alt="{{ $product->name }}" 
                                  style="height: 175px; object-fit: cover; border-top-left-radius: 12px; border-top-right-radius: 12px;">
