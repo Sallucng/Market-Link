@@ -80,6 +80,11 @@ class OrderController extends Controller
         }
 
         $order->order_status = $newStatus;
+        if ($newStatus === 'completed') {
+            $order->payment_status = 'paid';
+        } elseif ($newStatus === 'declined') {
+            $order->payment_status = 'declined';
+        }
         $order->save();
 
         // Send In-App notification to Customer per SRS Section 1.6
@@ -98,5 +103,18 @@ class OrderController extends Controller
         ]);
 
         return back()->with('success', "Order #{$order->order_number} updated to " . ucfirst(str_replace('_', ' ', $newStatus)) . ".");
+    }
+
+    public function receipt($id)
+    {
+        $farmer = $this->getFarmer();
+        $order = Order::where('farmer_id', $farmer->id)
+            ->with(['farmer.market', 'farmer.user', 'customer', 'items.product'])
+            ->findOrFail($id);
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('customer.orders.receipt', compact('order'))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->download("MarketLink-Receipt-{$order->order_number}.pdf");
     }
 }

@@ -31,6 +31,7 @@ Route::middleware(['auth', 'role:farmer'])->prefix('farmer')->name('farmer.')->g
     // 3. Pre-Order Queue Management
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+    Route::get('/orders/{id}/receipt', [OrderController::class, 'receipt'])->name('orders.receipt');
     Route::post('/orders/{id}/status', [OrderController::class, 'updateStatus'])->name('orders.status');
 
     // 4. Stall Profile & Geolocation Pinning

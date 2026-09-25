@@ -71,9 +71,14 @@
                                 </td>
                                 <td class="text-end">
                                     <div class="d-flex justify-content-end gap-1">
-                                        <!-- View Receipt -->
+                                        <!-- View Details -->
                                         <a href="{{ route('customer.orders.show', $order->id) }}" class="btn btn-sm btn-light border" title="View Details">
                                             <i class="bi bi-eye"></i> Details
+                                        </a>
+
+                                        <!-- Download PDF Receipt -->
+                                        <a href="{{ route('customer.orders.receipt', $order->id) }}" class="btn btn-sm btn-outline-success" title="Download PDF Receipt">
+                                            <i class="bi bi-file-earmark-pdf"></i> PDF
                                         </a>
 
                                         <!-- Quick Reorder Button (SRS §1.6) -->

@@ -20,8 +20,11 @@
             <small class="text-muted">Reserved on {{ $order->created_at->format('M d, Y - h:i A') }}</small>
         </div>
 
-        <!-- Current Status Badge -->
-        <div>
+        <!-- Current Status Badge & Print Receipt -->
+        <div class="d-flex align-items-center gap-2">
+            <a href="{{ route('farmer.orders.receipt', $order->id) }}" class="btn btn-outline-success btn-sm rounded-pill px-3 shadow-sm">
+                <i class="bi bi-file-earmark-pdf-fill me-1"></i> Print / Download Receipt
+            </a>
             <span class="badge 
                 {{ $order->order_status === 'completed' ? 'bg-success' : '' }}
                 {{ $order->order_status === 'ready_for_pickup' ? 'bg-info text-dark' : '' }}

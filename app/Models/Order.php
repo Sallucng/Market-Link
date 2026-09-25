@@ -22,6 +22,7 @@ class Order extends Model
         'pickup_time_slot',
         'total_amount',
         'payment_method',
+        'payment_status',
         'cutoff_time',
         'notes',
     ];
@@ -71,5 +72,15 @@ class Order extends Model
         }
 
         return true;
+    }
+
+    public function isPaid(): bool
+    {
+        return $this->payment_status === 'paid' || $this->order_status === 'completed';
+    }
+
+    public function getPaymentStatusLabelAttribute(): string
+    {
+        return $this->isPaid() ? 'Paid & Settled' : 'Pending (Due at Pickup)';
     }
 }

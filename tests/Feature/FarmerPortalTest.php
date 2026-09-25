@@ -103,4 +103,57 @@ class FarmerPortalTest extends TestCase
         $this->assertEquals(20, $product->stock_quantity);
         $this->assertFalse((bool)$product->is_sold_out);
     }
+
+    public function test_farmer_can_download_order_receipt(): void
+    {
+        $customer = User::create([
+            'name' => 'John Buyer',
+            'username' => 'johnbuyer',
+            'email' => 'john@buyer.local',
+            'role' => 'customer',
+            'password' => bcrypt('password'),
+        ]);
+
+        $product = Product::create([
+            'farmer_id' => $this->farmer->id,
+            'category_id' => $this->category->id,
+            'name' => 'Farm Fresh Spinach',
+            'price' => 4.00,
+            'stock_quantity' => 10,
+            'unit' => 'bunch',
+        ]);
+
+        $order = Order::create([
+            'customer_id' => $customer->id,
+            'farmer_id' => $this->farmer->id,
+            'market_id' => $this->market->id,
+            'order_number' => 'ML-FARM-001',
+            'order_status' => 'ready_for_pickup',
+            'payment_status' => 'pending',
+            'pickup_date' => now()->addDay()->toDateString(),
+            'pickup_time_slot' => '08:00 AM - 10:00 AM',
+            'total_amount' => 8.00,
+            'payment_method' => 'pay_at_pickup',
+        ]);
+
+        \App\Models\OrderItem::create([
+            'order_id' => $order->id,
+            'product_id' => $product->id,
+            'quantity' => 2,
+            'unit_price' => 4.00,
+            'subtotal' => 8.00,
+        ]);
+
+        $response = $this->actingAs($this->farmerUser)->get(route('farmer.orders.receipt', $order->id));
+        $response->assertStatus(200);
+        $this->assertStringContainsString('application/pdf', $response->headers->get('content-type'));
+
+        // Test marking completed updates payment_status to 'paid'
+        $updateResponse = $this->actingAs($this->farmerUser)->post(route('farmer.orders.status', $order->id), [
+            'status' => 'completed',
+        ]);
+        $updateResponse->assertRedirect();
+        $this->assertEquals('paid', $order->fresh()->payment_status);
+        $this->assertTrue($order->fresh()->isPaid());
+    }
 }

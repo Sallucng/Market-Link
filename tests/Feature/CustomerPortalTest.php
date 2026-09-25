@@ -210,4 +210,60 @@ class CustomerPortalTest extends TestCase
         // Product stock should still be 15
         $this->assertEquals(15, $this->product->fresh()->stock_quantity);
     }
+
+    public function test_customer_can_download_pdf_receipt()
+    {
+        $order = Order::create([
+            'customer_id' => $this->customer->id,
+            'farmer_id' => $this->farmer->id,
+            'market_id' => $this->market->id,
+            'order_number' => 'ML-TEST-001',
+            'order_status' => 'completed',
+            'payment_status' => 'paid',
+            'pickup_date' => Carbon::tomorrow()->toDateString(),
+            'pickup_time_slot' => '08:00 AM - 10:00 AM',
+            'total_amount' => 14.00,
+            'payment_method' => 'pay_at_pickup',
+        ]);
+
+        OrderItem::create([
+            'order_id' => $order->id,
+            'product_id' => $this->product->id,
+            'quantity' => 4,
+            'unit_price' => 3.50,
+            'subtotal' => 14.00,
+        ]);
+
+        $response = $this->actingAs($this->customer)->get("/customer/orders/{$order->id}/receipt");
+
+        $response->assertStatus(200);
+        $this->assertStringContainsString('application/pdf', $response->headers->get('content-type'));
+        $this->assertStringContainsString('MarketLink-Receipt-ML-TEST-001.pdf', $response->headers->get('content-disposition'));
+    }
+
+    public function test_customer_cannot_download_other_customer_receipt()
+    {
+        $otherCustomer = User::create([
+            'name' => 'Other Customer',
+            'username' => 'othercust',
+            'email' => 'other@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'customer',
+        ]);
+
+        $order = Order::create([
+            'customer_id' => $otherCustomer->id,
+            'farmer_id' => $this->farmer->id,
+            'market_id' => $this->market->id,
+            'order_number' => 'ML-TEST-002',
+            'order_status' => 'placed',
+            'pickup_date' => Carbon::tomorrow()->toDateString(),
+            'pickup_time_slot' => '08:00 AM - 10:00 AM',
+            'total_amount' => 7.00,
+            'payment_method' => 'pay_at_pickup',
+        ]);
+
+        $response = $this->actingAs($this->customer)->get("/customer/orders/{$order->id}/receipt");
+        $response->assertStatus(404);
+    }
 }

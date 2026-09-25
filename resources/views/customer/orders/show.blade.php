@@ -20,7 +20,12 @@
             <small class="text-muted">Reserved on {{ $order->created_at->format('M d, Y - h:i A') }}</small>
         </div>
 
-        <div class="d-flex gap-2">
+        <div class="d-flex flex-wrap gap-2">
+            <!-- Download PDF Receipt -->
+            <a href="{{ route('customer.orders.receipt', $order->id) }}" class="btn btn-outline-success rounded-pill px-3 shadow-sm">
+                <i class="bi bi-file-earmark-pdf-fill me-1"></i> Download PDF Receipt
+            </a>
+
             <!-- 1-Click Reorder (SRS §1.6) -->
             <form action="{{ route('customer.orders.reorder', $order->id) }}" method="POST">
                 @csrf
@@ -233,10 +238,27 @@
                     </div>
                 @endif
 
-                <div class="p-3 bg-brand-light rounded small border border-success border-opacity-25">
-                    <strong>Payment Due:</strong> ${{ number_format($order->total_amount, 2) }}
-                    <div class="text-muted mt-1" style="font-size: 0.72rem;">Settle in cash or card directly at the stall upon collecting your produce.</div>
+                <div class="p-3 bg-brand-light rounded small border border-success border-opacity-25 mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="text-muted">Total Amount:</span>
+                        <strong class="text-success fs-5">${{ number_format($order->total_amount, 2) }}</strong>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-muted">Payment Status:</span>
+                        @if($order->isPaid())
+                            <span class="badge bg-success text-white px-2 py-1"><i class="bi bi-check2-circle me-1"></i> Paid</span>
+                        @else
+                            <span class="badge bg-warning text-dark px-2 py-1"><i class="bi bi-clock me-1"></i> Due at Pickup</span>
+                        @endif
+                    </div>
+                    <div class="text-muted" style="font-size: 0.72rem;">Settle in cash or card directly at the stall upon collecting your produce.</div>
                 </div>
+
+                <!-- PDF Download CTA -->
+                <a href="{{ route('customer.orders.receipt', $order->id) }}" class="btn btn-success w-100 rounded-pill py-2 shadow-sm d-flex align-items-center justify-content-center gap-2">
+                    <i class="bi bi-file-earmark-pdf-fill fs-5"></i>
+                    <span>Download PDF Receipt</span>
+                </a>
             </div>
     </div>
 </div>

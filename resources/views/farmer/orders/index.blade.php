@@ -151,6 +151,10 @@
                                             </form>
                                         @endif
 
+                                        <a href="{{ route('farmer.orders.receipt', $ord->id) }}" class="btn btn-outline-success btn-sm rounded-pill px-2" title="Download Receipt / Packing Slip">
+                                            <i class="bi bi-file-earmark-pdf"></i>
+                                        </a>
+
                                         <a href="{{ route('farmer.orders.show', $ord->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill px-2">
                                             View
                                         </a>

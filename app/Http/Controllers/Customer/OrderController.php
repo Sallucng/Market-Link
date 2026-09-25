@@ -133,4 +133,16 @@ class OrderController extends Controller
 
         return back()->with('warning', 'None of the items from that order are currently in stock.');
     }
+
+    public function receipt($id)
+    {
+        $order = Order::where('customer_id', Auth::id())
+            ->with(['farmer.market', 'farmer.user', 'customer', 'items.product'])
+            ->findOrFail($id);
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('customer.orders.receipt', compact('order'))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->download("MarketLink-Receipt-{$order->order_number}.pdf");
+    }
 }

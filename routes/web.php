@@ -70,6 +70,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', [CustomerDashboardController::class, 'index'])->name('dashboard');
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
         Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+        Route::get('/orders/{id}/receipt', [OrderController::class, 'receipt'])->name('orders.receipt');
         Route::post('/orders/{id}/modify', [OrderController::class, 'modify'])->name('orders.modify');
         Route::post('/orders/{id}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
         Route::post('/orders/{id}/reorder', [OrderController::class, 'reorder'])->name('orders.reorder');
