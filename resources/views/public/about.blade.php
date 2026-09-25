@@ -9,7 +9,7 @@
         <span class="badge badge-brand px-3 py-1 rounded-pill mb-2">Verified Neighborhood Food Network</span>
         <h1 class="heading-serif display-5 fw-bold text-dark mb-3">About MarketLink</h1>
         <p class="lead text-muted col-lg-8 mx-auto">
-            Bridging the gap between passionate local producers and conscious consumers — creating a transparent, predictable, and community-driven farmers market ecosystem.
+            Bridging the gap between passionate local farmers and conscious consumers — creating a transparent, predictable, and community-driven farmers market ecosystem.
         </p>
     </div>
 </section>

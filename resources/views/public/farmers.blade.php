@@ -185,7 +185,7 @@
                         @endif
 
                         <p class="text-secondary small flex-grow-1 mb-3" style="line-height: 1.5;">
-                            {{ Str::limit($farmer->bio, 90) ?: 'Dedicated local producer delivering freshly picked, quality harvest to community stalls.' }}
+                            {{ Str::limit($farmer->bio, 90) ?: 'Dedicated local farmer delivering freshly picked, quality harvest to community stalls.' }}
                         </p>
 
                         <!-- Bottom Action Button -->

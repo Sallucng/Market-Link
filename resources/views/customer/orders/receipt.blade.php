@@ -317,7 +317,7 @@
             <td class="info-cell">
                 <div class="info-heading">Vendor & Stall Information</div>
                 <div class="info-line"><span class="info-label">Stall Name:</span> <strong>{{ $order->farmer->stall_name ?? 'Farm Stall' }}</strong></div>
-                <div class="info-line"><span class="info-label">Producer:</span> {{ $order->farmer->contact_person ?? ($order->farmer->user->name ?? 'Local Farmer') }}</div>
+                <div class="info-line"><span class="info-label">Farmer:</span> {{ $order->farmer->contact_person ?? ($order->farmer->user->name ?? 'Local Farmer') }}</div>
                 <div class="info-line"><span class="info-label">Contact:</span> {{ $order->farmer->contact_number ?? ($order->farmer->user->contact_number ?? 'N/A') }}</div>
                 <div class="info-line"><span class="info-label">Market Plaza:</span> {{ $order->farmer->market->name ?? 'Community Farmers Market' }}</div>
                 <div class="info-line"><span class="info-label">Location:</span> {{ $order->farmer->market->address ?? $order->farmer->address }}, {{ $order->farmer->market->city ?? '' }}</div>

@@ -275,7 +275,7 @@ class FarmerPortalTest extends TestCase
             'customer_id' => $customer->id,
             'farmer_id' => $this->farmer->id,
             'rating' => 5,
-            'comment' => 'The best produce in the market!',
+            'comment' => 'The best products in the market!',
         ]);
 
         $respondRes = $this->actingAs($this->farmerUser)->post(route('farmer.reviews.respond', $review->id), [

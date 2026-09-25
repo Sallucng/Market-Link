@@ -8,8 +8,8 @@
 ## 1. Problem Definition & Objectives
 
 ### 1.1 Problem Statement
-Local farmers markets serve as vital community hubs for fresh, seasonal, and nutrient-dense agricultural produce. However, traditional market dynamics suffer from critical communication friction:
-- **Customer Uncertainty:** Shoppers rarely know which growers will be present on a given market morning, what items remain in stock, or what pricing will apply. Many arrive after traveling long distances only to find high-demand produce sold out.
+Local farmers markets serve as vital community hubs for fresh, seasonal, and nutrient-dense farm products. However, traditional market dynamics suffer from critical communication friction:
+- **Customer Uncertainty:** Shoppers rarely know which growers will be present on a given market morning, what items remain in stock, or what pricing will apply. Many arrive after traveling long distances only to find high-demand products sold out.
 - **Grower Inefficiency:** Farmers have lacked a centralized digital channel to advertise their weekly harvest, anticipate customer demand prior to harvest mornings, or take advance reservations.
 - **Wasted Trips & Carbon Footprint:** Inability to locate stall pickup points or verify operating hours leads to wasted journeys and food wastage.
 
@@ -17,7 +17,7 @@ Local farmers markets serve as vital community hubs for fresh, seasonal, and nut
 **MarketLink** (*"Farm Fresh Just a Click Away"*) solves these pain points by centralizing weekly inventory, stall geolocation, and pre-order reservations into an integrated, multi-tier web application:
 1. **Real-time Weekly Stock Visibility:** Farmers list available quantities and recurring weekly templates.
 2. **Interactive Geolocation:** Interactive OpenStreetMap (Leaflet) markers display market locations, farmer stall pins, and pickup routing.
-3. **Structured Pre-Order Reservations:** Customers reserve produce with designated pickup dates and time windows, paying directly at the stall upon collection.
+3. **Structured Pre-Order Reservations:** Customers reserve farm products with designated pickup dates and time windows, paying directly at the stall upon collection.
 4. **Transparent Community Feedback:** Ratings and written reviews left exclusively by customers who have completed in-person collection.
 
 ---
@@ -84,7 +84,7 @@ MarketLink implements a classic **Multi-Tier Web Architecture** (SRS Section 1.4
            ├─► [Filter by Day / Category]
            │
            ▼
-   [Select Farm Produce]
+   [Select Farm Products]
            │
            ▼
    [Add to Pre-Order Cart]
@@ -110,7 +110,7 @@ MarketLink implements a classic **Multi-Tier Web Architecture** (SRS Section 1.4
 [Farmer Marks READY FOR PICKUP] ──► [Customer Alert Triggered]
            │
            ▼
-[Customer Arrives at Stall, Pays in Person & Collects Produce]
+[Customer Arrives at Stall, Pays in Person & Collects Products]
            │
            ▼
 [Order Status: COMPLETED]
@@ -285,7 +285,7 @@ MarketLink implements a classic **Multi-Tier Web Architecture** (SRS Section 1.4
 | `id` | BIGINT UNSIGNED | PK, Auto Increment | Unique product identifier |
 | `farmer_id` | BIGINT UNSIGNED | FK (`farmers.id`), CASCADE | Producing farmer stall |
 | `category_id` | BIGINT UNSIGNED | FK (`categories.id`), CASCADE | Master category classification |
-| `name` | VARCHAR(100) | NOT NULL | Produce title |
+| `name` | VARCHAR(100) | NOT NULL | Product title |
 | `description` | TEXT | Nullable | Detailed harvest description |
 | `price` | DECIMAL(10,2)| NOT NULL | Unit price |
 | `unit` | VARCHAR(20) | NOT NULL | Measurement unit (kg, bunch, box, dozen) |
@@ -319,7 +319,7 @@ Pre-loaded test data covers all user scenarios across the application:
    - Riverside Green & Artisan Market (Wednesdays & Saturdays, 09:00 AM - 03:00 PM)
    - Oak Valley Community Harvest Fair (Sundays, 07:30 AM - 01:30 PM)
 2. **Three Diverse Farmer Vendor Stalls:**
-   - *Green Valley Organic Produce:* Heirloom tomatoes, organic kale bundles, Japanese sweet potatoes, pasture-raised brown eggs.
+   - *Green Valley Organic Farm:* Heirloom tomatoes, organic kale bundles, Japanese sweet potatoes, pasture-raised brown eggs.
    - *Sunshine Orchards & Apiary:* Honeycrisp apples, wildflower honeycomb, rustic sourdough batards.
    - *New Harvest Urban Greens:* Microgreens and culinary herbs (Pending approval scenario).
 3. **Pre-Seeded Orders:**
@@ -337,8 +337,8 @@ Pre-loaded test data covers all user scenarios across the application:
 | **1. Introduction** | 0:00 - 0:45 | Home page, eGreen Basket theme, announcement ribbon. | "Welcome to MarketLink, our end-to-end web platform connecting local growers with conscious consumers..." |
 | **2. Geolocation Discovery** | 0:45 - 1:45 | Navigate to Markets & Map, filter by Saturday, click stall marker, view OpenStreetMap directions. | "Here we explore local markets on an embedded OpenStreetMap with live stall pins and pickup routes..." |
 | **3. Catalog & Filters** | 1:45 - 2:30 | Product catalog, apply price and category filters, search for 'Tomatoes'. | "Customers can browse fresh stock with multi-parameter filtering..." |
-| **4. AI Assistant FAQ** | 2:30 - 3:15 | Click floating AI widget, ask market hours and produce availability. | "Our integrated AI chatbot provides real-time answers on market schedules and pickup policies..." |
-| **5. Pre-Order & Checkout** | 3:15 - 4:15 | Add produce to cart, select pickup date and time window, place pre-order. | "Pre-orders reserve live stock. Notice: zero payment gateways are used; payment is settled in person..." |
+| **4. AI Assistant FAQ** | 2:30 - 3:15 | Click floating AI widget, ask market hours and product availability. | "Our integrated AI chatbot provides real-time answers on market schedules and pickup policies..." |
+| **5. Pre-Order & Checkout** | 3:15 - 4:15 | Add products to cart, select pickup date and time window, place pre-order. | "Pre-orders reserve live stock. Notice: zero payment gateways are used; payment is settled in person..." |
 | **6. Customer Dashboard** | 4:15 - 5:00 | View order tracking pipeline, cutoff cancellation rules, 1-click re-order. | "Customers track their order progression from placed to ready for pickup..." |
 | **7. Farmer & Admin Portals** | 5:00 - 6:00 | Sign into farmer dashboard (sales metrics, incoming orders), sign into admin dashboard (farmer approval gate). | "Farmers manage orders and weekly templates, while administrators oversee vendor approvals..." |
 | **8. Conclusion** | 6:00 - 6:30 | Wrap-up, showing About Us and Contact Us with team map. | "MarketLink: Farm Fresh Just a Click Away. Thank you." |
@@ -359,7 +359,7 @@ In compliance with academic, competition, and submission directives regarding re
 |---|---|---|
 | **GitHub Copilot / Antigravity AI** | Code Assistance | Syntax autocomplete, boilerplate reduction, generating initial PHPUnit test fixtures, and assisting in regex / data transformation routines. |
 | **Figma AI / Canva** | UI / Wireframing | Brainstorming visual layout balance, color-harmony exploration, and card spacing hierarchy prior to handcrafted CSS implementation. |
-| **Unsplash Curated Library** | Visual Assets | Authenticated, high-resolution photography for farm products and fresh produce. |
+| **Unsplash Curated Library** | Visual Assets | Authenticated, high-resolution photography for farm products and seasonal harvest. |
 
 ### 8.3 Judge & Evaluator Defense Readiness:
 Every design decision, controller logic path, and styling abstraction is fully documented and understood by the team, including:

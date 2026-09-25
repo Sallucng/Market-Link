@@ -6,12 +6,12 @@
 ---
 
 ## 1. Project Overview & Problem Definition
-Local farmers markets connect communities with fresh, seasonal, and locally grown produce. However, shoppers often do not know in advance which farmers will attend, what inventory they will bring, or what prices will be charged. Farmers, in turn, have had no structured way to publicize weekly stock, gauge demand, or take reservations ahead of market morning.
+Local farmers markets connect communities with fresh, seasonal, and locally grown products. However, shoppers often do not know in advance which farmers will attend, what inventory they will bring, or what prices will be charged. Farmers, in turn, have had no structured way to publicize weekly stock, gauge demand, or take reservations ahead of market morning.
 
 **MarketLink** bridges this gap as an end-to-end web platform providing:
 - Real-time weekly stock visibility for local growers.
 - Location discovery via interactive OpenStreetMap with markers and pickup directions.
-- Pre-order produce reservations for convenient in-person stall collection.
+- Pre-order product reservations for convenient in-person stall collection.
 - Zero online transaction fees and no courier logistics — fully adhering to the local market ethos.
 
 ---
@@ -23,7 +23,7 @@ Pre-seeded accounts are configured for immediate evaluation:
 | Role | Username | Email | Password | Access Level & Description |
 |---|---|---|---|---|
 | **System Admin** | `admin` | `admin@marketlink.local` | `Admin@123` | Full administrative oversight, farmer approval gate, customer moderation, market management. |
-| **Approved Farmer** | `greenvalley` | `farmer@marketlink.local` | `Farmer@123` | Active stall vendor (Green Valley Organic Produce) with weekly stock, incoming orders, and reviews. |
+| **Approved Farmer** | `greenvalley` | `farmer@marketlink.local` | `Farmer@123` | Active stall vendor (Green Valley Organic Farm) with weekly stock, incoming orders, and reviews. |
 | **Approved Farmer 2**| `sunshineorchard`| `orchard@marketlink.local` | `Farmer@123`| Active stall vendor (Sunshine Orchards & Apiary) at Riverside Market. |
 | **Pending Farmer** | `newharvest` | `newharvest@marketlink.local` | `Farmer@123` | Newly registered vendor awaiting Admin approval (products hidden from public catalog). |
 | **Customer** | `sarah_shopper` | `customer@marketlink.local` | `Customer@123` | Pre-loaded customer with active and completed pre-orders, saved favorites, and review history. |
@@ -108,7 +108,7 @@ In strict alignment with the competition/academic guidelines on AI usage:
 ### 5.1 AI Tools Utilized:
 - **GitHub Copilot / Antigravity AI Code Assistant:** Used as an intelligent pair-programmer for syntax completion, boilerplate reduction, generating initial PHPUnit test fixtures, and refactoring repetitive HTML markup.
 - **Figma / Canva AI:** Used for exploratory layout brainstorming and wireframe spacing inspiration before writing custom, handcrafted CSS tokens.
-- **Unsplash Royalty-Free Visuals:** Sourced food photography curated manually to ensure authentic seasonal produce presentation.
+- **Unsplash Royalty-Free Visuals:** Sourced food photography curated manually to ensure authentic seasonal product presentation.
 
 ### 5.2 Independent Human Engineering & Architecture:
 - **Zero Ready-Made Themes/Templates:** MarketLink's UI is written from scratch using a bespoke CSS token design system, responsive Bootstrap 5 foundations, and custom iOS Liquid Glass dropdown micro-interactions.

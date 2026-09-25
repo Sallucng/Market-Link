@@ -23,7 +23,7 @@
     <strong>Specification:</strong> Software Requirements Specification (SRS) v1.0</p>
 
     <div class="highlight">
-        <strong>Mandatory Evaluation Summary:</strong> MarketLink connects local farmers-market vendors with community customers for weekly produce visibility, interactive OpenStreetMap stall discovery, and pre-orders. In strict compliance with SRS Section 1.5, payment is settled in person upon stall pickup (no online gateway) and all orders are pickup-only (no couriers).
+        <strong>Mandatory Evaluation Summary:</strong> MarketLink connects local farmers-market vendors with community customers for weekly product visibility, interactive OpenStreetMap stall discovery, and pre-orders. In strict compliance with SRS Section 1.5, payment is settled in person upon stall pickup (no online gateway) and all orders are pickup-only (no couriers).
     </div>
 
     <h2>1. Mandatory User Credentials (SRS Section 1.9)</h2>
@@ -111,7 +111,7 @@
             <ul>
                 <li><strong>Option A (SQLite Instant Execution — Recommended):</strong>
                     <br>Run: <code>php artisan migrate:fresh --seed</code>
-                    <br><em>(No MySQL setup needed; seeds all test accounts and produce automatically.)</em>
+                    <br><em>(No MySQL setup needed; seeds all test accounts and products automatically.)</em>
                 </li>
                 <li><strong>Option B (MySQL / XAMPP phpMyAdmin):</strong>
                     <br>1. Start Apache and MySQL in XAMPP.
