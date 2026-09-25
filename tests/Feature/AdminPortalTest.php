@@ -105,5 +105,13 @@ class AdminPortalTest extends TestCase
         $response->assertSee('reportOrderStatusChart');
         $response->assertSee('reportTopFarmersChart');
         $response->assertSee('See as Normal User');
+        $response->assertSee('Generate CSV Report');
+    }
+
+    public function test_admin_can_export_csv_report(): void
+    {
+        $response = $this->actingAs($this->adminUser)->get(route('admin.reports.export'));
+        $response->assertStatus(200);
+        $response->assertHeader('content-type', 'text/csv; charset=UTF-8');
     }
 }

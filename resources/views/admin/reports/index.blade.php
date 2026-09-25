@@ -16,7 +16,10 @@
             <h2 class="heading-serif fw-bold text-dark mb-0">Platform Reports & Analytics</h2>
             <small class="text-muted">Multi-market sales volume, order conversion pipelines, and grower performance (SRS §1.6)</small>
         </div>
-        <div>
+        <div class="d-flex align-items-center gap-2">
+            <a href="{{ route('admin.reports.export') }}" class="btn btn-sm btn-success rounded-pill px-3 shadow-sm">
+                <i class="bi bi-file-earmark-spreadsheet me-1"></i> Generate CSV Report
+            </a>
             <a href="{{ route('admin.dashboard') }}" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
                 <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
             </a>

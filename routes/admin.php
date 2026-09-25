@@ -44,6 +44,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // 5. Reports & Analytics
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/export', [ReportController::class, 'export'])->name('reports.export');
 
     // 6. Platform Announcements
     Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');

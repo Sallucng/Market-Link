@@ -71,4 +71,49 @@ class ReportController extends Controller
             'categoryProductCounts'
         ));
     }
+
+    public function export()
+    {
+        $fileName = 'marketlink_platform_report_' . date('Y-m-d_His') . '.csv';
+        $orders = Order::with(['farmer.market', 'customer', 'items.product'])->latest()->get();
+
+        $headers = [
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        ];
+
+        $columns = ['Order Number', 'Date', 'Customer Name', 'Customer Email', 'Market', 'Farmer Stall', 'Total Amount ($)', 'Payment Method', 'Status', 'Pickup Date', 'Pickup Window', 'Items Summary'];
+
+        $callback = function () use ($orders, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            foreach ($orders as $order) {
+                $itemsSummary = $order->items->map(function ($i) {
+                    return ($i->product->name ?? 'Product') . ' (x' . $i->quantity . ')';
+                })->implode('; ');
+
+                fputcsv($file, [
+                    $order->order_number,
+                    $order->created_at->format('Y-m-d H:i'),
+                    $order->customer->name ?? 'N/A',
+                    $order->customer->email ?? 'N/A',
+                    $order->farmer->market->name ?? 'N/A',
+                    $order->farmer->stall_name ?? 'N/A',
+                    number_format($order->total_amount, 2),
+                    $order->payment_method,
+                    $order->order_status,
+                    $order->pickup_date ? $order->pickup_date->format('Y-m-d') : 'N/A',
+                    $order->pickup_time_slot ?? 'N/A',
+                    $itemsSummary,
+                ]);
+            }
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }
