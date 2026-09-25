@@ -277,8 +277,127 @@
             .admin-sidebar.show {
                 transform: translateX(0);
             }
-            .admin-main-wrapper {
-                margin-left: 0;
+        /* ==========================================================================
+           Pure Apple iOS Liquid Glass Dropdowns (iOS 26 / visionOS Liquid Materials)
+           ========================================================================== */
+        .dropdown-menu,
+        .liquid-glass-menu {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0.22) 100%) !important;
+            -webkit-backdrop-filter: blur(24px) saturate(220%) contrast(108%) !important;
+            backdrop-filter: blur(24px) saturate(220%) contrast(108%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.6) !important;
+            border-radius: 20px !important;
+            padding: 8px !important;
+            min-width: 250px !important;
+            box-shadow: 
+                0 20px 48px -10px rgba(15, 23, 42, 0.16),
+                0 8px 18px -4px rgba(0, 0, 0, 0.05),
+                inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.95),
+                inset 0 -1px 1px 0 rgba(255, 255, 255, 0.2),
+                inset 1px 0 1px 0 rgba(255, 255, 255, 0.6),
+                inset -1px 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+            overflow: hidden;
+            margin-top: 10px !important;
+            transform-origin: top right;
+        }
+
+        /* Fluid Spring animation on open */
+        .dropdown-menu.show,
+        .liquid-glass-menu.show {
+            animation: ios-liquid-spring 0.28s cubic-bezier(0.175, 0.885, 0.32, 1.15) forwards;
+        }
+
+        @keyframes ios-liquid-spring {
+            0% {
+                opacity: 0;
+                transform: translateY(-8px) scale(0.96);
+                filter: blur(4px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        /* Liquid Glass Dropdown Header */
+        .dropdown-menu .dropdown-header,
+        .liquid-glass-menu .dropdown-header {
+            font-size: 0.68rem !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.08em !important;
+            color: var(--brand-primary) !important;
+            padding: 8px 12px 4px !important;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+        }
+
+        /* Liquid Glass Dropdown Item */
+        .dropdown-menu .dropdown-item,
+        .liquid-glass-menu .dropdown-item {
+            border-radius: 12px !important;
+            padding: 9px 14px !important;
+            font-size: 0.88rem !important;
+            font-weight: 600 !important;
+            color: #0f172a !important;
+            text-shadow: 0 0.5px 0 rgba(255, 255, 255, 0.5);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+
+        .dropdown-menu .dropdown-item:hover,
+        .dropdown-menu .dropdown-item:focus,
+        .liquid-glass-menu .dropdown-item:hover,
+        .liquid-glass-menu .dropdown-item:focus {
+            background: rgba(255, 255, 255, 0.78) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
+            backdrop-filter: blur(8px) !important;
+            color: var(--brand-primary) !important;
+            transform: translateX(4px) !important;
+            box-shadow: 
+                0 4px 12px -2px rgba(27, 67, 50, 0.10),
+                inset 0 1px 0.5px rgba(255, 255, 255, 0.95) !important;
+        }
+
+        .dropdown-menu .dropdown-item.text-danger:hover,
+        .dropdown-menu .dropdown-item.text-danger:focus,
+        .liquid-glass-menu .dropdown-item.text-danger:hover,
+        .liquid-glass-menu .dropdown-item.text-danger:focus {
+            background: rgba(254, 242, 242, 0.88) !important;
+            color: #dc2626 !important;
+            box-shadow: 0 4px 12px -2px rgba(220, 38, 38, 0.12) !important;
+        }
+
+        /* Liquid Glass Divider */
+        .dropdown-menu .dropdown-divider,
+        .liquid-glass-menu .dropdown-divider {
+            border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.8) !important;
+            margin: 6px 4px !important;
+            opacity: 1 !important;
+        }
+
+        /* Liquid Glass Pill Toggle Button */
+        .btn-liquid-glass {
+            background: rgba(255, 255, 255, 0.55) !important;
+            -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+            backdrop-filter: blur(16px) saturate(180%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.7) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+        .btn-liquid-glass:hover,
+        .btn-liquid-glass[aria-expanded="true"] {
+            background: rgba(255, 255, 255, 0.82) !important;
+            box-shadow: 0 4px 14px rgba(27, 67, 50, 0.12), inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+            transform: translateY(-1px);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .dropdown-menu.show,
+            .liquid-glass-menu.show {
+                animation: none !important;
             }
         }
     </style>
@@ -404,11 +523,11 @@
                 </a>
 
                 <div class="dropdown">
-                    <button class="btn btn-light border dropdown-toggle d-flex align-items-center gap-2 rounded-pill px-3 py-1" type="button" data-bs-toggle="dropdown">
+                    <button class="btn btn-liquid-glass dropdown-toggle d-flex align-items-center gap-2 rounded-pill px-3 py-1" type="button" data-bs-toggle="dropdown">
                         <i class="bi bi-person-circle text-success"></i>
                         <span class="small fw-semibold">{{ Auth::user()->name }}</span>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                    <ul class="dropdown-menu dropdown-menu-end liquid-glass-menu shadow-lg">
                         <li><h6 class="dropdown-header">System Administrator</h6></li>
                         <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
                         <li><a class="dropdown-item" href="{{ route('admin.reports.index') }}"><i class="bi bi-graph-up me-2"></i>Platform Reports</a></li>

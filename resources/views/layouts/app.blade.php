@@ -239,28 +239,31 @@
         }
 
         /* ==========================================================================
-           Pure Apple iOS Liquid Glass Dropdown (iOS 26 / visionOS Liquid Materials)
+           Pure Apple iOS Liquid Glass Dropdowns (iOS 26 / visionOS Liquid Materials)
            ========================================================================== */
+        .dropdown-menu,
         .liquid-glass-menu {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.82) 0%, rgba(246, 250, 247, 0.68) 100%) !important;
-            -webkit-backdrop-filter: blur(28px) saturate(210%) contrast(104%) !important;
-            backdrop-filter: blur(28px) saturate(210%) contrast(104%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.65) !important;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0.22) 100%) !important;
+            -webkit-backdrop-filter: blur(24px) saturate(220%) contrast(108%) !important;
+            backdrop-filter: blur(24px) saturate(220%) contrast(108%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.6) !important;
             border-radius: 20px !important;
             padding: 8px !important;
             min-width: 250px !important;
             box-shadow: 
-                0 24px 48px -12px rgba(27, 67, 50, 0.18),
-                0 8px 20px -4px rgba(0, 0, 0, 0.05),
-                inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.95),
-                inset 0 -1px 1px 0 rgba(0, 0, 0, 0.05),
-                inset 1px 0 1px 0 rgba(255, 255, 255, 0.45) !important;
+                0 20px 48px -10px rgba(15, 23, 42, 0.16),
+                0 8px 18px -4px rgba(0, 0, 0, 0.05),
+                inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.95),
+                inset 0 -1px 1px 0 rgba(255, 255, 255, 0.2),
+                inset 1px 0 1px 0 rgba(255, 255, 255, 0.6),
+                inset -1px 0 1px 0 rgba(255, 255, 255, 0.3) !important;
             overflow: hidden;
             margin-top: 10px !important;
             transform-origin: top right;
         }
 
         /* Fluid Spring animation on open */
+        .dropdown-menu.show,
         .liquid-glass-menu.show {
             animation: ios-liquid-spring 0.28s cubic-bezier(0.175, 0.885, 0.32, 1.15) forwards;
         }
@@ -279,6 +282,7 @@
         }
 
         /* Liquid Glass Dropdown Header */
+        .dropdown-menu .dropdown-header,
         .liquid-glass-menu .dropdown-header {
             font-size: 0.68rem !important;
             font-weight: 700 !important;
@@ -286,62 +290,73 @@
             letter-spacing: 0.08em !important;
             color: var(--brand-primary) !important;
             padding: 8px 12px 4px !important;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
         }
 
         /* Liquid Glass Dropdown Item */
+        .dropdown-menu .dropdown-item,
         .liquid-glass-menu .dropdown-item {
             border-radius: 12px !important;
             padding: 9px 14px !important;
             font-size: 0.88rem !important;
-            font-weight: 500 !important;
-            color: #1e293b !important;
+            font-weight: 600 !important;
+            color: #0f172a !important;
+            text-shadow: 0 0.5px 0 rgba(255, 255, 255, 0.5);
             transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
             display: flex !important;
             align-items: center !important;
         }
 
+        .dropdown-menu .dropdown-item:hover,
+        .dropdown-menu .dropdown-item:focus,
         .liquid-glass-menu .dropdown-item:hover,
         .liquid-glass-menu .dropdown-item:focus {
-            background: rgba(255, 255, 255, 0.92) !important;
+            background: rgba(255, 255, 255, 0.78) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
+            backdrop-filter: blur(8px) !important;
             color: var(--brand-primary) !important;
-            transform: translateX(3px) !important;
+            transform: translateX(4px) !important;
             box-shadow: 
-                0 4px 12px -2px rgba(27, 67, 50, 0.08),
-                inset 0 1px 0.5px rgba(255, 255, 255, 0.9) !important;
+                0 4px 12px -2px rgba(27, 67, 50, 0.10),
+                inset 0 1px 0.5px rgba(255, 255, 255, 0.95) !important;
         }
 
+        .dropdown-menu .dropdown-item.text-danger:hover,
+        .dropdown-menu .dropdown-item.text-danger:focus,
         .liquid-glass-menu .dropdown-item.text-danger:hover,
         .liquid-glass-menu .dropdown-item.text-danger:focus {
-            background: rgba(254, 242, 242, 0.92) !important;
+            background: rgba(254, 242, 242, 0.88) !important;
             color: #dc2626 !important;
             box-shadow: 0 4px 12px -2px rgba(220, 38, 38, 0.12) !important;
         }
 
         /* Liquid Glass Divider */
+        .dropdown-menu .dropdown-divider,
         .liquid-glass-menu .dropdown-divider {
-            border-top: 1px solid rgba(0, 0, 0, 0.06) !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.7) !important;
+            border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.8) !important;
             margin: 6px 4px !important;
             opacity: 1 !important;
         }
 
         /* Liquid Glass Pill Toggle Button */
         .btn-liquid-glass {
-            background: rgba(255, 255, 255, 0.75) !important;
+            background: rgba(255, 255, 255, 0.55) !important;
             -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
             backdrop-filter: blur(16px) saturate(180%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.65) !important;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.85) !important;
+            border: 1px solid rgba(255, 255, 255, 0.7) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
             transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
         }
         .btn-liquid-glass:hover,
         .btn-liquid-glass[aria-expanded="true"] {
-            background: rgba(255, 255, 255, 0.95) !important;
+            background: rgba(255, 255, 255, 0.82) !important;
             box-shadow: 0 4px 14px rgba(27, 67, 50, 0.12), inset 0 1px 0 rgba(255, 255, 255, 1) !important;
             transform: translateY(-1px);
         }
 
         @media (prefers-reduced-motion: reduce) {
+            .dropdown-menu.show,
             .liquid-glass-menu.show {
                 animation: none !important;
             }
