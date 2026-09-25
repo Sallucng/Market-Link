@@ -12,6 +12,7 @@ class MarketController extends Controller
     public function index(Request $request)
     {
         $dayFilter = $request->input('day');
+        $cityFilter = $request->input('city');
         $search = $request->input('q');
 
         $query = Market::with(['farmers' => function ($q) {
@@ -36,7 +37,12 @@ class MarketController extends Controller
             $query->where('operating_days', 'LIKE', "%{$dayFilter}%");
         }
 
+        if ($cityFilter) {
+            $query->where('city', $cityFilter);
+        }
+
         $markets = $query->get();
+        $cities = Market::distinct()->orderBy('city')->pluck('city');
 
         // Prepare JSON for Leaflet map markers
         $mapData = [];
@@ -87,7 +93,7 @@ class MarketController extends Controller
             })->with('products');
         }])->withCount('farmers')->orderByDesc('farmers_count')->take(10)->get();
 
-        return view('public.markets', compact('markets', 'topMarkets', 'mapData', 'dayFilter', 'search'));
+        return view('public.markets', compact('markets', 'topMarkets', 'mapData', 'dayFilter', 'cityFilter', 'cities', 'search'));
     }
 
     public function show($id)

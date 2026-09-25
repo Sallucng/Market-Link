@@ -49,45 +49,53 @@
         <h2 class="heading-serif fw-bold text-dark mb-0">Local Farmers Markets and Stalls</h2>
     </div>
 
-    <!-- Search and Day Filter Bar -->
+    <!-- Search, Location & Day Filter Bar -->
     <div class="card card-custom p-3 mb-4 bg-white">
         <form action="{{ route('markets.index') }}" method="GET" class="row g-2 align-items-center">
-            @if($dayFilter)
-                <input type="hidden" name="day" value="{{ $dayFilter }}">
-            @endif
-            <div class="col-lg-5 col-md-6">
+            <div class="col-lg-4 col-md-5">
                 <div class="input-group">
                     <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-search"></i></span>
                     <input type="text" 
                            name="q" 
                            class="form-control border-start-0 ps-0" 
-                           placeholder="Search markets by name, city, address, or farm stall..." 
+                           placeholder="Search markets or stalls..." 
                            value="{{ request('q') }}">
                     <button type="submit" class="btn btn-brand">Search</button>
                     @if(request('q'))
-                        <a href="{{ route('markets.index', array_filter(['day' => $dayFilter])) }}" class="btn btn-light border" title="Clear Search">
+                        <a href="{{ route('markets.index', array_filter(['day' => $dayFilter, 'city' => $cityFilter])) }}" class="btn btn-light border" title="Clear Search">
                             <i class="bi bi-x-lg"></i>
                         </a>
                     @endif
                 </div>
             </div>
-            <div class="col-lg-7 col-md-6 d-flex justify-content-md-end align-items-center gap-2 flex-wrap">
-                <span class="small text-muted fw-semibold me-1"><i class="bi bi-calendar3 me-1 text-success"></i> Filter by Day:</span>
+            <div class="col-lg-3 col-md-3">
+                <select name="city" class="form-select" onchange="this.form.submit()">
+                    <option value="">All Locations / Cities</option>
+                    @foreach($cities as $c)
+                        <option value="{{ $c }}" {{ ($cityFilter ?? '') == $c ? 'selected' : '' }}>{{ $c }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-lg-5 col-md-4 d-flex justify-content-md-end align-items-center gap-1 flex-wrap">
+                <span class="small text-muted fw-semibold me-1"><i class="bi bi-calendar3 me-1 text-success"></i> Day:</span>
                 <div class="btn-group" role="group">
-                    <a href="{{ route('markets.index', array_filter(['q' => request('q')])) }}" class="btn btn-sm {{ !$dayFilter ? 'btn-brand' : 'btn-brand-outline' }}">
-                        All Days
+                    <a href="{{ route('markets.index', array_filter(['q' => request('q'), 'city' => $cityFilter])) }}" class="btn btn-sm {{ !$dayFilter ? 'btn-brand' : 'btn-brand-outline' }}">
+                        All
                     </a>
-                    <a href="{{ route('markets.index', array_filter(['day' => 'Saturday', 'q' => request('q')])) }}" class="btn btn-sm {{ $dayFilter == 'Saturday' ? 'btn-brand' : 'btn-brand-outline' }}">
-                        Saturday
+                    <a href="{{ route('markets.index', array_filter(['day' => 'Saturday', 'q' => request('q'), 'city' => $cityFilter])) }}" class="btn btn-sm {{ $dayFilter == 'Saturday' ? 'btn-brand' : 'btn-brand-outline' }}">
+                        Sat
                     </a>
-                    <a href="{{ route('markets.index', array_filter(['day' => 'Sunday', 'q' => request('q')])) }}" class="btn btn-sm {{ $dayFilter == 'Sunday' ? 'btn-brand' : 'btn-brand-outline' }}">
-                        Sunday
+                    <a href="{{ route('markets.index', array_filter(['day' => 'Sunday', 'q' => request('q'), 'city' => $cityFilter])) }}" class="btn btn-sm {{ $dayFilter == 'Sunday' ? 'btn-brand' : 'btn-brand-outline' }}">
+                        Sun
                     </a>
-                    <a href="{{ route('markets.index', array_filter(['day' => 'Wednesday', 'q' => request('q')])) }}" class="btn btn-sm {{ $dayFilter == 'Wednesday' ? 'btn-brand' : 'btn-brand-outline' }}">
-                        Wednesday
+                    <a href="{{ route('markets.index', array_filter(['day' => 'Wednesday', 'q' => request('q'), 'city' => $cityFilter])) }}" class="btn btn-sm {{ $dayFilter == 'Wednesday' ? 'btn-brand' : 'btn-brand-outline' }}">
+                        Wed
                     </a>
                 </div>
             </div>
+            @if($dayFilter)
+                <input type="hidden" name="day" value="{{ $dayFilter }}">
+            @endif
         </form>
     </div>
 
