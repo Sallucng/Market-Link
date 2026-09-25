@@ -1,5 +1,4 @@
 # 🌾 MarketLink — Developer & Agent Specification for Person 2
-**Competition:** TechWiz 7 — Aptech World Tech Championship  
 **Theme:** eGreen Basket | **Category:** End-to-End Web Solutions  
 **Document Reference:** MarketLink SRS v1.0  
 **Stack:** PHP (Laravel) + MySQL + Blade Templates + Bootstrap 5 + JavaScript  

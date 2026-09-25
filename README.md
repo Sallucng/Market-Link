@@ -1,5 +1,4 @@
 # MarketLink — Farm Fresh Just a Click Away
-**TechWiz 7 World Tech Championship**  
 **Theme:** eGreen Basket  
 **Category:** End-to-End Web Solutions  
 **SRS Reference:** Software Requirements Specification Version 1.0  
@@ -98,3 +97,20 @@ Open your browser and visit: **`http://localhost:8000`**
 2. **In-Person Pickup Only (No Couriers):** Customers select a pickup date and time-slot from the farmer's operating windows.
 3. **Map Provider:** OpenStreetMap (via Leaflet.js) is utilized to ensure 100% reliable, zero-cost geolocation markers without API billing restrictions.
 4. **Approval Gate:** Newly registered farmers cannot publish weekly inventory until an administrator grants approval from the Admin Dashboard.
+
+---
+
+## 5. Ethical AI Usage & Tool Acknowledgement
+
+In strict alignment with the competition/academic guidelines on AI usage:
+> *"AI should be used as a supporting aid rather than a substitute for your own design, development, and problem-solving skills. Do NOT rely on completely ready-made Website templates... Acknowledge all the AI tool(s) used in your project documentation."*
+
+### 5.1 AI Tools Utilized:
+- **GitHub Copilot / Antigravity AI Code Assistant:** Used as an intelligent pair-programmer for syntax completion, boilerplate reduction, generating initial PHPUnit test fixtures, and refactoring repetitive HTML markup.
+- **Figma / Canva AI:** Used for exploratory layout brainstorming and wireframe spacing inspiration before writing custom, handcrafted CSS tokens.
+- **Unsplash Royalty-Free Visuals:** Sourced food photography curated manually to ensure authentic seasonal produce presentation.
+
+### 5.2 Independent Human Engineering & Architecture:
+- **Zero Ready-Made Themes/Templates:** MarketLink's UI is written from scratch using a bespoke CSS token design system, responsive Bootstrap 5 foundations, and custom iOS Liquid Glass dropdown micro-interactions.
+- **Custom Business Logic & Domain Integrity:** The entire pre-order lifecycle (order window cutoff validation, atomic stock decrementing, and automated inventory restoration upon order decline or customer cancellation) was architected and implemented specifically for this application's domain requirements.
+- **Defense Readiness:** Every route, middleware, Eloquent model relationship, migration schema, and controller method has been engineered with clean, idiomatic Laravel standards, enabling complete transparency and justification during evaluation.

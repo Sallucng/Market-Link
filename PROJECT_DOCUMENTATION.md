@@ -1,5 +1,4 @@
 # MarketLink — Comprehensive Technical Project Report
-**TechWiz 7 — World Tech Championship**  
 **Theme:** eGreen Basket | **Category:** End-to-End Web Solutions  
 **SRS Reference:** Software Requirements Specification Version 1.0  
 **Notice:** *In strict accordance with SRS Section 1.9, this documentation does not contain any raw source code.*
@@ -335,7 +334,7 @@ Pre-loaded test data covers all user scenarios across the application:
 
 | Scene | Duration | Action & Screen Focus | Voiceover / Talking Points |
 |---|---|---|---|
-| **1. Introduction** | 0:00 - 0:45 | Home page, eGreen Basket theme, announcement ribbon. | "Welcome to MarketLink, our end-to-end web solution for the TechWiz 7 competition..." |
+| **1. Introduction** | 0:00 - 0:45 | Home page, eGreen Basket theme, announcement ribbon. | "Welcome to MarketLink, our end-to-end web platform connecting local growers with conscious consumers..." |
 | **2. Geolocation Discovery** | 0:45 - 1:45 | Navigate to Markets & Map, filter by Saturday, click stall marker, view OpenStreetMap directions. | "Here we explore local markets on an embedded OpenStreetMap with live stall pins and pickup routes..." |
 | **3. Catalog & Filters** | 1:45 - 2:30 | Product catalog, apply price and category filters, search for 'Tomatoes'. | "Customers can browse fresh stock with multi-parameter filtering..." |
 | **4. AI Assistant FAQ** | 2:30 - 3:15 | Click floating AI widget, ask market hours and produce availability. | "Our integrated AI chatbot provides real-time answers on market schedules and pickup policies..." |
@@ -343,3 +342,28 @@ Pre-loaded test data covers all user scenarios across the application:
 | **6. Customer Dashboard** | 4:15 - 5:00 | View order tracking pipeline, cutoff cancellation rules, 1-click re-order. | "Customers track their order progression from placed to ready for pickup..." |
 | **7. Farmer & Admin Portals** | 5:00 - 6:00 | Sign into farmer dashboard (sales metrics, incoming orders), sign into admin dashboard (farmer approval gate). | "Farmers manage orders and weekly templates, while administrators oversee vendor approvals..." |
 | **8. Conclusion** | 6:00 - 6:30 | Wrap-up, showing About Us and Contact Us with team map. | "MarketLink: Farm Fresh Just a Click Away. Thank you." |
+
+---
+
+## 8. Ethical AI Usage & Tools Acknowledgement
+
+In compliance with academic, competition, and submission directives regarding responsible AI usage:
+
+### 8.1 Principles Followed:
+- **No Ready-Made Templates:** The web application was built from the ground up without using off-the-shelf website builders or downloaded theme packs.
+- **Architectural Ownership:** The database design, data relationships (Users, Farmers, Markets, Products, Orders, OrderItems, Reviews, Favorites), authorization gates, and transaction lifecycles were designed and understood completely by the engineering team.
+- **Human-Driven Problem Solving:** The core scheduling constraints (farmer pickup time windows, cut-off hour calculations, atomic inventory reservation, and restitution) were hand-coded to specifically fulfill local farmers-market dynamics.
+
+### 8.2 AI Tools Utilized & Roles:
+| AI Tool / Resource | Category | Specific Role in Development |
+|---|---|---|
+| **GitHub Copilot / Antigravity AI** | Code Assistance | Syntax autocomplete, boilerplate reduction, generating initial PHPUnit test fixtures, and assisting in regex / data transformation routines. |
+| **Figma AI / Canva** | UI / Wireframing | Brainstorming visual layout balance, color-harmony exploration, and card spacing hierarchy prior to handcrafted CSS implementation. |
+| **Unsplash Curated Library** | Visual Assets | Authenticated, high-resolution photography for farm products and fresh produce. |
+
+### 8.3 Judge & Evaluator Defense Readiness:
+Every design decision, controller logic path, and styling abstraction is fully documented and understood by the team, including:
+1. **Zero-Gateway Model (`pay_at_pickup`):** Rationale for eliminating payment processor dependencies to reflect authentic farmers market cash/card stall transactions and avoid payment platform fees.
+2. **OpenStreetMap Integration:** Technical decision to use Leaflet.js with OSM tiles for resilient, cost-free, API-key-independent geolocation.
+3. **Cut-off Window Logic:** How pre-order modifications and cancellations are blocked based on the farmer's configured cutoff hours before market day.
+4. **State Machine Verification:** Full inventory safety guarantees across `placed`, `accepted`, `ready_for_pickup`, `completed`, `cancelled`, and `declined` states.

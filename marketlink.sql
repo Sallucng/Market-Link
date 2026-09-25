@@ -1,5 +1,5 @@
 -- ==========================================================
--- MarketLink Database Dump (TechWiz 7 - eGreen Basket)
+-- MarketLink Database Dump (eGreen Basket)
 -- Generated: 2026-09-24 04:40:32
 -- Compatible with: MySQL 5.7+ / MariaDB / phpMyAdmin
 -- ==========================================================
@@ -275,7 +275,7 @@ CREATE TABLE `announcements` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table `announcements`
-INSERT INTO `announcements` (`id`, `created_by`, `title`, `content`, `badge_type`, `is_active`, `created_at`, `updated_at`) VALUES ('1', '1', 'Welcome to MarketLink — TechWiz 7 eGreen Basket Edition!', 'Support local growers, reserve fresh harvest in advance, and pick up directly at your neighborhood market stalls. Remember: all pre-orders are settled in person at pickup.', 'success', '1', '2026-09-23 13:50:22', '2026-09-23 13:50:22');
+INSERT INTO `announcements` (`id`, `created_by`, `title`, `content`, `badge_type`, `is_active`, `created_at`, `updated_at`) VALUES ('1', '1', 'Welcome to MarketLink — eGreen Basket Edition!', 'Support local growers, reserve fresh harvest in advance, and pick up directly at your neighborhood market stalls. Remember: all pre-orders are settled in person at pickup.', 'success', '1', '2026-09-23 13:50:22', '2026-09-23 13:50:22');
 
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;

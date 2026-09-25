@@ -22,7 +22,7 @@ $tables = [
 ];
 
 $sqlDump = "-- ==========================================================\n";
-$sqlDump .= "-- MarketLink Database Dump (TechWiz 7 - eGreen Basket)\n";
+$sqlDump .= "-- MarketLink Database Dump (eGreen Basket)\n";
 $sqlDump .= "-- Generated: " . date('Y-m-d H:i:s') . "\n";
 $sqlDump .= "-- Compatible with: MySQL 5.7+ / MariaDB / phpMyAdmin\n";
 $sqlDump .= "-- ==========================================================\n\n";
