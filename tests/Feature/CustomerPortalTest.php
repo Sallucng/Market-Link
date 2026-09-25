@@ -266,4 +266,107 @@ class CustomerPortalTest extends TestCase
         $response = $this->actingAs($this->customer)->get("/customer/orders/{$order->id}/receipt");
         $response->assertStatus(404);
     }
+
+    public function test_customer_can_cancel_order_and_restore_stock()
+    {
+        $this->product->update(['stock_quantity' => 10]);
+
+        $order = Order::create([
+            'customer_id' => $this->customer->id,
+            'farmer_id' => $this->farmer->id,
+            'market_id' => $this->market->id,
+            'order_number' => 'ML-TEST-CANCEL',
+            'order_status' => 'placed',
+            'pickup_date' => Carbon::tomorrow()->toDateString(),
+            'pickup_time_slot' => '08:00 AM - 10:00 AM',
+            'total_amount' => 10.50,
+            'payment_method' => 'pay_at_pickup',
+            'cutoff_time' => Carbon::now()->addHours(6),
+        ]);
+
+        OrderItem::create([
+            'order_id' => $order->id,
+            'product_id' => $this->product->id,
+            'quantity' => 3,
+            'unit_price' => 3.50,
+            'subtotal' => 10.50,
+        ]);
+
+        $response = $this->actingAs($this->customer)->post("/customer/orders/{$order->id}/cancel");
+        $response->assertRedirect();
+        $response->assertSessionHas('success');
+
+        $this->assertEquals('cancelled', $order->fresh()->order_status);
+        $this->assertEquals(13, $this->product->fresh()->stock_quantity);
+    }
+
+    public function test_customer_can_modify_pickup_schedule()
+    {
+        $order = Order::create([
+            'customer_id' => $this->customer->id,
+            'farmer_id' => $this->farmer->id,
+            'market_id' => $this->market->id,
+            'order_number' => 'ML-TEST-MODIFY',
+            'order_status' => 'placed',
+            'pickup_date' => Carbon::tomorrow()->toDateString(),
+            'pickup_time_slot' => '08:00 AM - 10:00 AM',
+            'total_amount' => 7.00,
+            'payment_method' => 'pay_at_pickup',
+            'cutoff_time' => Carbon::now()->addHours(6),
+        ]);
+
+        $newDate = Carbon::tomorrow()->addDay()->toDateString();
+        $response = $this->actingAs($this->customer)->post("/customer/orders/{$order->id}/modify", [
+            'pickup_date' => $newDate,
+            'pickup_time_slot' => '10:00 AM - 12:00 PM',
+            'notes' => 'Please pack in brown paper',
+        ]);
+
+        $response->assertRedirect();
+        $response->assertSessionHas('success');
+
+        $fresh = $order->fresh();
+        $this->assertEquals($newDate, $fresh->pickup_date->format('Y-m-d'));
+        $this->assertEquals('10:00 AM - 12:00 PM', $fresh->pickup_time_slot);
+        $this->assertEquals('Please pack in brown paper', $fresh->notes);
+    }
+
+    public function test_customer_can_toggle_favorites_for_market_farmer_and_product()
+    {
+        // Toggle market
+        $resMarket = $this->actingAs($this->customer)->post(route('customer.favorites.toggle'), [
+            'item_type' => 'market',
+            'item_id' => $this->market->id,
+        ]);
+        $resMarket->assertRedirect();
+        $this->assertDatabaseHas('favorites', [
+            'customer_id' => $this->customer->id,
+            'item_type' => 'market',
+            'item_id' => $this->market->id,
+        ]);
+
+        // Toggle product
+        $resProd = $this->actingAs($this->customer)->post(route('customer.favorites.toggle'), [
+            'item_type' => 'product',
+            'item_id' => $this->product->id,
+        ]);
+        $resProd->assertRedirect();
+        $this->assertDatabaseHas('favorites', [
+            'customer_id' => $this->customer->id,
+            'item_type' => 'product',
+            'item_id' => $this->product->id,
+        ]);
+
+        // Toggle farmer
+        $resFarmer = $this->actingAs($this->customer)->post(route('customer.favorites.toggle'), [
+            'item_type' => 'farmer',
+            'item_id' => $this->farmer->id,
+        ]);
+        $resFarmer->assertRedirect();
+        $this->assertDatabaseHas('favorites', [
+            'customer_id' => $this->customer->id,
+            'item_type' => 'farmer',
+            'item_id' => $this->farmer->id,
+        ]);
+    }
 }

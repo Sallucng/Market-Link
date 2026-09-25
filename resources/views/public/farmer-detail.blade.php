@@ -36,7 +36,28 @@
             </div>
 
             <div class="col-md-6">
-                <span class="badge badge-brand px-3 py-1 rounded-pill mb-2">Verified Local Grower</span>
+                <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                    <span class="badge badge-brand px-3 py-1 rounded-pill">Verified Local Grower</span>
+                    @auth
+                        @if(Auth::user()->isCustomer())
+                            @php
+                                $isFarmerFav = \App\Models\Favorite::where('customer_id', Auth::id())
+                                    ->where('item_type', 'farmer')
+                                    ->where('item_id', $farmer->id)
+                                    ->exists();
+                            @endphp
+                            <form action="{{ route('customer.favorites.toggle') }}" method="POST" class="d-inline">
+                                @csrf
+                                <input type="hidden" name="item_type" value="farmer">
+                                <input type="hidden" name="item_id" value="{{ $farmer->id }}">
+                                <button type="submit" class="btn btn-sm {{ $isFarmerFav ? 'btn-danger' : 'btn-outline-danger' }} rounded-pill px-3 py-1">
+                                    <i class="bi {{ $isFarmerFav ? 'bi-heart-fill' : 'bi-heart' }} me-1"></i>
+                                    {{ $isFarmerFav ? 'Favorited Grower' : 'Save Favorite' }}
+                                </button>
+                            </form>
+                        @endif
+                    @endauth
+                </div>
                 <h2 class="heading-serif fw-bold text-dark mb-1">{{ $farmer->stall_name }}</h2>
                 <p class="text-muted small mb-2"><i class="bi bi-person me-1"></i>Owner: {{ $farmer->contact_person }} | <i class="bi bi-telephone me-1"></i>{{ $farmer->contact_number }}</p>
                 <p class="text-secondary small mb-3">{{ $farmer->bio }}</p>

@@ -27,7 +27,28 @@
         <!-- Product Details Column -->
         <div class="col-lg-6">
             <div class="card card-custom p-4 bg-white border-0 shadow-sm h-100">
-                <span class="badge bg-light text-dark border align-self-start mb-2">{{ $product->category->name }}</span>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="badge bg-light text-dark border">{{ $product->category->name }}</span>
+                    @auth
+                        @if(Auth::user()->isCustomer())
+                            @php
+                                $isProdFav = \App\Models\Favorite::where('customer_id', Auth::id())
+                                    ->where('item_type', 'product')
+                                    ->where('item_id', $product->id)
+                                    ->exists();
+                            @endphp
+                            <form action="{{ route('customer.favorites.toggle') }}" method="POST" class="d-inline">
+                                @csrf
+                                <input type="hidden" name="item_type" value="product">
+                                <input type="hidden" name="item_id" value="{{ $product->id }}">
+                                <button type="submit" class="btn btn-sm {{ $isProdFav ? 'btn-danger' : 'btn-outline-danger' }} rounded-pill px-3 py-1">
+                                    <i class="bi {{ $isProdFav ? 'bi-heart-fill' : 'bi-heart' }} me-1"></i>
+                                    {{ $isProdFav ? 'Favorited' : 'Save Favorite' }}
+                                </button>
+                            </form>
+                        @endif
+                    @endauth
+                </div>
                 <h1 class="heading-serif fw-bold text-dark mb-2">{{ $product->name }}</h1>
 
                 <div class="d-flex align-items-baseline gap-2 mb-3">
