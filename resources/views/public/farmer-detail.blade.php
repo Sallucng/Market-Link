@@ -18,6 +18,9 @@
         <ol class="breadcrumb small">
             <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-success">Home</a></li>
             <li class="breadcrumb-item"><a href="{{ route('markets.index') }}" class="text-success">Markets</a></li>
+            @if($farmer->market)
+                <li class="breadcrumb-item"><a href="{{ route('markets.show', $farmer->market->id) }}" class="text-success">{{ $farmer->market->name }}</a></li>
+            @endif
             <li class="breadcrumb-item active" aria-current="page">{{ $farmer->stall_name }}</li>
         </ol>
     </nav>
@@ -39,7 +42,16 @@
                 <p class="text-secondary small mb-3">{{ $farmer->bio }}</p>
 
                 <div class="d-flex flex-wrap gap-3 small text-secondary">
-                    <div><i class="bi bi-shop text-success me-1"></i><strong>Market:</strong> {{ $farmer->market->name ?? 'Local Market' }}</div>
+                    <div>
+                        <i class="bi bi-shop text-success me-1"></i><strong>Market:</strong>
+                        @if($farmer->market)
+                            <a href="{{ route('markets.show', $farmer->market->id) }}" class="text-success text-decoration-none fw-semibold">
+                                {{ $farmer->market->name }} <i class="bi bi-box-arrow-up-right small"></i>
+                            </a>
+                        @else
+                            <span>Local Market</span>
+                        @endif
+                    </div>
                     <div><i class="bi bi-clock-history text-warning me-1"></i><strong>Pickup Windows:</strong> {{ $farmer->pickup_time_windows ?: 'Market Hours' }}</div>
                     <div><i class="bi bi-hourglass-split text-danger me-1"></i><strong>Cutoff:</strong> {{ $farmer->cutoff_hours }} hrs prior</div>
                 </div>

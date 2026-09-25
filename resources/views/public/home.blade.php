@@ -4,28 +4,30 @@
 
 @section('content')
 
-<!-- Hero Section (minimalist-ui with eye-catching ambient minimal banner) -->
+<!-- Hero Section (eye-catching ambient minimal farm banner) -->
 <section class="py-5 border-bottom position-relative overflow-hidden" 
-         style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.88) 50%, rgba(255, 255, 255, 0.75) 100%), url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1920&q=80') center center / cover no-repeat;">
+         style="background: linear-gradient(135deg, rgba(11, 33, 22, 0.90) 0%, rgba(11, 33, 22, 0.78) 45%, rgba(11, 33, 22, 0.45) 100%), url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1920&q=85') center center / cover no-repeat; min-height: 520px;">
     <div class="container py-lg-4">
         <div class="row align-items-center g-5">
             <div class="col-lg-6">
-                <div class="d-inline-flex align-items-center gap-2 badge-pastel-green mb-3">
+                <div class="d-inline-flex align-items-center gap-2 mb-3 px-3 py-1 rounded-pill" 
+                     style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.25); color: #b7e4c7; font-size: 0.85rem;">
                     <i class="bi bi-shield-check"></i>
                     <span>Verified Local Farmers and Pre-Orders</span>
                 </div>
 
-                <h1 class="display-4 fw-bold heading-serif text-dark mb-3" style="letter-spacing: -0.035em; line-height: 1.12;">
+                <h1 class="display-4 fw-bold heading-serif text-white mb-3" style="letter-spacing: -0.035em; line-height: 1.12;">
                     Farm Fresh Products, <br>
-                    <span style="color: var(--brand-primary); font-style: italic;">Just a Click Away.</span>
+                    <span style="color: #74c69d; font-style: italic;">Just a Click Away.</span>
                 </h1>
 
-                <p class="text-muted lead fs-6 mb-4 col-xl-10" style="line-height: 1.6;">
+                <p class="text-white text-opacity-85 lead fs-6 mb-4 col-xl-10" style="line-height: 1.6;">
                     Pre-order fresh local harvests directly from verified neighborhood growers. Pick up and pay in-person at your weekend market stall.
                 </p>
 
                 <!-- Market Day Quick Finder Bento Card -->
-                <div class="card card-custom p-3 p-md-4 bg-white mb-4 shadow-sm">
+                <div class="card card-custom p-3 p-md-4 mb-4 shadow-lg border-0" 
+                     style="background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(16px); border-radius: 14px;">
                     <form action="{{ route('markets.index') }}" method="GET">
                         <div class="row g-2 align-items-center">
                             <div class="col-md-7">
@@ -50,25 +52,28 @@
 
                 <!-- Three Key Pillars (SRS §1.5) -->
                 <div class="d-flex flex-wrap gap-3">
-                    <div class="badge-pastel-slate">
+                    <div class="px-3 py-2 rounded-pill d-inline-flex align-items-center small" 
+                         style="background: rgba(255, 255, 255, 0.16); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.25); color: #fff;">
                         <i class="bi bi-shop me-1 text-success"></i> In-Person Stall Pickup
                     </div>
-                    <div class="badge-pastel-slate">
+                    <div class="px-3 py-2 rounded-pill d-inline-flex align-items-center small" 
+                         style="background: rgba(255, 255, 255, 0.16); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.25); color: #fff;">
                         <i class="bi bi-currency-dollar me-1 text-warning"></i> Zero Online Markups
                     </div>
-                    <div class="badge-pastel-slate">
-                        <i class="bi bi-map me-1 text-primary"></i> OpenStreetMap Powered
+                    <div class="px-3 py-2 rounded-pill d-inline-flex align-items-center small" 
+                         style="background: rgba(255, 255, 255, 0.16); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.25); color: #fff;">
+                        <i class="bi bi-map me-1 text-info"></i> OpenStreetMap Powered
                     </div>
                 </div>
             </div>
 
             <div class="col-lg-6">
                 <div class="position-relative">
-                    <div class="card p-2 bg-white" style="border: 1px solid var(--border-hairline); border-radius: 16px; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.08);">
+                    <div class="card p-2" style="border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 18px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(14px); box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);">
                         <img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=900&q=80" 
                              alt="Local Farmers Market Stall" 
-                             class="w-100" 
-                             style="height: 420px; object-fit: cover; border-radius: 12px;">
+                             class="w-100 shadow-sm" 
+                             style="height: 420px; object-fit: cover; border-radius: 14px;">
                     </div>
                     
                     <!-- Tactile Overlay Badge (Antigravity Floating Motion) -->

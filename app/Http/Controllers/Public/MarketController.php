@@ -52,6 +52,13 @@ class MarketController extends Controller
                 'longitude' => (float)$market->longitude,
                 'farmer_count' => $market->farmers->count(),
                 'url' => route('markets.show', $market->id),
+                'farmers' => $market->farmers->map(function ($f) {
+                    return [
+                        'id' => $f->id,
+                        'name' => $f->stall_name,
+                        'url' => route('farmers.show', $f->id),
+                    ];
+                })->values()->all(),
             ];
 
             foreach ($market->farmers as $farmer) {
@@ -74,7 +81,13 @@ class MarketController extends Controller
             }
         }
 
-        return view('public.markets', compact('markets', 'mapData', 'dayFilter', 'search'));
+        $topMarkets = Market::with(['farmers' => function ($q) {
+            $q->whereHas('user', function ($uq) {
+                $uq->where('is_approved', true);
+            })->with('products');
+        }])->withCount('farmers')->orderByDesc('farmers_count')->take(10)->get();
+
+        return view('public.markets', compact('markets', 'topMarkets', 'mapData', 'dayFilter', 'search'));
     }
 
     public function show($id)
