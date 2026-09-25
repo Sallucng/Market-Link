@@ -35,10 +35,18 @@ Local farmers markets serve as vital community hubs for fresh, seasonal, and nut
   - **Headings:** *Playfair Display* (Editorial serif reflecting artisan tradition and artisanal agriculture).
   - **Body / Interface:** *Plus Jakarta Sans* (Clean, highly legible geometric sans-serif).
 
-### 2.2 Usability & Accessibility (SRS Section 1.7)
-- **High Contrast Ratios:** All text elements meet WCAG AA contrast standards.
-- **Touch-Friendly Hit Targets:** Minimum 44x44px target sizes for mobile pickup slot selection and navigation.
-- **Responsive Layout:** Fluid grid adjusting seamlessly across 320px mobile screens, tablets, and widescreen desktop monitors.
+### 2.2 Non-Functional Requirements Compliance Matrix (SRS Section 1.7)
+| Quality Attribute | Specification Expectation | Concrete MarketLink Engineering Implementation |
+|---|---|---|
+| **Safe to use** | No malicious or unexpected downloads. | Zero unprompted file triggers; order receipts and admin reports stream sanitized, strictly MIME-typed files (`application/pdf`, `text/csv`). CSRF tokens and Blade HTML-escaping prevent malicious injection. |
+| **Accessibility** | Legible fonts, clear UI, and accessible navigation. | Strict WCAG 2.1 AA compliant contrast (`#166534` on `#f0fdf4`), *Playfair Display* & *Plus Jakarta Sans* typographic hierarchy, keyboard-accessible skip-to-content links (`#main-content`), explicit `aria-label` tags, and `prefers-reduced-motion` CSS provisions. |
+| **User-friendliness**| Clear menus, easy navigation, intuitive flows. | Text-only persistent navbar, single-click role dashboards, empty states with contextual calls-to-action, universal button hover color transitions, and isolated iOS Liquid Glass dropdown micro-interactions. |
+| **Operability** | Reliable, resilient, and graceful operation. | Branded custom error handling (`404.blade.php`, `403.blade.php`, `500.blade.php`) ensuring users are never stranded. Database transactions protect atomic pre-order inventory adjustments. |
+| **Performance** | High throughput, minimal load time, smooth redirection. | Lightweight standalone assets (zero heavy node bundling overhead at runtime); database queries utilize Eloquent eager loading (`with()`) to eliminate N+1 latency; catalog displays are paginated (`paginate(12)`). |
+| **Scalability** | Capable of handling peak market days with surging users. | Stateless HTTP architecture, 3NF normalized schema with foreign key indexing, and separated customer/farmer/admin query boundaries. |
+| **Security** | Adequate authentication and authorization gates. | Role-Based Access Control (`role:admin`, `role:farmer`, `role:customer`), bcrypt password hashing, account deactivation enforcement, unapproved vendor isolation, and order cutoff-window locks. |
+| **Availability** | Available 24/7 with zero downtime for pre-orders. | Dual database driver support (instant self-contained SQLite or enterprise MySQL/MariaDB) guaranteeing immediate portability and 24/7 continuous uptime. |
+| **Compatibility** | Latest browsers and mobile device responsiveness. | Fully responsive Bootstrap 5 flexbox/grid layout tested across modern Chromium, Gecko, and WebKit rendering engines on mobile, tablet, and widescreen desktop displays. |
 
 ---
 
