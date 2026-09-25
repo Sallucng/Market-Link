@@ -1,14 +1,13 @@
-@extends('layouts.app')
+@extends('layouts.farmer')
 
 @section('title', 'Manage Customer Pre-Orders — MarketLink')
 
 @section('content')
-<div class="container py-4">
+<div class="py-2">
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb" class="mb-3">
         <ol class="breadcrumb small">
-            <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-success">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('farmer.dashboard') }}" class="text-success">Farmer Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('farmer.dashboard') }}" class="text-success text-decoration-none">Stall Backoffice</a></li>
             <li class="breadcrumb-item active" aria-current="page">Pre-Orders Queue</li>
         </ol>
     </nav>

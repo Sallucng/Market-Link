@@ -45,6 +45,26 @@ class FarmerDashboardController extends Controller
             ->take(5)
             ->get();
 
+        // Chart 1: Order Lifecycle Status Breakdown (SRS §1.5)
+        $statuses = ['placed', 'accepted', 'ready_for_pickup', 'completed', 'cancelled'];
+        $orderStatusLabels = ['Placed', 'Accepted', 'Ready for Pickup', 'Completed', 'Cancelled'];
+        $orderStatusData = [];
+        foreach ($statuses as $st) {
+            $orderStatusData[] = Order::where('farmer_id', $farmer->id)->where('order_status', $st)->count();
+        }
+
+        // Chart 2: 7-Day Pre-Order Pickup Activity (SRS §1.6)
+        $revenueTrendLabels = [];
+        $revenueTrendData = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $date = now()->subDays($i)->format('Y-m-d');
+            $revenueTrendLabels[] = now()->subDays($i)->format('M d');
+            $revenueTrendData[] = (float) Order::where('farmer_id', $farmer->id)
+                ->where('order_status', 'completed')
+                ->whereDate('pickup_date', $date)
+                ->sum('total_amount');
+        }
+
         return view('farmer.dashboard', compact(
             'farmer',
             'user',
@@ -53,7 +73,11 @@ class FarmerDashboardController extends Controller
             'todayPickups',
             'totalRevenue',
             'recentOrders',
-            'bestSellers'
+            'bestSellers',
+            'orderStatusLabels',
+            'orderStatusData',
+            'revenueTrendLabels',
+            'revenueTrendData'
         ));
     }
 }
