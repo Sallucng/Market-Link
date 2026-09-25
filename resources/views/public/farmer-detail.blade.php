@@ -52,6 +52,7 @@
                             <span>Local Market</span>
                         @endif
                     </div>
+                    <div><i class="bi bi-calendar-check text-success me-1"></i><strong>Operating Days:</strong> {{ $farmer->operating_days ?: 'Saturday, Sunday' }}</div>
                     <div><i class="bi bi-clock-history text-warning me-1"></i><strong>Pickup Windows:</strong> {{ $farmer->pickup_time_windows ?: 'Market Hours' }}</div>
                     <div><i class="bi bi-hourglass-split text-danger me-1"></i><strong>Cutoff:</strong> {{ $farmer->cutoff_hours }} hrs prior</div>
                 </div>

@@ -83,6 +83,7 @@
                         <div>
                             <h5 class="fw-bold text-dark mb-1">{{ $farmer->stall_name }}</h5>
                             <div class="text-muted small mb-1"><i class="bi bi-person me-1"></i>{{ $farmer->contact_person }}</div>
+                            <div class="small text-secondary mb-1"><i class="bi bi-calendar-check text-success me-1"></i>Attending: <span class="fw-semibold text-dark">{{ $farmer->operating_days ?: $market->operating_days }}</span></div>
                             <div class="small text-secondary"><i class="bi bi-clock text-warning me-1"></i>Pickup Slots: {{ $farmer->pickup_time_windows ?: 'Market Hours' }}</div>
                         </div>
                     </div>
