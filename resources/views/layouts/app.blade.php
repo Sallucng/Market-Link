@@ -22,9 +22,6 @@
 
     @vite(['resources/js/agentation.jsx'])
 
-    <!-- iOS 27 Liquid Glass Styling (Optical Refraction & Prismatic Rim) -->
-    <link rel="stylesheet" href="{{ asset('css/liquid-glass.css') }}">
-
     <style>
         :root {
             --brand-primary: #1b4332;
@@ -240,6 +237,115 @@
             overflow: hidden;
             background: #ffffff;
         }
+
+        /* ==========================================================================
+           Pure Apple iOS Liquid Glass Dropdown (iOS 26 / visionOS Liquid Materials)
+           ========================================================================== */
+        .liquid-glass-menu {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.82) 0%, rgba(246, 250, 247, 0.68) 100%) !important;
+            -webkit-backdrop-filter: blur(28px) saturate(210%) contrast(104%) !important;
+            backdrop-filter: blur(28px) saturate(210%) contrast(104%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.65) !important;
+            border-radius: 20px !important;
+            padding: 8px !important;
+            min-width: 250px !important;
+            box-shadow: 
+                0 24px 48px -12px rgba(27, 67, 50, 0.18),
+                0 8px 20px -4px rgba(0, 0, 0, 0.05),
+                inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.95),
+                inset 0 -1px 1px 0 rgba(0, 0, 0, 0.05),
+                inset 1px 0 1px 0 rgba(255, 255, 255, 0.45) !important;
+            overflow: hidden;
+            margin-top: 10px !important;
+            transform-origin: top right;
+        }
+
+        /* Fluid Spring animation on open */
+        .liquid-glass-menu.show {
+            animation: ios-liquid-spring 0.28s cubic-bezier(0.175, 0.885, 0.32, 1.15) forwards;
+        }
+
+        @keyframes ios-liquid-spring {
+            0% {
+                opacity: 0;
+                transform: translateY(-8px) scale(0.96);
+                filter: blur(4px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        /* Liquid Glass Dropdown Header */
+        .liquid-glass-menu .dropdown-header {
+            font-size: 0.68rem !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.08em !important;
+            color: var(--brand-primary) !important;
+            padding: 8px 12px 4px !important;
+        }
+
+        /* Liquid Glass Dropdown Item */
+        .liquid-glass-menu .dropdown-item {
+            border-radius: 12px !important;
+            padding: 9px 14px !important;
+            font-size: 0.88rem !important;
+            font-weight: 500 !important;
+            color: #1e293b !important;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+
+        .liquid-glass-menu .dropdown-item:hover,
+        .liquid-glass-menu .dropdown-item:focus {
+            background: rgba(255, 255, 255, 0.92) !important;
+            color: var(--brand-primary) !important;
+            transform: translateX(3px) !important;
+            box-shadow: 
+                0 4px 12px -2px rgba(27, 67, 50, 0.08),
+                inset 0 1px 0.5px rgba(255, 255, 255, 0.9) !important;
+        }
+
+        .liquid-glass-menu .dropdown-item.text-danger:hover,
+        .liquid-glass-menu .dropdown-item.text-danger:focus {
+            background: rgba(254, 242, 242, 0.92) !important;
+            color: #dc2626 !important;
+            box-shadow: 0 4px 12px -2px rgba(220, 38, 38, 0.12) !important;
+        }
+
+        /* Liquid Glass Divider */
+        .liquid-glass-menu .dropdown-divider {
+            border-top: 1px solid rgba(0, 0, 0, 0.06) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.7) !important;
+            margin: 6px 4px !important;
+            opacity: 1 !important;
+        }
+
+        /* Liquid Glass Pill Toggle Button */
+        .btn-liquid-glass {
+            background: rgba(255, 255, 255, 0.75) !important;
+            -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+            backdrop-filter: blur(16px) saturate(180%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.65) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.85) !important;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+        .btn-liquid-glass:hover,
+        .btn-liquid-glass[aria-expanded="true"] {
+            background: rgba(255, 255, 255, 0.95) !important;
+            box-shadow: 0 4px 14px rgba(27, 67, 50, 0.12), inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+            transform: translateY(-1px);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .liquid-glass-menu.show {
+                animation: none !important;
+            }
+        }
     </style>
     @yield('styles')
 </head>
@@ -250,8 +356,8 @@
         <i class="bi bi-basket-fill me-1 text-warning"></i> TechWiz 7: eGreen Basket Edition — In-person stall pickup only. Zero online convenience fees.
     </div>
 
-    <!-- Navigation Header (iOS 27 Liquid Glass) -->
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top liquid-glass-nav liquid-glass">
+    <!-- Navigation Header -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-2" style="border-bottom: 1px solid var(--border-hairline);">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
                 <span class="p-2 text-white rounded-2 me-2 d-inline-flex align-items-center justify-content-center" style="width:34px; height:34px; background-color: var(--brand-primary);">
@@ -302,12 +408,12 @@
 
                     @auth
                         <div class="dropdown">
-                            <button class="btn btn-light border dropdown-toggle d-flex align-items-center gap-2 rounded-pill px-3" type="button" data-bs-target="#userMenu" data-bs-toggle="dropdown">
+                            <button class="btn btn-liquid-glass dropdown-toggle d-flex align-items-center gap-2 rounded-pill px-3" type="button" data-bs-target="#userMenu" data-bs-toggle="dropdown">
                                 <i class="bi bi-person-circle text-success fs-5"></i>
                                 <span class="fw-semibold">{{ Auth::user()->name }}</span>
                                 <span class="badge bg-secondary ms-1 small text-uppercase" style="font-size: 0.65rem;">{{ Auth::user()->role }}</span>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end shadow-sm" id="userMenu">
+                            <ul class="dropdown-menu dropdown-menu-end liquid-glass-menu shadow-lg" id="userMenu">
                                 @if(Auth::user()->isCustomer())
                                     <li><h6 class="dropdown-header">Customer Portal</h6></li>
                                     <li><a class="dropdown-item fw-semibold" href="{{ route('customer.dashboard') }}"><i class="bi bi-speedometer2 me-2 text-success"></i>My Dashboard</a></li>
@@ -429,13 +535,13 @@
 
     <!-- Floating AI Assistant Chatbot (SRS Section 1.6: Optional AI Assistant) -->
     <div id="ai-assistant-bubble">
-        <button id="ai-toggle-btn" class="btn rounded-circle shadow-lg d-flex align-items-center justify-content-center p-3 liquid-glass" style="width: 58px; height: 58px; background: rgba(255, 255, 255, 0.7); border: 1.5px solid rgba(255, 255, 255, 0.9);" title="Chat with MarketLink AI Assistant">
-            <i class="bi bi-robot fs-4 text-success"></i>
+        <button id="ai-toggle-btn" class="btn btn-success rounded-circle shadow-lg d-flex align-items-center justify-content-center p-3" style="width: 58px; height: 58px;" title="Chat with MarketLink AI Assistant">
+            <i class="bi bi-robot fs-4"></i>
         </button>
     </div>
 
-    <div id="ai-assistant-window" class="card shadow-lg border-0 liquid-glass-card liquid-glass">
-        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center py-2 px-3" style="background: rgba(27, 67, 50, 0.85) !important; backdrop-filter: blur(10px);">
+    <div id="ai-assistant-window" class="card shadow-lg border-0">
+        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center py-2 px-3">
             <div class="d-flex align-items-center gap-2">
                 <i class="bi bi-robot fs-5"></i>
                 <div>
@@ -445,14 +551,14 @@
             </div>
             <button id="ai-close-btn" class="btn btn-sm btn-link text-white p-0 fs-5 text-decoration-none">&times;</button>
         </div>
-        <div id="ai-messages" class="card-body p-3 overflow-auto" style="height: 360px; font-size: 0.88rem; background-color: rgba(248, 250, 252, 0.75);">
+        <div id="ai-messages" class="card-body p-3 overflow-auto" style="height: 360px; font-size: 0.88rem; background-color: #f8fafc;">
             <div class="d-flex mb-3">
                 <div class="bg-white p-2 rounded-3 shadow-sm border" style="max-width: 85%;">
                     👋 Hello! I can help you find fresh items, check market schedules, and answer pickup questions. How can I help today?
                 </div>
             </div>
         </div>
-        <div class="card-footer border-top p-2" style="background: rgba(255, 255, 255, 0.8);">
+        <div class="card-footer bg-white border-top p-2">
             <form id="ai-chat-form" class="d-flex gap-2">
                 <input type="text" id="ai-input" class="form-control form-control-sm" placeholder="Ask about timings, produce..." autocomplete="off">
                 <button type="submit" class="btn btn-sm btn-success px-3">Send</button>
@@ -460,28 +566,9 @@
         </div>
     </div>
 
-    <!-- Interactive iOS 27 Liquid Glass Dynamic Island -->
-    <div id="ios27-liquid-island" class="liquid-glass d-none d-md-flex" title="Drag me to bend and refract the page underneath">
-        <div class="island-grip" title="Drag to refract"></div>
-        <div class="d-flex align-items-center gap-2">
-            <span class="island-badge">
-                <i class="bi bi-droplet-half text-success"></i> iOS 27 Glass
-            </span>
-            <a href="{{ route('cart.index') }}" class="text-dark text-decoration-none small fw-bold d-flex align-items-center gap-1" title="View Pre-Order Basket">
-                <i class="bi bi-basket2 text-success"></i>
-                <span id="island-cart-count">{{ count(session('cart', [])) }} items</span>
-            </a>
-        </div>
-        <a href="{{ route('products.index') }}" class="island-action-btn ms-auto">
-            <i class="bi bi-compass"></i> Explore
-        </a>
-    </div>
-
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <!-- iOS 27 Liquid Glass Optical Refraction Engine -->
-    <script src="{{ asset('js/liquid-glass.js') }}"></script>
 
     <!-- AI Assistant Interactive Script -->
     <script>
