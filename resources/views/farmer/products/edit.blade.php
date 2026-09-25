@@ -19,7 +19,7 @@
                 <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
                     <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="rounded-3 shadow-sm" style="width: 56px; height: 56px; object-fit: cover;">
                     <div>
-                        <h3 class="heading-serif fw-bold text-dark mb-0">Edit Produce Listing</h3>
+                        <h3 class="heading-serif fw-bold text-dark mb-0">Edit Product Listing</h3>
                         <small class="text-muted">Update pricing, availability, and weekly template quantities</small>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-8">
-                            <label class="form-label small fw-semibold text-dark">Produce Name <span class="text-danger">*</span></label>
+                            <label class="form-label small fw-semibold text-dark">Product Name <span class="text-danger">*</span></label>
                             <input type="text" name="name" class="form-control" value="{{ old('name', $product->name) }}" required>
                         </div>
 

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Produce Listing Moderation — Admin MarketLink')
+@section('title', 'Product Listing Moderation — Admin MarketLink')
 
 @section('content')
 <div class="py-2">
@@ -8,20 +8,20 @@
     <nav aria-label="breadcrumb" class="mb-3">
         <ol class="breadcrumb small">
             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-success text-decoration-none">Backoffice</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Produce Moderation</li>
+            <li class="breadcrumb-item active" aria-current="page">Product Moderation</li>
         </ol>
     </nav>
 
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
         <div>
             <span class="badge bg-danger text-white px-3 py-1 rounded-pill mb-1">Content Moderation</span>
-            <h2 class="heading-serif fw-bold text-dark mb-0">Produce Listings Moderation</h2>
+            <h2 class="heading-serif fw-bold text-dark mb-0">Product Listings Moderation</h2>
             <small class="text-muted">Oversee vendor product listings and enforce catalogue standards (SRS §1.6)</small>
         </div>
 
         <div class="btn-group">
             <a href="{{ route('admin.moderation.reviews') }}" class="btn btn-sm btn-outline-dark">Reviews Moderation</a>
-            <a href="{{ route('admin.moderation.products') }}" class="btn btn-sm btn-dark active">Produce Listings</a>
+            <a href="{{ route('admin.moderation.products') }}" class="btn btn-sm btn-dark active">Product Listings</a>
         </div>
     </div>
 
@@ -30,7 +30,7 @@
             <table class="table align-middle mb-0">
                 <thead class="table-light small">
                     <tr>
-                        <th>Produce</th>
+                        <th>Product</th>
                         <th>Farmer Stall</th>
                         <th>Category</th>
                         <th>Price / Unit</th>
@@ -54,7 +54,7 @@
                                 <div class="fw-semibold text-success">{{ $prod->farmer->stall_name ?? 'Farmer Stall' }}</div>
                                 <small class="text-muted">{{ $prod->farmer->user->email ?? '' }}</small>
                             </td>
-                            <td><span class="badge bg-light text-dark border">{{ $prod->category->name ?? 'Produce' }}</span></td>
+                            <td><span class="badge bg-light text-dark border">{{ $prod->category->name ?? 'Product' }}</span></td>
                             <td><span class="fw-bold text-dark">${{ number_format($prod->price, 2) }}</span> <small class="text-muted">/ {{ $prod->unit }}</small></td>
                             <td>
                                 @if($prod->is_available)

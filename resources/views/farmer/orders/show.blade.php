@@ -68,7 +68,7 @@
                 @endif
 
                 @if($order->order_status === 'ready_for_pickup')
-                    <form action="{{ route('farmer.orders.status', $order->id) }}" method="POST" onsubmit="return confirm('Customer collected produce and settled payment?')">
+                    <form action="{{ route('farmer.orders.status', $order->id) }}" method="POST" onsubmit="return confirm('Customer collected products and settled payment?')">
                         @csrf
                         <input type="hidden" name="status" value="completed">
                         <button type="submit" class="btn btn-success btn-sm rounded-pill px-3">
@@ -84,7 +84,7 @@
         <!-- Order Items -->
         <div class="col-lg-8">
             <div class="card card-custom p-4 bg-white border-0 shadow-sm mb-4">
-                <h5 class="heading-serif fw-bold text-dark mb-3">Reserved Produce Items</h5>
+                <h5 class="heading-serif fw-bold text-dark mb-3">Reserved Product Items</h5>
                 <div class="table-responsive">
                     <table class="table align-middle mb-0">
                         <thead class="table-light small">

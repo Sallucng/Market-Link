@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Produce Categories — Admin MarketLink')
+@section('title', 'Product Categories — Admin MarketLink')
 
 @section('content')
 <div class="py-2">
@@ -8,14 +8,14 @@
     <nav aria-label="breadcrumb" class="mb-3">
         <ol class="breadcrumb small">
             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-success text-decoration-none">Backoffice</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Produce Categories</li>
+            <li class="breadcrumb-item active" aria-current="page">Product Categories</li>
         </ol>
     </nav>
 
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
         <div>
             <span class="badge bg-primary text-white px-3 py-1 rounded-pill mb-1">Master Data Management</span>
-            <h2 class="heading-serif fw-bold text-dark mb-0">Produce Categories Master Data</h2>
+            <h2 class="heading-serif fw-bold text-dark mb-0">Product Categories Master Data</h2>
             <small class="text-muted">Manage product taxonomy used across all farmer catalogs (SRS §1.6)</small>
         </div>
     </div>

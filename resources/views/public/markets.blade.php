@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Farmers Markets & Stalls Map Explorer — MarketLink')
+@section('title', 'Farmers Markets and Stalls Map Explorer — MarketLink')
 
 @section('styles')
 <style>
@@ -29,30 +29,54 @@
 
 @section('content')
 <div class="container py-4">
-    <!-- Header & Filter Bar -->
-    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
-        <div>
-            <span class="badge-pastel-green mb-1">
-                <i class="bi bi-geo-alt-fill text-danger me-1"></i> OpenStreetMap Geolocation
-            </span>
-            <h2 class="heading-serif fw-bold text-dark mb-0">Local Farmers Markets & Stalls</h2>
-        </div>
+    <!-- Header -->
+    <div class="mb-3">
+        <span class="badge-pastel-green mb-1">
+            <i class="bi bi-geo-alt-fill text-danger me-1"></i> OpenStreetMap Geolocation
+        </span>
+        <h2 class="heading-serif fw-bold text-dark mb-0">Local Farmers Markets and Stalls</h2>
+    </div>
 
-        <!-- Filter by Operating Day (SRS §1.6) -->
-        <div class="btn-group" role="group">
-            <a href="{{ route('markets.index') }}" class="btn btn-sm {{ !$dayFilter ? 'btn-brand' : 'btn-brand-outline' }}">
-                All Days
-            </a>
-            <a href="{{ route('markets.index', ['day' => 'Saturday']) }}" class="btn btn-sm {{ $dayFilter == 'Saturday' ? 'btn-brand' : 'btn-brand-outline' }}">
-                Saturday
-            </a>
-            <a href="{{ route('markets.index', ['day' => 'Sunday']) }}" class="btn btn-sm {{ $dayFilter == 'Sunday' ? 'btn-brand' : 'btn-brand-outline' }}">
-                Sunday
-            </a>
-            <a href="{{ route('markets.index', ['day' => 'Wednesday']) }}" class="btn btn-sm {{ $dayFilter == 'Wednesday' ? 'btn-brand' : 'btn-brand-outline' }}">
-                Wednesday
-            </a>
-        </div>
+    <!-- Search and Day Filter Bar -->
+    <div class="card card-custom p-3 mb-4 bg-white">
+        <form action="{{ route('markets.index') }}" method="GET" class="row g-2 align-items-center">
+            @if($dayFilter)
+                <input type="hidden" name="day" value="{{ $dayFilter }}">
+            @endif
+            <div class="col-lg-5 col-md-6">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-search"></i></span>
+                    <input type="text" 
+                           name="q" 
+                           class="form-control border-start-0 ps-0" 
+                           placeholder="Search markets by name, city, address, or farm stall..." 
+                           value="{{ request('q') }}">
+                    <button type="submit" class="btn btn-brand">Search</button>
+                    @if(request('q'))
+                        <a href="{{ route('markets.index', array_filter(['day' => $dayFilter])) }}" class="btn btn-light border" title="Clear Search">
+                            <i class="bi bi-x-lg"></i>
+                        </a>
+                    @endif
+                </div>
+            </div>
+            <div class="col-lg-7 col-md-6 d-flex justify-content-md-end align-items-center gap-2 flex-wrap">
+                <span class="small text-muted fw-semibold me-1"><i class="bi bi-calendar3 me-1 text-success"></i> Filter by Day:</span>
+                <div class="btn-group" role="group">
+                    <a href="{{ route('markets.index', array_filter(['q' => request('q')])) }}" class="btn btn-sm {{ !$dayFilter ? 'btn-brand' : 'btn-brand-outline' }}">
+                        All Days
+                    </a>
+                    <a href="{{ route('markets.index', array_filter(['day' => 'Saturday', 'q' => request('q')])) }}" class="btn btn-sm {{ $dayFilter == 'Saturday' ? 'btn-brand' : 'btn-brand-outline' }}">
+                        Saturday
+                    </a>
+                    <a href="{{ route('markets.index', array_filter(['day' => 'Sunday', 'q' => request('q')])) }}" class="btn btn-sm {{ $dayFilter == 'Sunday' ? 'btn-brand' : 'btn-brand-outline' }}">
+                        Sunday
+                    </a>
+                    <a href="{{ route('markets.index', array_filter(['day' => 'Wednesday', 'q' => request('q')])) }}" class="btn btn-sm {{ $dayFilter == 'Wednesday' ? 'btn-brand' : 'btn-brand-outline' }}">
+                        Wednesday
+                    </a>
+                </div>
+            </div>
+        </form>
     </div>
 
     <div class="row g-4">
@@ -65,12 +89,12 @@
                         <span class="badge bg-primary me-1"><i class="bi bi-shop"></i> Market Plaza</span>
                         <span class="badge bg-success"><i class="bi bi-geo"></i> Farmer Stall Pin</span>
                     </div>
-                    <div>Click markers to view operating hours & pickup points</div>
+                    <div>Click markers to view operating hours and pickup points</div>
                 </div>
             </div>
         </div>
 
-        <!-- Market & Stalls Directory Sidebar -->
+        <!-- Market and Stalls Directory Sidebar -->
         <div class="col-lg-4">
             <div class="market-sidebar pe-1">
                 <h5 class="fw-bold text-dark mb-3">Markets Directory ({{ $markets->count() }})</h5>
@@ -107,7 +131,12 @@
                         </div>
                     </div>
                 @empty
-                    <div class="alert alert-info">No markets found for the selected day filter.</div>
+                    <div class="card card-custom p-4 text-center bg-white border-0">
+                        <i class="bi bi-search text-muted fs-2 mb-2"></i>
+                        <h6 class="fw-bold">No markets found</h6>
+                        <p class="text-muted small mb-2">No markets match your search or day filter.</p>
+                        <a href="{{ route('markets.index') }}" class="btn btn-sm btn-brand">View All Markets</a>
+                    </div>
                 @endforelse
             </div>
         </div>

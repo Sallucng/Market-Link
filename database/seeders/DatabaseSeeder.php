@@ -405,7 +405,7 @@ class DatabaseSeeder extends Seeder
         // System Announcement (SRS §1.6)
         Announcement::create([
             'created_by' => $admin->id,
-            'title' => 'Welcome to MarketLink — TechWiz 7 eGreen Basket Edition!',
+            'title' => 'Welcome to MarketLink — Local Harvest Pre-Order Platform',
             'content' => 'Support local growers, reserve fresh harvest in advance, and pick up directly at your neighborhood market stalls. Remember: all pre-orders are settled in person at pickup.',
             'badge_type' => 'success',
             'is_active' => true,

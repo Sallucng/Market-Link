@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'About Us — MarketLink (eGreen Basket)')
+@section('title', 'About Us — MarketLink')
 
 @section('content')
 <!-- Header Banner -->
 <section class="py-5 bg-white border-bottom">
     <div class="container py-3 text-center">
-        <span class="badge badge-brand px-3 py-1 rounded-pill mb-2">Theme: eGreen Basket</span>
+        <span class="badge badge-brand px-3 py-1 rounded-pill mb-2">Verified Neighborhood Food Network</span>
         <h1 class="heading-serif display-5 fw-bold text-dark mb-3">About MarketLink</h1>
         <p class="lead text-muted col-lg-8 mx-auto">
             Bridging the gap between passionate local producers and conscious consumers — creating a transparent, predictable, and community-driven farmers market ecosystem.
@@ -14,7 +14,7 @@
     </div>
 </section>
 
-<!-- Mission & Necessity (SRS Section 1.1) -->
+<!-- Mission and Necessity -->
 <section class="py-5">
     <div class="container">
         <div class="row align-items-center g-5 mb-5">
@@ -58,7 +58,7 @@
                     </div>
                     <h5 class="fw-bold mb-2">Guaranteed Availability</h5>
                     <p class="text-muted small mb-0">
-                        Customers can pre-order favorites against real-time weekly stock templates, reserving produce ahead of time with zero risk of sold-out stalls.
+                        Customers can pre-order favorites against real-time weekly stock, reserving products ahead of time with zero risk of sold-out stalls.
                     </p>
                 </div>
             </div>
@@ -78,16 +78,16 @@
     </div>
 </section>
 
-<!-- Event & Competition Info -->
+<!-- Community Commitment Section -->
 <section class="py-5 bg-brand-light border-top">
     <div class="container text-center">
-        <h3 class="heading-serif fw-bold text-dark mb-3">TechWiz 7 Project Overview</h3>
+        <h3 class="heading-serif fw-bold text-dark mb-3">Our Commitment to Sustainable Local Agriculture</h3>
         <p class="text-muted col-lg-7 mx-auto mb-4">
-            MarketLink is engineered for the <strong>TechWiz 7 World Tech Championship</strong> (Theme: <em>eGreen Basket</em>, Category: <em>End-to-End Web Solutions</em>). Fully implemented according to the official SRS v1.0 specifications.
+            MarketLink connects local growers directly with conscious consumers. By streamlining weekly inventory pre-orders, we help eliminate food waste, support family farms, and guarantee fresh harvests for every table.
         </p>
         <div class="d-inline-flex gap-3">
             <a href="{{ route('markets.index') }}" class="btn btn-brand rounded-pill px-4">Explore Markets</a>
-            <a href="{{ route('contact') }}" class="btn btn-outline-secondary rounded-pill px-4">Contact Team</a>
+            <a href="{{ route('farmers.index') }}" class="btn btn-brand-outline rounded-pill px-4">Meet Our Farmers</a>
         </div>
     </div>
 </section>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Farm Produce Catalog — MarketLink')
+@section('title', 'Farm Product Catalog — MarketLink')
 
 @section('content')
 <div class="container py-4">
@@ -8,10 +8,10 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <span class="badge-pastel-green mb-1">Weekly Fresh Inventory</span>
-            <h2 class="heading-serif fw-bold text-dark mb-0">Browse Farm Produce</h2>
+            <h2 class="heading-serif fw-bold text-dark mb-0">Browse Farm Products</h2>
         </div>
         <div class="text-muted small font-mono-meta">
-            Showing {{ $products->firstItem() ?? 0 }}-{{ $products->lastItem() ?? 0 }} of {{ $products->total() }} produce items
+            Showing {{ $products->firstItem() ?? 0 }}-{{ $products->lastItem() ?? 0 }} of {{ $products->total() }} products
         </div>
     </div>
 
@@ -86,46 +86,48 @@
             <div class="row g-4">
                 @forelse($products as $product)
                     <div class="col-md-6 col-lg-4">
-                        <div class="card card-custom h-100 d-flex flex-column bg-white">
+                        <div class="card card-custom h-100 d-flex flex-column bg-white position-relative">
                             <div class="position-relative">
                                 <img src="{{ $product->image_url ?: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80' }}" 
                                      onerror="this.src='https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80'"
                                      class="card-img-top" 
                                      alt="{{ $product->name }}" 
                                      style="height: 190px; object-fit: cover; border-top-left-radius: 12px; border-top-right-radius: 12px;">
-                                <span class="position-absolute top-0 end-0 m-2 badge-pastel-slate" style="background: rgba(255,255,255,0.92);">
+                                <span class="position-absolute top-0 end-0 m-2 badge-pastel-slate" style="background: rgba(255,255,255,0.92); z-index: 2;">
                                     {{ $product->category->name }}
                                 </span>
 
                                 @if($product->is_sold_out || $product->stock_quantity <= 0)
-                                    <div class="position-absolute top-0 start-0 m-2 badge-pastel-red">
+                                    <div class="position-absolute top-0 start-0 m-2 badge-pastel-red" style="z-index: 2;">
                                         Sold Out
                                     </div>
                                 @else
-                                    <div class="position-absolute bottom-0 start-0 m-2 badge-pastel-green">
+                                    <div class="position-absolute bottom-0 start-0 m-2 badge-pastel-green" style="z-index: 2;">
                                         {{ $product->stock_quantity }} {{ $product->unit }} left
                                     </div>
                                 @endif
                             </div>
 
                             <div class="card-body p-3 d-flex flex-column">
-                                <small class="text-success fw-semibold mb-1">
-                                    <i class="bi bi-shop me-1"></i>{{ $product->farmer->stall_name }}
-                                </small>
                                 <h6 class="card-title fw-bold text-dark mb-1">
-                                    <a href="{{ route('products.show', $product->id) }}" class="text-dark text-decoration-none">
+                                    <a href="{{ route('products.show', $product->id) }}" class="text-dark text-decoration-none stretched-link">
                                         {{ $product->name }}
                                     </a>
                                 </h6>
-                                <div class="text-muted small mb-2">
+                                <div class="text-muted small mb-1">
                                     <i class="bi bi-geo-alt me-1"></i>{{ $product->farmer->market->name ?? 'Local Market' }}
+                                </div>
+                                <div class="small mb-2" style="position: relative; z-index: 2;">
+                                    <a href="{{ route('farmers.show', $product->farmer->id) }}" class="text-success fw-semibold text-decoration-none d-inline-flex align-items-center">
+                                        <i class="bi bi-shop me-1"></i>{{ $product->farmer->stall_name }}
+                                    </a>
                                 </div>
                                 <div class="d-flex align-items-baseline gap-1 mb-2">
                                     <span class="fs-5 fw-bold text-dark font-mono-meta">${{ number_format($product->price, 2) }}</span>
                                     <span class="text-muted small">/ {{ $product->unit }}</span>
                                 </div>
 
-                                <div class="mt-auto pt-2">
+                                <div class="mt-auto pt-2" style="position: relative; z-index: 2;">
                                     @if($product->is_sold_out || $product->stock_quantity <= 0)
                                         <button class="btn btn-secondary btn-sm w-100 py-2" disabled>
                                             Sold Out
@@ -146,10 +148,10 @@
                     <div class="col-12">
                         <div class="card card-custom p-5 text-center bg-white border-0">
                             <i class="bi bi-search text-muted display-4 mb-3"></i>
-                            <h5 class="fw-bold">No farm produce matches your filters</h5>
+                            <h5 class="fw-bold">No farm products match your filters</h5>
                             <p class="text-muted small">Try broadening your search criteria or resetting filters.</p>
                             <div>
-                                <a href="{{ route('products.index') }}" class="btn btn-brand rounded-pill px-4">View All Produce</a>
+                                <a href="{{ route('products.index') }}" class="btn btn-brand rounded-pill px-4">View All Products</a>
                             </div>
                         </div>
                     </div>

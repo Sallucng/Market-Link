@@ -8,7 +8,7 @@
     <nav aria-label="breadcrumb" class="mb-3">
         <ol class="breadcrumb small">
             <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-success">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('products.index') }}" class="text-success">Produce</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('products.index') }}" class="text-success">Products</a></li>
             <li class="breadcrumb-item active" aria-current="page">Pre-Order Cart</li>
         </ol>
     </nav>
@@ -90,7 +90,7 @@
                 </div>
 
                 <a href="{{ route('products.index') }}" class="btn btn-outline-secondary rounded-pill px-3">
-                    <i class="bi bi-arrow-left me-1"></i> Continue Browsing Produce
+                    <i class="bi bi-arrow-left me-1"></i> Continue Browsing Products
                 </a>
             </div>
 
@@ -106,14 +106,13 @@
 
                     <hr class="my-3">
 
-                    <!-- SRS Explicit Notice -->
                     <div class="p-3 bg-brand-light rounded-3 mb-4 border border-success border-opacity-25">
                         <div class="d-flex gap-2">
                             <i class="bi bi-wallet2 fs-5 text-success"></i>
                             <div>
                                 <h6 class="fw-bold mb-1" style="font-size: 0.85rem;">Pay in Person at Pickup</h6>
                                 <p class="small text-secondary mb-0" style="font-size: 0.78rem;">
-                                    As mandated by SRS Section 1.5, pre-orders do not require online credit card payments. Your order reserves live inventory and is settled directly at the market stall.
+                                    Pre-orders do not require online credit card payments. Your order reserves live inventory and is settled directly at the market stall.
                                 </p>
                             </div>
                         </div>
@@ -132,11 +131,11 @@
             </div>
             <h4 class="heading-serif fw-bold mb-2">Your Pre-Order Cart is Empty</h4>
             <p class="text-muted small col-md-6 mx-auto mb-4">
-                Explore local farmers markets, discover weekly harvest produce, and reserve items ahead of time for weekend market pickup.
+                Explore local farmers markets, discover weekly harvest products, and reserve items ahead of time for weekend market pickup.
             </p>
             <div>
                 <a href="{{ route('products.index') }}" class="btn btn-brand rounded-pill px-4 py-2">
-                    <i class="bi bi-grid-fill me-1"></i> Browse Produce Catalog
+                    <i class="bi bi-grid-fill me-1"></i> Browse Product Catalog
                 </a>
             </div>
         </div>

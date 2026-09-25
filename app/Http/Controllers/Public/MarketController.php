@@ -12,11 +12,25 @@ class MarketController extends Controller
     public function index(Request $request)
     {
         $dayFilter = $request->input('day');
+        $search = $request->input('q');
+
         $query = Market::with(['farmers' => function ($q) {
             $q->whereHas('user', function ($uq) {
                 $uq->where('is_approved', true);
             })->with('products');
         }]);
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                  ->orWhere('city', 'LIKE', "%{$search}%")
+                  ->orWhere('address', 'LIKE', "%{$search}%")
+                  ->orWhereHas('farmers', function ($fq) use ($search) {
+                      $fq->where('stall_name', 'LIKE', "%{$search}%")
+                         ->orWhere('contact_person', 'LIKE', "%{$search}%");
+                  });
+            });
+        }
 
         if ($dayFilter) {
             $query->where('operating_days', 'LIKE', "%{$dayFilter}%");
@@ -60,7 +74,7 @@ class MarketController extends Controller
             }
         }
 
-        return view('public.markets', compact('markets', 'mapData', 'dayFilter'));
+        return view('public.markets', compact('markets', 'mapData', 'dayFilter', 'search'));
     }
 
     public function show($id)

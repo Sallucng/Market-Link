@@ -265,6 +265,38 @@
             .farmer-sidebar.show {
                 transform: translateX(0);
             }
+        }
+
+        /* Button Hover Transitions */
+        .btn {
+            transition: background-color 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
+                        color 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
+                        border-color 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
+                        box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .btn-success:hover, .btn-success:focus {
+            background-color: #14532d !important;
+            border-color: #14532d !important;
+            color: #ffffff !important;
+            box-shadow: 0 6px 16px rgba(20, 83, 45, 0.3) !important;
+        }
+        .btn-outline-success:hover, .btn-outline-success:focus {
+            background-color: #198754 !important;
+            border-color: #198754 !important;
+            color: #ffffff !important;
+            box-shadow: 0 6px 16px rgba(25, 135, 84, 0.25) !important;
+        }
+        .btn-outline-secondary:hover, .btn-outline-secondary:focus {
+            background-color: #1e293b !important;
+            border-color: #1e293b !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 12px rgba(30, 41, 59, 0.2) !important;
+        }
+
         /* ==========================================================================
            Pure Apple iOS Liquid Glass Dropdowns (iOS 26 / visionOS Liquid Materials)
            ========================================================================== */
@@ -433,15 +465,15 @@
                 <span>Dashboard</span>
             </a>
 
-            <!-- SECTION 2: PRODUCE & INVENTORY -->
-            <div class="farmer-nav-section-title mt-3">Produce & Inventory</div>
+            <!-- SECTION 2: PRODUCTS & INVENTORY -->
+            <div class="farmer-nav-section-title mt-3">Products and Inventory</div>
             <a href="{{ route('farmer.products.index') }}" class="farmer-nav-link {{ request()->routeIs('farmer.products.index') || request()->routeIs('farmer.products.edit') ? 'active' : '' }}">
                 <i class="bi bi-basket2"></i>
-                <span>Produce Stock</span>
+                <span>Product Stock</span>
             </a>
             <a href="{{ route('farmer.products.create') }}" class="farmer-nav-link {{ request()->routeIs('farmer.products.create') ? 'active' : '' }}">
                 <i class="bi bi-plus-circle"></i>
-                <span>Add Produce</span>
+                <span>Add Product</span>
             </a>
 
             <!-- SECTION 3: FULFILLMENT & ORDERS -->
@@ -459,7 +491,7 @@
             <div class="farmer-nav-section-title mt-3">Stall Settings</div>
             <a href="{{ route('farmer.profile') }}" class="farmer-nav-link {{ request()->routeIs('farmer.profile') ? 'active' : '' }}">
                 <i class="bi bi-shop"></i>
-                <span>Stall Profile & Schedule</span>
+                <span>Stall Profile and Schedule</span>
             </a>
         </div>
 
@@ -490,7 +522,7 @@
                     </button>
                 </form>
             </div>
-            <div class="text-white-50 font-mono-meta" style="font-size: 0.68rem;">SRS v1.0 Farmer Portal</div>
+            <div class="text-white-50 font-mono-meta" style="font-size: 0.68rem;">MarketLink Farmer Portal</div>
         </div>
     </aside>
 
@@ -527,7 +559,7 @@
                     <ul class="dropdown-menu dropdown-menu-end liquid-glass-menu shadow-lg">
                         <li><h6 class="dropdown-header">Verified Farmer Account</h6></li>
                         <li><a class="dropdown-item" href="{{ route('farmer.dashboard') }}"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
-                        <li><a class="dropdown-item" href="{{ route('farmer.products.index') }}"><i class="bi bi-basket2 me-2"></i>Produce Inventory</a></li>
+                        <li><a class="dropdown-item" href="{{ route('farmer.products.index') }}"><i class="bi bi-basket2 me-2"></i>Product Inventory</a></li>
                         <li><a class="dropdown-item" href="{{ route('farmer.orders.index') }}"><i class="bi bi-receipt me-2"></i>Pre-Orders</a></li>
                         <li><a class="dropdown-item" href="{{ route('farmer.profile') }}"><i class="bi bi-shop me-2"></i>Stall Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
@@ -587,8 +619,8 @@
         <!-- Farmer Footer -->
         <footer class="bg-white border-top py-3 px-4 text-muted small mt-auto">
             <div class="d-flex flex-wrap justify-content-between align-items-center">
-                <div>&copy; 2026 MarketLink Farmer Vendor Backoffice — Strictly following SRS v1.0.</div>
-                <div>TechWiz 7 End-to-End Web Solutions</div>
+                <div>&copy; 2026 MarketLink Farmer Vendor Backoffice. All rights reserved.</div>
+                <div>Verified Local Harvest and Stall Operations</div>
             </div>
         </footer>
     </div>

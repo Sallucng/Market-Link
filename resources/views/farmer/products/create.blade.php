@@ -1,6 +1,6 @@
 @extends('layouts.farmer')
 
-@section('title', 'Add New Produce Item — MarketLink')
+@section('title', 'Add New Product — MarketLink')
 
 @section('content')
 <div class="py-2">
@@ -9,7 +9,7 @@
         <ol class="breadcrumb small">
             <li class="breadcrumb-item"><a href="{{ route('farmer.dashboard') }}" class="text-success text-decoration-none">Stall Backoffice</a></li>
             <li class="breadcrumb-item"><a href="{{ route('farmer.products.index') }}" class="text-success text-decoration-none">Weekly Inventory</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Add Produce</li>
+            <li class="breadcrumb-item active" aria-current="page">Add Product</li>
         </ol>
     </nav>
 
@@ -21,7 +21,7 @@
                         <i class="bi bi-plus-lg fs-3"></i>
                     </div>
                     <div>
-                        <h3 class="heading-serif fw-bold text-dark mb-0">List New Farm Produce</h3>
+                        <h3 class="heading-serif fw-bold text-dark mb-0">List New Farm Product</h3>
                         <small class="text-muted">Enter product specifications and initial inventory for your stall</small>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-8">
-                            <label class="form-label small fw-semibold text-dark">Produce Name <span class="text-danger">*</span></label>
+                            <label class="form-label small fw-semibold text-dark">Product Name <span class="text-danger">*</span></label>
                             <input type="text" name="name" class="form-control" value="{{ old('name') }}" placeholder="e.g. Organic Beefsteak Tomatoes" required>
                         </div>
 
@@ -91,12 +91,12 @@
                     <div class="mb-4">
                         <label class="form-label small fw-semibold text-dark">Image URL (Optional)</label>
                         <input type="url" name="image_url" class="form-control" value="{{ old('image_url') }}" placeholder="https://images.unsplash.com/...">
-                        <small class="text-muted" style="font-size: 0.72rem;">Leave empty to use a fresh produce stock image automatically.</small>
+                        <small class="text-muted" style="font-size: 0.72rem;">Leave empty to use a fresh product stock image automatically.</small>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center pt-3 border-top">
                         <a href="{{ route('farmer.products.index') }}" class="btn btn-outline-secondary rounded-pill px-4">Cancel</a>
-                        <button type="submit" class="btn btn-brand rounded-pill px-5">Publish Produce</button>
+                        <button type="submit" class="btn btn-brand rounded-pill px-5">Publish Product</button>
                     </div>
                 </form>
             </div>

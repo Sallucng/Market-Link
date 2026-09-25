@@ -14,7 +14,7 @@
 
     <div class="mb-4">
         <span class="badge badge-brand px-3 py-1 rounded-pill mb-1">Customer Dashboard</span>
-        <h2 class="heading-serif fw-bold text-dark mb-0">My Favorite Produce & Farmers</h2>
+        <h2 class="heading-serif fw-bold text-dark mb-0">My Favorite Products and Farmers</h2>
         <p class="text-muted small">Quick access to your preferred growers, weekly stock alerts, and favorite market stalls.</p>
     </div>
 
@@ -96,7 +96,7 @@
     </div>
 
     <!-- Favorite Products -->
-    <h4 class="heading-serif fw-bold text-dark mb-3"><i class="bi bi-basket-fill text-warning me-2"></i>Favorite Harvest Produce ({{ $products->count() }})</h4>
+    <h4 class="heading-serif fw-bold text-dark mb-3"><i class="bi bi-basket-fill text-warning me-2"></i>Favorite Harvest Products ({{ $products->count() }})</h4>
     <div class="row g-4">
         @forelse($products as $product)
             <div class="col-md-6 col-lg-3">
@@ -144,7 +144,7 @@
             </div>
         @empty
             <div class="col-12">
-                <div class="p-3 bg-light rounded text-muted small">You haven't marked any produce as favorites yet.</div>
+                <div class="p-3 bg-light rounded text-muted small">You haven't marked any products as favorites yet.</div>
             </div>
         @endforelse
     </div>

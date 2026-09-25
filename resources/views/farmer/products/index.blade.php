@@ -1,6 +1,6 @@
 @extends('layouts.farmer')
 
-@section('title', 'Weekly Produce Inventory — MarketLink')
+@section('title', 'Weekly Product Inventory — MarketLink')
 
 @section('content')
 <div class="py-2">
@@ -15,7 +15,7 @@
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
         <div>
             <span class="badge badge-brand px-3 py-1 rounded-pill mb-1">Stall Inventory Management</span>
-            <h2 class="heading-serif fw-bold text-dark mb-0">Manage Weekly Produce Stock</h2>
+            <h2 class="heading-serif fw-bold text-dark mb-0">Manage Weekly Product Stock</h2>
             <small class="text-muted">{{ $farmer->stall_name }} &bull; Set quantities and prices for market attendees</small>
         </div>
 
@@ -38,7 +38,7 @@
     <div class="card card-custom p-3 bg-white border-0 shadow-sm mb-4">
         <form action="{{ route('farmer.products.index') }}" method="GET" class="row g-2 align-items-center">
             <div class="col-md-5">
-                <input type="text" name="q" value="{{ request('q') }}" class="form-control form-control-sm" placeholder="Search your produce (e.g. Tomatoes, Lettuce)...">
+                <input type="text" name="q" value="{{ request('q') }}" class="form-control form-control-sm" placeholder="Search your products (e.g. Tomatoes, Lettuce)...">
             </div>
             <div class="col-md-4">
                 <select name="category" class="form-select form-select-sm">
@@ -62,7 +62,7 @@
         @if($products->isEmpty())
             <div class="text-center py-5">
                 <i class="bi bi-basket display-4 text-muted"></i>
-                <h5 class="fw-bold mt-3 mb-1">No Produce Items Found</h5>
+                <h5 class="fw-bold mt-3 mb-1">No Product Items Found</h5>
                 <p class="text-muted small mb-4">You have not added any harvest items to your stall inventory yet.</p>
                 <a href="{{ route('farmer.products.create') }}" class="btn btn-brand btn-sm rounded-pill px-4">
                     Add Your First Item
@@ -73,7 +73,7 @@
                 <table class="table align-middle mb-0">
                     <thead class="table-light small">
                         <tr>
-                            <th>Produce</th>
+                            <th>Product</th>
                             <th>Category</th>
                             <th>Price / Unit</th>
                             <th>Current Stock</th>
@@ -97,7 +97,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <span class="badge bg-light text-dark border">{{ $prod->category->name ?? 'Produce' }}</span>
+                                    <span class="badge bg-light text-dark border">{{ $prod->category->name ?? 'Product' }}</span>
                                 </td>
                                 <td>
                                     <span class="fw-bold text-success">${{ number_format($prod->price, 2) }}</span>

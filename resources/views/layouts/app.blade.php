@@ -69,6 +69,15 @@
             letter-spacing: -0.03em;
         }
 
+        /* Universal Button Color Shifts on Hover */
+        .btn {
+            transition: background-color 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
+                        color 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
+                        border-color 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
+                        box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+
         .btn-brand {
             background-color: var(--brand-primary);
             color: #ffffff;
@@ -78,37 +87,85 @@
             font-size: 0.92rem;
             letter-spacing: 0.01em;
             padding: 0.52rem 1.25rem;
-            transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .btn-brand:hover, .btn-brand:focus {
-            background-color: var(--brand-primary-hover);
-            border-color: var(--brand-primary-hover);
-            color: #ffffff;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 10px rgba(27, 67, 50, 0.16);
+            background-color: #2d6a4f !important;
+            border-color: #2d6a4f !important;
+            color: #ffffff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(45, 106, 79, 0.28) !important;
         }
         .btn-brand:active {
             transform: scale(0.98);
         }
 
         .btn-brand-outline {
-            border: 1px solid var(--border-card);
+            border: 1.5px solid var(--brand-primary);
             color: var(--brand-primary);
             background-color: #ffffff;
             border-radius: 8px;
             font-weight: 600;
             font-size: 0.92rem;
             padding: 0.52rem 1.15rem;
-            transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .btn-brand-outline:hover, .btn-brand-outline:focus {
-            background-color: var(--surface-subtle);
-            border-color: #cfcbbe;
-            color: var(--brand-primary-hover);
-            transform: translateY(-1px);
+            background-color: var(--brand-primary) !important;
+            border-color: var(--brand-primary) !important;
+            color: #ffffff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(27, 67, 50, 0.24) !important;
         }
         .btn-brand-outline:active {
             transform: scale(0.98);
+        }
+
+        .btn-success:hover, .btn-success:focus {
+            background-color: #14532d !important;
+            border-color: #14532d !important;
+            color: #ffffff !important;
+            box-shadow: 0 6px 16px rgba(20, 83, 45, 0.3) !important;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-success:hover, .btn-outline-success:focus {
+            background-color: #198754 !important;
+            border-color: #198754 !important;
+            color: #ffffff !important;
+            box-shadow: 0 6px 16px rgba(25, 135, 84, 0.25) !important;
+            transform: translateY(-2px);
+        }
+
+        .btn-light:hover, .btn-light:focus {
+            background-color: #0f281e !important;
+            border-color: #0f281e !important;
+            color: #ffffff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(15, 40, 30, 0.2) !important;
+        }
+
+        .btn-outline-primary:hover, .btn-outline-primary:focus {
+            background-color: #1d4ed8 !important;
+            border-color: #1d4ed8 !important;
+            color: #ffffff !important;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-secondary:hover, .btn-outline-secondary:focus {
+            background-color: #334155 !important;
+            border-color: #334155 !important;
+            color: #ffffff !important;
+            transform: translateY(-2px);
+        }
+
+        .footer-link {
+            color: #a3b8ad;
+            text-decoration: none;
+            transition: color 0.18s ease, transform 0.18s ease;
+            display: inline-block;
+        }
+        .footer-link:hover {
+            color: #ffffff;
+            transform: translateX(3px);
         }
 
         .card-custom {
@@ -366,11 +423,6 @@
 </head>
 <body>
 
-    <!-- Top Announcement Ribbon -->
-    <div class="py-1 px-3 text-center small fw-semibold" style="background-color: var(--brand-primary); color: #edf3ec; font-size: 0.8rem; letter-spacing: 0.02em;">
-        <i class="bi bi-basket-fill me-1 text-warning"></i> TechWiz 7: eGreen Basket Edition — In-person stall pickup only. Zero online convenience fees.
-    </div>
-
     <!-- Navigation Header -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-2" style="border-bottom: 1px solid var(--border-hairline);">
         <div class="container">
@@ -391,12 +443,17 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('markets.*') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('markets.index') }}">
-                            <i class="bi bi-geo-alt-fill text-danger me-1"></i>Markets & Map
+                            <i class="bi bi-geo-alt-fill text-danger me-1"></i>Markets and Map
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('products.*') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('products.index') }}">
-                            <i class="bi bi-grid-fill text-success me-1"></i>Farm Produce
+                            <i class="bi bi-grid-fill text-success me-1"></i>Farm Products
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('farmers.*') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('farmers.index') }}">
+                            <i class="bi bi-people-fill text-success me-1"></i>Farmers
                         </a>
                     </li>
                     <li class="nav-item">
@@ -494,56 +551,66 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark text-light pt-5 pb-4 mt-5 border-top">
+    <footer class="pt-5 pb-4 mt-5 text-light" style="background-color: #0b2116; border-top: 1px solid rgba(82, 183, 136, 0.2);">
         <div class="container">
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6">
-                    <h5 class="heading-serif text-white mb-3">
-                        <i class="bi bi-flower2 text-success me-1"></i> MarketLink
+                    <h5 class="heading-serif text-white mb-3 d-flex align-items-center">
+                        <span class="p-1 rounded-2 me-2 d-inline-flex align-items-center justify-content-center" style="width:30px; height:30px; background-color: #2d6a4f;">
+                            <i class="bi bi-flower2 text-white fs-6"></i>
+                        </span>
+                        MarketLink
                     </h5>
-                    <p class="text-secondary small">
-                        Farm Fresh Just a Click Away. MarketLink empowers neighborhood farmers to list weekly harvests, take pre-orders ahead of market day, and coordinate stall pickups.
+                    <p class="small mb-3" style="color: #a3b8ad; line-height: 1.6;">
+                        Farm Fresh Just a Click Away. Connecting neighborhood growers directly with local community shoppers for convenient, verified weekend stall pre-orders.
                     </p>
-                    <div class="badge bg-secondary">Theme: eGreen Basket</div>
-                    <div class="badge bg-success ms-1">TechWiz 7 Championship</div>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge rounded-pill" style="background-color: rgba(82, 183, 136, 0.18); color: #74c69d; border: 1px solid rgba(82, 183, 136, 0.3);">
+                            <i class="bi bi-shield-check me-1"></i> Verified Local Stalls
+                        </span>
+                        <span class="badge rounded-pill" style="background-color: rgba(82, 183, 136, 0.18); color: #74c69d; border: 1px solid rgba(82, 183, 136, 0.3);">
+                            <i class="bi bi-geo-alt me-1"></i> OpenStreetMap
+                        </span>
+                    </div>
                 </div>
 
                 <div class="col-lg-2 col-md-6">
-                    <h6 class="text-uppercase text-white small fw-bold mb-3">Explore</h6>
+                    <h6 class="text-uppercase small fw-bold mb-3" style="color: #d8f3dc; letter-spacing: 0.08em;">Explore</h6>
                     <ul class="list-unstyled small">
-                        <li class="mb-2"><a href="{{ route('home') }}" class="text-secondary text-decoration-none">Home</a></li>
-                        <li class="mb-2"><a href="{{ route('markets.index') }}" class="text-secondary text-decoration-none">Markets & Map</a></li>
-                        <li class="mb-2"><a href="{{ route('products.index') }}" class="text-secondary text-decoration-none">Produce Catalog</a></li>
-                        <li class="mb-2"><a href="{{ route('about') }}" class="text-secondary text-decoration-none">About Us</a></li>
-                        <li class="mb-2"><a href="{{ route('contact') }}" class="text-secondary text-decoration-none">Contact Us</a></li>
+                        <li class="mb-2"><a href="{{ route('home') }}" class="footer-link">Home</a></li>
+                        <li class="mb-2"><a href="{{ route('markets.index') }}" class="footer-link">Markets and Map</a></li>
+                        <li class="mb-2"><a href="{{ route('products.index') }}" class="footer-link">Farm Products</a></li>
+                        <li class="mb-2"><a href="{{ route('farmers.index') }}" class="footer-link">Local Farmers</a></li>
+                        <li class="mb-2"><a href="{{ route('about') }}" class="footer-link">About Us</a></li>
+                        <li class="mb-2"><a href="{{ route('contact') }}" class="footer-link">Contact Us</a></li>
                     </ul>
                 </div>
 
                 <div class="col-lg-3 col-md-6">
-                    <h6 class="text-uppercase text-white small fw-bold mb-3">Important Notice</h6>
-                    <p class="text-secondary small mb-2">
-                        <i class="bi bi-wallet2 text-warning me-1"></i> <strong>Pay at Pickup Only:</strong> In strict accordance with competition SRS Section 1.5, payment is settled directly with the farmer at stall pickup.
+                    <h6 class="text-uppercase small fw-bold mb-3" style="color: #d8f3dc; letter-spacing: 0.08em;">Pickup and Settlement</h6>
+                    <p class="small mb-2" style="color: #a3b8ad; line-height: 1.6;">
+                        <i class="bi bi-wallet2 text-warning me-1"></i> <strong>Pay at Stall Pickup:</strong> Orders placed on MarketLink are settled in-person directly with the farmer at their market booth.
                     </p>
-                    <p class="text-secondary small">
-                        <i class="bi bi-geo-alt text-danger me-1"></i> Powered by <strong>OpenStreetMap</strong>.
+                    <p class="small" style="color: #a3b8ad;">
+                        <i class="bi bi-clock-history text-success me-1"></i> Pre-order windows close ahead of market day to give growers harvest preparation time.
                     </p>
                 </div>
 
                 <div class="col-lg-3 col-md-6">
-                    <h6 class="text-uppercase text-white small fw-bold mb-3">Test Accounts</h6>
-                    <div class="bg-secondary bg-opacity-25 p-2 rounded small text-secondary">
-                        <div><strong>Admin:</strong> admin / Admin@123</div>
-                        <div><strong>Farmer:</strong> greenvalley / Farmer@123</div>
-                        <div><strong>Customer:</strong> sarah_shopper / Customer@123</div>
+                    <h6 class="text-uppercase small fw-bold mb-3" style="color: #d8f3dc; letter-spacing: 0.08em;">Quick Demo Logins</h6>
+                    <div class="p-3 rounded-3 small" style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); color: #cbd5e1;">
+                        <div class="mb-1"><span class="badge bg-secondary me-1">Admin</span> <code class="text-warning">admin</code> / <code class="text-light">Admin@123</code></div>
+                        <div class="mb-1"><span class="badge bg-success me-1">Farmer</span> <code class="text-warning">greenvalley</code> / <code class="text-light">Farmer@123</code></div>
+                        <div><span class="badge bg-info text-dark me-1">Customer</span> <code class="text-warning">sarah_shopper</code> / <code class="text-light">Customer@123</code></div>
                     </div>
                 </div>
             </div>
 
-            <hr class="border-secondary my-4">
+            <hr style="border-color: rgba(255, 255, 255, 0.1); margin: 2rem 0 1.5rem;">
 
-            <div class="d-flex flex-wrap justify-content-between align-items-center small text-secondary">
-                <div>&copy; 2026 MarketLink. Developed for TechWiz 7 — Category: End-to-End Web Solutions.</div>
-                <div>Strictly following SRS v1.0 specifications.</div>
+            <div class="d-flex flex-wrap justify-content-between align-items-center small" style="color: #7d9b8b;">
+                <div>&copy; 2026 MarketLink. Local Farmers Market and Harvest Pre-Order Platform. All rights reserved.</div>
+                <div>Direct farmer-to-consumer neighborhood food network.</div>
             </div>
         </div>
     </footer>
@@ -561,7 +628,7 @@
                 <i class="bi bi-robot fs-5"></i>
                 <div>
                     <h6 class="mb-0 fw-bold" style="font-size: 0.95rem;">MarketLink Assistant</h6>
-                    <small class="text-white-50" style="font-size: 0.72rem;">Ask about markets, stalls & produce</small>
+                    <small class="text-white-50" style="font-size: 0.72rem;">Ask about markets, stalls and products</small>
                 </div>
             </div>
             <button id="ai-close-btn" class="btn btn-sm btn-link text-white p-0 fs-5 text-decoration-none">&times;</button>
@@ -575,7 +642,7 @@
         </div>
         <div class="card-footer bg-white border-top p-2">
             <form id="ai-chat-form" class="d-flex gap-2">
-                <input type="text" id="ai-input" class="form-control form-control-sm" placeholder="Ask about timings, produce..." autocomplete="off">
+                <input type="text" id="ai-input" class="form-control form-control-sm" placeholder="Ask about timings, products..." autocomplete="off">
                 <button type="submit" class="btn btn-sm btn-success px-3">Send</button>
             </form>
         </div>

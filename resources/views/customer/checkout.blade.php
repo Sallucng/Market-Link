@@ -47,7 +47,7 @@
                             </span>
                         </div>
 
-                        <!-- Produce Reserved in this order -->
+                        <!-- Products Reserved in this order -->
                         <h6 class="small fw-bold text-secondary text-uppercase mb-2">Reserved Items:</h6>
                         <div class="bg-light rounded p-3 mb-4">
                             @foreach($group['items'] as $item)

@@ -117,7 +117,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <h5 class="heading-serif fw-bold text-dark mb-0">
-                            <i class="bi bi-tags-fill text-warning me-2"></i>Produce Category Inventory
+                            <i class="bi bi-tags-fill text-warning me-2"></i>Product Category Inventory
                         </h5>
                         <small class="text-muted">Active product listings across categories (SRS §1.6)</small>
                     </div>
@@ -433,7 +433,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // 3. Report Produce Category Distribution Pie Chart
+    // 3. Report Product Category Distribution Pie Chart
     const catNames = {!! json_encode($categoryNames) !!};
     const catCounts = {!! json_encode($categoryProductCounts) !!};
 

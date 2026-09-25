@@ -21,7 +21,7 @@
 
         <div class="btn-group">
             <a href="{{ route('admin.moderation.reviews') }}" class="btn btn-sm btn-dark active">Reviews Moderation</a>
-            <a href="{{ route('admin.moderation.products') }}" class="btn btn-sm btn-outline-dark">Produce Listings</a>
+            <a href="{{ route('admin.moderation.products') }}" class="btn btn-sm btn-outline-dark">Product Listings</a>
         </div>
     </div>
 

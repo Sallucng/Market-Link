@@ -18,7 +18,7 @@
             <h2 class="heading-serif fw-bold text-dark mb-0">My Pre-Order History</h2>
         </div>
         <a href="{{ route('products.index') }}" class="btn btn-brand btn-sm rounded-pill px-3">
-            <i class="bi bi-cart-plus me-1"></i> Order More Produce
+            <i class="bi bi-cart-plus me-1"></i> Order More Products
         </a>
     </div>
 
@@ -115,10 +115,10 @@
             <i class="bi bi-box-seam display-4 text-muted mb-3"></i>
             <h4 class="heading-serif fw-bold">No Pre-Orders Yet</h4>
             <p class="text-muted small col-md-6 mx-auto mb-4">
-                You haven't reserved any produce yet. Discover what local growers are harvesting this week and place your first pre-order!
+                You haven't reserved any products yet. Discover what local growers are harvesting this week and place your first pre-order!
             </p>
             <div>
-                <a href="{{ route('products.index') }}" class="btn btn-brand rounded-pill px-4">Browse Produce Catalog</a>
+                <a href="{{ route('products.index') }}" class="btn btn-brand rounded-pill px-4">Browse Product Catalog</a>
             </div>
         </div>
     @endif

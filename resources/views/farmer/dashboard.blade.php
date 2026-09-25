@@ -19,7 +19,7 @@
                 <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-1 rounded-pill">
                     <i class="bi bi-flower1 me-1"></i> Grower Stall Console
                 </span>
-                <span class="text-muted small">TechWiz 7: eGreen Basket</span>
+                <span class="text-muted small">Verified Grower Console</span>
             </div>
             <h2 class="heading-serif fw-bold text-dark mb-0">{{ $farmer->stall_name }}</h2>
             <small class="text-muted">
@@ -34,7 +34,7 @@
                     <i class="bi bi-clock-history me-2 fs-5"></i>
                     <div>
                         <strong>Pending Administrator Approval:</strong><br>
-                        Your stall profile is under verification before produce goes live.
+                        Your stall profile is under verification before products go live.
                     </div>
                 </div>
             @else
@@ -44,7 +44,7 @@
             @endif
 
             <a href="{{ route('farmer.products.create') }}" class="btn btn-brand rounded-pill px-3 d-flex align-items-center gap-1 shadow-sm">
-                <i class="bi bi-plus-circle"></i> Add Produce
+                <i class="bi bi-plus-circle"></i> Add Product
             </a>
         </div>
     </div>
@@ -182,7 +182,7 @@
                         <h6 class="fw-bold mt-3 mb-1 text-dark">No Pre-Orders in Queue</h6>
                         <p class="text-muted small mb-3">Your pre-order pickup queue is clear. Make sure your weekly harvest inventory is published!</p>
                         <a href="{{ route('farmer.products.create') }}" class="btn btn-brand btn-sm rounded-pill px-3">
-                            <i class="bi bi-plus-circle me-1"></i> Add Produce Item
+                            <i class="bi bi-plus-circle me-1"></i> Add Product Item
                         </a>
                     </div>
                 @else
@@ -244,7 +244,7 @@
         <div class="col-lg-4">
             <div class="card card-custom p-4 bg-white border-0 shadow-sm mb-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="heading-serif fw-bold text-dark mb-0">Best-Selling Produce</h5>
+                    <h5 class="heading-serif fw-bold text-dark mb-0">Best-Selling Products</h5>
                     <a href="{{ route('farmer.products.index') }}" class="small text-success text-decoration-none fw-semibold">Manage</a>
                 </div>
 

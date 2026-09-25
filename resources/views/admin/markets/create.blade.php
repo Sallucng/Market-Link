@@ -98,7 +98,7 @@
                             <div class="col-md-6">
                                 <label class="form-label small fw-semibold text-dark">Or Paste External Image URL</label>
                                 <input type="url" name="image_url" class="form-control form-control-sm" value="{{ old('image_url') }}" placeholder="https://images.unsplash.com/...">
-                                <small class="text-muted" style="font-size: 0.76rem;">Leave empty for an automatic fresh produce banner</small>
+                                <small class="text-muted" style="font-size: 0.76rem;">Leave empty for an automatic fresh products banner</small>
                             </div>
                         </div>
                     </div>

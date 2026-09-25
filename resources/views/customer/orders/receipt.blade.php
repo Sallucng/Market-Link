@@ -290,7 +290,7 @@
                 <tr>
                     <td style="vertical-align: middle;">
                         <div class="status-title">&#9200; Pre-Order Confirmed — Payment Due at Pickup</div>
-                        <div class="status-desc">Your produce is reserved. Settle ${{ number_format($order->total_amount, 2) }} directly with the farmer in cash or card upon collection.</div>
+                        <div class="status-desc">Your products are reserved. Settle ${{ number_format($order->total_amount, 2) }} directly with the farmer in cash or card upon collection.</div>
                     </td>
                     <td style="text-align: right; vertical-align: middle; width: 140px;">
                         <strong style="color: #855300; font-size: 12px; border: 2px solid #b57a1e; padding: 4px 8px; border-radius: 4px; display: inline-block;">DUE AT PICKUP</strong>
@@ -346,7 +346,7 @@
         @endif
     </table>
 
-    <!-- Itemized Produce Table -->
+    <!-- Itemized Product Table -->
     <table class="items-table" cellpadding="0" cellspacing="0">
         <thead>
             <tr>
@@ -363,7 +363,7 @@
                 <tr>
                     <td class="text-center" style="color: #777;">{{ $index + 1 }}</td>
                     <td>
-                        <strong style="color: #1b4332;">{{ $item->product->name ?? 'Fresh Produce' }}</strong>
+                        <strong style="color: #1b4332;">{{ $item->product->name ?? 'Fresh Product' }}</strong>
                         @if($item->product && $item->product->category)
                             <span style="color: #666; font-size: 10px;">({{ $item->product->category->name }})</span>
                         @endif
@@ -381,7 +381,7 @@
     <div class="summary-wrapper">
         <table class="summary-table" cellpadding="0" cellspacing="0">
             <tr>
-                <td class="label">Produce Subtotal:</td>
+                <td class="label">Product Subtotal:</td>
                 <td class="amount">${{ number_format($order->total_amount, 2) }}</td>
             </tr>
             <tr>
@@ -426,7 +426,7 @@
 
     <!-- Official Footer -->
     <div class="footer">
-        <div>MarketLink Local Produce Direct Pre-Order Network &bull; SRS v1.0 Compliant</div>
+        <div>MarketLink Local Products Direct Pre-Order Network &bull; SRS v1.0 Compliant</div>
         <div>Thank you for choosing local, sustainable farming and strengthening our community food sheds.</div>
         <div style="margin-top: 4px; font-size: 8.5px; color: #aaa;">This is a system-generated document. For customer support or order inquiries, contact support@marketlink.local</div>
     </div>

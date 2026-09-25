@@ -277,6 +277,38 @@
             .admin-sidebar.show {
                 transform: translateX(0);
             }
+        }
+
+        /* Button Hover Transitions */
+        .btn {
+            transition: background-color 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
+                        color 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
+                        border-color 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
+                        box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .btn-success:hover, .btn-success:focus {
+            background-color: #14532d !important;
+            border-color: #14532d !important;
+            color: #ffffff !important;
+            box-shadow: 0 6px 16px rgba(20, 83, 45, 0.3) !important;
+        }
+        .btn-outline-success:hover, .btn-outline-success:focus {
+            background-color: #198754 !important;
+            border-color: #198754 !important;
+            color: #ffffff !important;
+            box-shadow: 0 6px 16px rgba(25, 135, 84, 0.25) !important;
+        }
+        .btn-outline-secondary:hover, .btn-outline-secondary:focus {
+            background-color: #1e293b !important;
+            border-color: #1e293b !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 12px rgba(30, 41, 59, 0.2) !important;
+        }
+
         /* ==========================================================================
            Pure Apple iOS Liquid Glass Dropdowns (iOS 26 / visionOS Liquid Materials)
            ========================================================================== */
@@ -457,7 +489,7 @@
             </a>
             <a href="{{ route('admin.categories.index') }}" class="admin-nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
                 <i class="bi bi-tags"></i>
-                <span>Produce Categories</span>
+                <span>Product Categories</span>
             </a>
             <a href="{{ route('admin.announcements.index') }}" class="admin-nav-link {{ request()->routeIs('admin.announcements.*') ? 'active' : '' }}">
                 <i class="bi bi-megaphone"></i>
@@ -468,7 +500,7 @@
             <div class="admin-nav-section-title mt-3">Content Moderation</div>
             <a href="{{ route('admin.moderation.products') }}" class="admin-nav-link {{ request()->routeIs('admin.moderation.products') ? 'active' : '' }}">
                 <i class="bi bi-basket2"></i>
-                <span>Produce Listings</span>
+                <span>Product Listings</span>
             </a>
             <a href="{{ route('admin.moderation.reviews') }}" class="admin-nav-link {{ request()->routeIs('admin.moderation.reviews') ? 'active' : '' }}">
                 <i class="bi bi-chat-square-quote"></i>
@@ -495,7 +527,7 @@
                     </button>
                 </form>
             </div>
-            <div class="text-white-50 font-mono-meta" style="font-size: 0.68rem;">SRS v1.0 Admin Console</div>
+            <div class="text-white-50 font-mono-meta" style="font-size: 0.68rem;">MarketLink Admin Console</div>
         </div>
     </aside>
 
@@ -511,7 +543,7 @@
                     <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle px-2 py-1 small d-inline-flex align-items-center">
                         <span class="pulse-dot me-1"></span> System Live
                     </span>
-                    <span class="text-muted small ms-2 d-none d-md-inline">TechWiz 7: eGreen Basket Edition</span>
+                    <span class="text-muted small ms-2 d-none d-md-inline">MarketLink Management Console</span>
                 </div>
             </div>
 
@@ -588,8 +620,8 @@
         <!-- Admin Footer -->
         <footer class="bg-white border-top py-3 px-4 text-muted small mt-auto">
             <div class="d-flex flex-wrap justify-content-between align-items-center">
-                <div>&copy; 2026 MarketLink Admin Backoffice — Strictly following SRS v1.0.</div>
-                <div>TechWiz 7 End-to-End Web Solutions</div>
+                <div>&copy; 2026 MarketLink Admin Backoffice. All rights reserved.</div>
+                <div>Secure Platform Operations & Moderation</div>
             </div>
         </footer>
     </div>

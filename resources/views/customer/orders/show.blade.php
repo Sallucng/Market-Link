@@ -98,7 +98,7 @@
         <!-- Order Items Breakdown -->
         <div class="col-lg-8">
             <div class="card card-custom p-4 bg-white border-0 shadow-sm mb-4">
-                <h5 class="heading-serif fw-bold text-dark mb-3">Produce Reserved in this Order</h5>
+                <h5 class="heading-serif fw-bold text-dark mb-3">Products Reserved in this Order</h5>
                 <div class="table-responsive">
                     <table class="table align-middle mb-0">
                         <thead class="table-light small">
@@ -113,7 +113,7 @@
                             @foreach($order->items as $item)
                                 <tr>
                                     <td>
-                                        <div class="fw-bold text-dark">{{ $item->product->name ?? 'Harvest Produce' }}</div>
+                                        <div class="fw-bold text-dark">{{ $item->product->name ?? 'Harvest Product' }}</div>
                                         <small class="text-muted">{{ $item->product->unit ?? 'unit' }}</small>
                                     </td>
                                     <td class="text-center">{{ $item->quantity }}</td>
@@ -181,7 +181,7 @@
                                     <option value="">Farmer Stall Overall ({{ $order->farmer->stall_name }})</option>
                                     @foreach($order->items as $item)
                                         @if($item->product)
-                                            <option value="{{ $item->product->id }}">Individual Produce: {{ $item->product->name }}</option>
+                                            <option value="{{ $item->product->id }}">Individual Product: {{ $item->product->name }}</option>
                                         @endif
                                     @endforeach
                                 </select>
@@ -251,7 +251,7 @@
                             <span class="badge bg-warning text-dark px-2 py-1"><i class="bi bi-clock me-1"></i> Due at Pickup</span>
                         @endif
                     </div>
-                    <div class="text-muted" style="font-size: 0.72rem;">Settle in cash or card directly at the stall upon collecting your produce.</div>
+                    <div class="text-muted" style="font-size: 0.72rem;">Settle in cash or card directly at the stall upon collecting your products.</div>
                 </div>
 
                 <!-- PDF Download CTA -->

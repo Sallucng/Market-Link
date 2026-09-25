@@ -65,7 +65,7 @@
             <div class="text-center py-4">
                 <i class="bi bi-bag-check text-muted fs-1"></i>
                 <p class="text-muted small mt-2 mb-3">You have no active pre-orders right now.</p>
-                <a href="{{ route('products.index') }}" class="btn btn-brand btn-sm">Browse Weekly Produce</a>
+                <a href="{{ route('products.index') }}" class="btn btn-brand btn-sm">Browse Weekly Products</a>
             </div>
         @else
             <div class="row g-3">
@@ -96,7 +96,7 @@
                             <!-- Items Summary -->
                             <div class="small text-muted mb-3 flex-grow-1">
                                 @foreach($ord->items as $item)
-                                    <div>&bull; {{ $item->quantity }}x {{ $item->product->name ?? 'Produce' }}</div>
+                                    <div>&bull; {{ $item->quantity }}x {{ $item->product->name ?? 'Product' }}</div>
                                 @endforeach
                             </div>
 
@@ -117,16 +117,16 @@
     </div>
 
     <div class="row g-4 mb-4">
-        <!-- Favorite Produce with Restock Alerts (SRS §1.6) -->
+        <!-- Favorite Products with Restock Alerts -->
         <div class="col-lg-6">
             <div class="card card-custom p-4 bg-white h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="heading-serif fw-bold text-dark mb-0">Favorite Produce & Restock Alerts</h5>
+                    <h5 class="heading-serif fw-bold text-dark mb-0">Favorite Products and Restock Alerts</h5>
                     <a href="{{ route('customer.favorites.index') }}" class="small text-success text-decoration-none fw-semibold">Manage</a>
                 </div>
 
                 @if($favoriteProducts->isEmpty())
-                    <p class="text-muted small">You haven't saved any favorite produce yet.</p>
+                    <p class="text-muted small">You haven't saved any favorite products yet.</p>
                 @else
                     <div class="vstack gap-2">
                         @foreach($favoriteProducts as $favProd)

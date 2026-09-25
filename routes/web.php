@@ -29,6 +29,7 @@ Route::get('/markets/{id}', [MarketController::class, 'show'])->name('markets.sh
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 
+Route::get('/farmers', [FarmerProfileController::class, 'index'])->name('farmers.index');
 Route::get('/farmers/{id}', [FarmerProfileController::class, 'show'])->name('farmers.show');
 
 Route::post('/api/ai-assistant', [AiAssistantController::class, 'query'])->name('ai.assistant');

@@ -8,7 +8,7 @@
     <nav aria-label="breadcrumb" class="mb-3">
         <ol class="breadcrumb small">
             <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-success">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('products.index') }}" class="text-success">Produce</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('products.index') }}" class="text-success">Products</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ $product->name }}</li>
         </ol>
     </nav>
@@ -35,7 +35,7 @@
                     <span class="text-muted">/ {{ $product->unit }}</span>
                 </div>
 
-                <p class="text-secondary mb-4">{{ $product->description ?: 'Fresh, locally harvested produce straight from community growers.' }}</p>
+                <p class="text-secondary mb-4">{{ $product->description ?: 'Fresh, locally harvested products straight from community growers.' }}</p>
 
                 <!-- Stock & Pickup Status -->
                 <div class="p-3 bg-light rounded-3 mb-4">
@@ -121,7 +121,7 @@
         @endforelse
     </div>
 
-    <!-- Related Produce -->
+    <!-- Related Products -->
     @if($relatedProducts->count() > 0)
         <h4 class="heading-serif fw-bold text-dark mb-3">More in {{ $product->category->name }}</h4>
         <div class="row g-4">

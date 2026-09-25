@@ -158,7 +158,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <h5 class="heading-serif fw-bold text-dark mb-1">
-                            <i class="bi bi-tags-fill text-warning me-2"></i>Popular Produce Categories
+                            <i class="bi bi-tags-fill text-warning me-2"></i>Popular Product Categories
                         </h5>
                         <small class="text-muted">Distribution of items across taxonomy (SRS §1.6)</small>
                     </div>
@@ -194,7 +194,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
                 <h5 class="heading-serif fw-bold text-dark mb-0">Farmer Approval Gate</h5>
-                <small class="text-muted">Growers cannot publish weekly produce until verified and approved by an administrator.</small>
+                <small class="text-muted">Growers cannot publish weekly products until verified and approved by an administrator.</small>
             </div>
             <span class="badge bg-warning text-dark">{{ $pendingFarmers->count() }} Pending Review</span>
         </div>
@@ -311,7 +311,7 @@
             <div class="card card-custom table-card p-4 bg-white border-0 shadow-sm h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="heading-serif fw-bold text-dark mb-0">Approved Farmer Stalls ({{ $activeFarmers->count() }})</h5>
-                    <a href="{{ route('admin.moderation.products') }}" class="btn btn-sm btn-outline-secondary rounded-pill px-3">Produce Listings</a>
+                    <a href="{{ route('admin.moderation.products') }}" class="btn btn-sm btn-outline-secondary rounded-pill px-3">Product Listings</a>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0 small">
@@ -653,7 +653,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // 3. Doughnut / Pie Chart: Popular Produce Categories
+    // 3. Doughnut / Pie Chart: Popular Product Categories
     const categoryLabels = {!! json_encode($categoryLabels) !!};
     const categoryCounts = {!! json_encode($categoryCounts) !!};
 
