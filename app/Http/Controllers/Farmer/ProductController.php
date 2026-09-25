@@ -73,7 +73,7 @@ class ProductController extends Controller
 
         Product::create($validated);
 
-        return redirect()->route('farmer.products.index')->with('success', 'Harvest produce item listed successfully!');
+        return redirect()->route('farmer.products.index')->with('success', 'Farm product listed successfully!');
     }
 
     public function edit($id)
@@ -107,7 +107,7 @@ class ProductController extends Controller
 
         $product->update($validated);
 
-        return redirect()->route('farmer.products.index')->with('success', 'Produce item updated successfully!');
+        return redirect()->route('farmer.products.index')->with('success', 'Product updated successfully!');
     }
 
     public function destroy($id)

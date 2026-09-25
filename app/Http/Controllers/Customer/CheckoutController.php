@@ -97,7 +97,7 @@ class CheckoutController extends Controller
                     $product = Product::lockForUpdate()->find($item['id']);
                     if (!$product || $product->stock_quantity < $item['quantity']) {
                         $available = $product ? $product->stock_quantity : 0;
-                        throw new \Exception("Produce '{$item['name']}' has insufficient stock (Requested: {$item['quantity']}, Available: {$available}). Please update your cart.");
+                        throw new \Exception("Product '{$item['name']}' has insufficient stock (Requested: {$item['quantity']}, Available: {$available}). Please update your cart.");
                     }
 
                     $product->stock_quantity -= $item['quantity'];
@@ -129,7 +129,7 @@ class CheckoutController extends Controller
             session()->forget('cart');
 
             return redirect()->route('customer.orders.index')
-                ->with('success', 'Your pre-order was successfully placed! Remember to pay the farmer in person when collecting your produce at the stall.');
+                ->with('success', 'Your pre-order was successfully placed! Remember to pay the farmer in person when collecting your products at the stall.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Failed to place order: ' . $e->getMessage());

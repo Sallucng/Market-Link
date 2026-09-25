@@ -56,12 +56,12 @@ class AiAssistantController extends Controller
         });
 
         if ($matchingProducts->count() > 0) {
-            $reply = "🌱 **Found matching produce:**\n";
+            $reply = "🌱 **Found matching products:**\n";
             foreach ($matchingProducts->take(4) as $p) {
                 $marketName = $p->farmer->market->name ?? 'Local Market';
                 $reply .= "• **{$p->name}** — \${$p->price} / {$p->unit} (Available at: {$p->farmer->stall_name}, {$marketName})\n";
             }
-            $reply .= "\nYou can pre-order these directly on our [Produce Page](/products)!";
+            $reply .= "\nYou can pre-order these directly on our [Products Page](/products)!";
             return response()->json(['reply' => $reply]);
         }
 

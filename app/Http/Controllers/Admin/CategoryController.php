@@ -28,7 +28,7 @@ class CategoryController extends Controller
 
         Category::create($validated);
 
-        return back()->with('success', "Produce category '{$validated['name']}' created.");
+        return back()->with('success', "Product category '{$validated['name']}' created.");
     }
 
     public function update(Request $request, $id)

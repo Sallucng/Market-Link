@@ -36,6 +36,6 @@ class ModerationController extends Controller
         $product->save();
 
         $action = $product->is_available ? 'restored' : 'hidden from public storefront';
-        return back()->with('info', "Produce '{$product->name}' was {$action}.");
+        return back()->with('info', "Product '{$product->name}' was {$action}.");
     }
 }
