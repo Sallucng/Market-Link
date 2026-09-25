@@ -78,6 +78,59 @@
     </div>
 </section>
 
+<!-- Team Section (SRS §1.6) -->
+<section class="py-5 bg-white border-top">
+    <div class="container py-2">
+        <div class="text-center mb-5">
+            <span class="badge badge-brand px-3 py-1 rounded-pill mb-2">Platform Architects & Stewards</span>
+            <h2 class="heading-serif fw-bold text-dark mb-2">The Team Behind MarketLink</h2>
+            <p class="text-muted col-lg-7 mx-auto small">Dedicated engineers, agricultural liaisons, and designers passionate about local food security and community growers.</p>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            <div class="col">
+                <div class="card card-custom p-4 bg-light border-0 shadow-sm text-center h-100">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" 
+                         alt="Elena Rostova" class="rounded-circle mx-auto mb-3 shadow-sm" style="width: 80px; height: 80px; object-fit: cover;">
+                    <h6 class="fw-bold text-dark mb-1">Elena Rostova</h6>
+                    <small class="text-success fw-semibold d-block mb-2">Platform Lead & Architect</small>
+                    <p class="text-secondary small mb-0">Directs technical infrastructure and real-time pre-order inventory systems.</p>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card card-custom p-4 bg-light border-0 shadow-sm text-center h-100">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80" 
+                         alt="Marcus Vance" class="rounded-circle mx-auto mb-3 shadow-sm" style="width: 80px; height: 80px; object-fit: cover;">
+                    <h6 class="fw-bold text-dark mb-1">Marcus Vance</h6>
+                    <small class="text-success fw-semibold d-block mb-2">Grower Community Liaison</small>
+                    <p class="text-secondary small mb-0">Coordinates physical stall onboardings and market association partnerships.</p>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card card-custom p-4 bg-light border-0 shadow-sm text-center h-100">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80" 
+                         alt="Sarah Chen" class="rounded-circle mx-auto mb-3 shadow-sm" style="width: 80px; height: 80px; object-fit: cover;">
+                    <h6 class="fw-bold text-dark mb-1">Sarah Chen</h6>
+                    <small class="text-success fw-semibold d-block mb-2">Lead UI/UX Designer</small>
+                    <p class="text-secondary small mb-0">Crafts responsive, accessible interfaces for shoppers and multi-device vendors.</p>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card card-custom p-4 bg-light border-0 shadow-sm text-center h-100">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80" 
+                         alt="David Kim" class="rounded-circle mx-auto mb-3 shadow-sm" style="width: 80px; height: 80px; object-fit: cover;">
+                    <h6 class="fw-bold text-dark mb-1">David Kim</h6>
+                    <small class="text-success fw-semibold d-block mb-2">Operations & Support</small>
+                    <p class="text-secondary small mb-0">Ensures seamless customer communications and pickup resolution workflows.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Community Commitment Section -->
 <section class="py-5 bg-brand-light border-top">
     <div class="container text-center">
