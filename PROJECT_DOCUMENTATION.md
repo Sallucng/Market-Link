@@ -317,6 +317,28 @@ MarketLink implements a classic **Multi-Tier Web Architecture** (SRS Section 1.4
 | `payment_method`| VARCHAR(50)| Default 'pay_at_pickup'| Strictly in-person settlement (SRS §1.5) |
 | `cutoff_time` | TIMESTAMP | Nullable | Calculated modification deadline |
 
+### Table 6: `order_items`
+| Field | Type | Constraint | Description |
+|---|---|---|---|
+| `id` | BIGINT UNSIGNED | PK, Auto Increment | Unique line item identifier |
+| `order_id` | BIGINT UNSIGNED | FK (`orders.id`), CASCADE | Parent order reservation |
+| `product_id` | BIGINT UNSIGNED | FK (`products.id`), CASCADE | Reserved catalog product |
+| `quantity` | INT | NOT NULL | Item quantity ordered |
+| `unit_price` | DECIMAL(10,2)| NOT NULL | Unit price at time of reservation |
+| `subtotal` | DECIMAL(10,2)| NOT NULL | Calculated line total |
+
+### Table 7: `reviews`
+| Field | Type | Constraint | Description |
+|---|---|---|---|
+| `id` | BIGINT UNSIGNED | PK, Auto Increment | Unique review identifier |
+| `order_id` | BIGINT UNSIGNED | FK (`orders.id`), CASCADE | Verified completed order |
+| `customer_id` | BIGINT UNSIGNED | FK (`users.id`), CASCADE | Reviewing customer |
+| `farmer_id` | BIGINT UNSIGNED | FK (`farmers.id`), CASCADE | Stall reviewed |
+| `product_id` | BIGINT UNSIGNED | FK (`products.id`), Nullable| Specific reviewed product |
+| `rating` | TINYINT UNSIGNED| NOT NULL | Star rating (1 to 5) |
+| `comment` | TEXT | NOT NULL | Customer feedback statement |
+| `farmer_response`| TEXT | Nullable | Vendor public response |
+
 ---
 
 ## 6. Test Data Inventory (SRS Section 1.9)
