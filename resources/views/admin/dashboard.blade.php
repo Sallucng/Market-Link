@@ -494,19 +494,42 @@ document.addEventListener('DOMContentLoaded', function () {
     Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
     Chart.defaults.color = '#64748b';
 
-    // 1. Bar Chart: Revenue Generated per Market
+    // 1. Bar Chart: Revenue Generated per Market (Animated Rising with Counting Numbers)
     const marketLabels = {!! json_encode($marketRevenueLabels) !!};
-    const marketRevenueData = {!! json_encode($marketRevenueData) !!};
+    const targetMarketRevenueData = {!! json_encode($marketRevenueData) !!};
+    const maxMarketRevenue = Math.max(...targetMarketRevenueData, 100);
 
     const ctxRev = document.getElementById('marketRevenueBarChart');
     if (ctxRev) {
-        new Chart(ctxRev, {
+        const animatedRevenueLabelsPlugin = {
+            id: 'animatedMarketRevenueLabels',
+            afterDatasetsDraw(chart) {
+                const { ctx, data } = chart;
+                ctx.save();
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.font = '700 11px "Poppins", sans-serif';
+                ctx.fillStyle = '#1b4332';
+
+                chart.getDatasetMeta(0).data.forEach((bar, index) => {
+                    const currentVal = data.datasets[0].data[index];
+                    const targetVal = targetMarketRevenueData[index];
+                    if (targetVal > 0) {
+                        const formatted = '$' + currentVal.toFixed(2);
+                        ctx.fillText(formatted, bar.x, bar.y - 4);
+                    }
+                });
+                ctx.restore();
+            }
+        };
+
+        const marketRevenueChart = new Chart(ctxRev, {
             type: 'bar',
             data: {
                 labels: marketLabels,
                 datasets: [{
                     label: 'Completed Revenue ($)',
-                    data: marketRevenueData,
+                    data: targetMarketRevenueData.map(() => 0),
                     backgroundColor: '#1b4332',
                     hoverBackgroundColor: '#2d6a4f',
                     borderRadius: 6,
@@ -514,13 +537,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     maxBarThickness: 48
                 }]
             },
+            plugins: [animatedRevenueLabelsPlugin],
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                animation: {
-                    duration: 1200,
-                    easing: 'easeOutQuart'
-                },
+                animation: false,
                 plugins: {
                     legend: { display: false },
                     tooltip: {
@@ -534,6 +555,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 scales: {
                     y: {
                         beginAtZero: true,
+                        suggestedMax: maxMarketRevenue * 1.18,
                         grid: { color: '#f1f5f9' },
                         ticks: {
                             callback: function(value) { return '$' + value; }
@@ -545,29 +567,48 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         });
+
+        const revAnim = { progress: 0 };
+        gsap.to(revAnim, {
+            progress: 1,
+            duration: 1.6,
+            delay: 0.2,
+            ease: 'power2.out',
+            onUpdate: () => {
+                marketRevenueChart.data.datasets[0].data = targetMarketRevenueData.map(v => v * revAnim.progress);
+                marketRevenueChart.update('none');
+            },
+            onComplete: () => {
+                marketRevenueChart.data.datasets[0].data = [...targetMarketRevenueData];
+                marketRevenueChart.update('none');
+            }
+        });
     }
 
-    // 2. Doughnut / Pie Chart: Pre-Order Pipeline Status Breakdown (SRS §1.5 & Agentation Interactive Upgrade)
+    // 2. Doughnut / Pie Chart: Pre-Order Pipeline Status Breakdown (Animated Sweep with Counting Center Number)
     const orderStatusLabels = {!! json_encode($orderStatusLabels) !!};
-    const orderStatusData = {!! json_encode($orderStatusData) !!};
+    const targetOrderStatusData = {!! json_encode($orderStatusData) !!};
+    const totalOrders = targetOrderStatusData.reduce((a, b) => a + b, 0);
 
     const ctxStatus = document.getElementById('orderStatusPieChart');
     if (ctxStatus) {
+        let currentAnimatedTotal = 0;
+        let isStatusAnimating = true;
+
         const centerDoughnutPlugin = {
             id: 'centerDoughnutText',
             beforeDraw: function(chart) {
                 if (chart.config.type !== 'doughnut') return;
                 const ctx = chart.ctx;
                 const active = chart.getActiveElements();
-                const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
 
-                let mainText = total.toString();
+                let mainText = currentAnimatedTotal.toString();
                 let subText = 'TOTAL ORDERS';
 
-                if (active.length > 0) {
+                if (!isStatusAnimating && active.length > 0) {
                     const idx = active[0].index;
-                    const val = chart.data.datasets[0].data[idx];
-                    const pct = total > 0 ? Math.round((val / total) * 100) : 0;
+                    const val = targetOrderStatusData[idx];
+                    const pct = totalOrders > 0 ? Math.round((val / totalOrders) * 100) : 0;
                     mainText = val + ' (' + pct + '%)';
                     subText = chart.data.labels[idx].toUpperCase();
                 }
@@ -576,7 +617,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const centerY = chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 2;
                 const centerX = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
 
-                ctx.font = '700 20px "Poppins", sans-serif';
+                ctx.font = '700 22px "Poppins", sans-serif';
                 ctx.fillStyle = '#1b4332';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
@@ -594,7 +635,7 @@ document.addEventListener('DOMContentLoaded', function () {
             data: {
                 labels: orderStatusLabels,
                 datasets: [{
-                    data: orderStatusData,
+                    data: targetOrderStatusData.map(() => 0),
                     backgroundColor: [
                         '#eab308', // Placed: Amber
                         '#3b82f6', // Accepted: Blue
@@ -611,20 +652,17 @@ document.addEventListener('DOMContentLoaded', function () {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                animation: {
-                    animateRotate: true,
-                    animateScale: true,
-                    duration: 1200,
-                    easing: 'easeOutQuart'
-                },
+                animation: false,
+                circumference: 0,
+                rotation: -90,
                 plugins: {
                     legend: { display: false },
                     tooltip: {
                         callbacks: {
                             label: function(context) {
-                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const total = targetOrderStatusData.reduce((a, b) => a + b, 0);
                                 const pct = total > 0 ? ((context.raw / total) * 100).toFixed(1) : 0;
-                                return ' ' + context.label + ': ' + context.raw + ' orders (' + pct + '%)';
+                                return ' ' + context.label + ': ' + Math.round(context.raw) + ' orders (' + pct + '%)';
                             }
                         }
                     }
@@ -633,10 +671,48 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Interactive status pills click/hover to highlight chart segment
-        document.querySelectorAll('.status-chart-pill').forEach(pill => {
+        const statusAnim = { progress: 0 };
+        gsap.to(statusAnim, {
+            progress: 1,
+            duration: 1.6,
+            delay: 0.35,
+            ease: 'power2.out',
+            onUpdate: () => {
+                statusDoughnutChart.options.circumference = 360 * statusAnim.progress;
+                statusDoughnutChart.data.datasets[0].data = targetOrderStatusData.map(v => v * statusAnim.progress);
+                currentAnimatedTotal = Math.round(totalOrders * statusAnim.progress);
+                statusDoughnutChart.update('none');
+            },
+            onComplete: () => {
+                isStatusAnimating = false;
+                statusDoughnutChart.options.circumference = 360;
+                statusDoughnutChart.data.datasets[0].data = [...targetOrderStatusData];
+                currentAnimatedTotal = totalOrders;
+                statusDoughnutChart.update('none');
+            }
+        });
+
+        // Animate the status pill badge numbers underneath
+        document.querySelectorAll('#chartStatusLegend .status-chart-pill').forEach(pill => {
             const itemIdx = parseInt(pill.getAttribute('data-item-index'));
+            const strong = pill.querySelector('strong');
+            if (strong) {
+                const targetVal = targetOrderStatusData[itemIdx] || 0;
+                strong.innerText = '0';
+                const counterObj = { val: 0 };
+                gsap.to(counterObj, {
+                    val: targetVal,
+                    duration: 1.6,
+                    delay: 0.35,
+                    ease: 'power2.out',
+                    onUpdate: () => {
+                        strong.innerText = Math.round(counterObj.val);
+                    }
+                });
+            }
+
             pill.addEventListener('mouseenter', () => {
+                if (isStatusAnimating) return;
                 pill.classList.remove('bg-light');
                 pill.classList.add('bg-white', 'shadow-sm', 'border-primary');
                 statusDoughnutChart.setActiveElements([{ datasetIndex: 0, index: itemIdx }]);
@@ -644,6 +720,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 statusDoughnutChart.update();
             });
             pill.addEventListener('mouseleave', () => {
+                if (isStatusAnimating) return;
                 pill.classList.remove('bg-white', 'shadow-sm', 'border-primary');
                 pill.classList.add('bg-light');
                 statusDoughnutChart.setActiveElements([]);
@@ -653,18 +730,18 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // 3. Doughnut / Pie Chart: Popular Product Categories
+    // 3. Doughnut / Pie Chart: Popular Product Categories (Animated Sweep)
     const categoryLabels = {!! json_encode($categoryLabels) !!};
-    const categoryCounts = {!! json_encode($categoryCounts) !!};
+    const targetCategoryCounts = {!! json_encode($categoryCounts) !!};
 
     const ctxCat = document.getElementById('categoryDistributionChart');
     if (ctxCat) {
-        new Chart(ctxCat, {
+        const categoryPieChart = new Chart(ctxCat, {
             type: 'pie',
             data: {
                 labels: categoryLabels,
                 datasets: [{
-                    data: categoryCounts,
+                    data: targetCategoryCounts.map(() => 0),
                     backgroundColor: [
                         '#2d6a4f', // Deep Green
                         '#52b788', // Light Sage
@@ -680,12 +757,9 @@ document.addEventListener('DOMContentLoaded', function () {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                animation: {
-                    animateRotate: true,
-                    animateScale: true,
-                    duration: 1300,
-                    easing: 'easeOutQuart'
-                },
+                animation: false,
+                circumference: 0,
+                rotation: -90,
                 plugins: {
                     legend: {
                         position: 'bottom',
@@ -698,20 +772,60 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         });
+
+        const catAnim = { progress: 0 };
+        gsap.to(catAnim, {
+            progress: 1,
+            duration: 1.6,
+            delay: 0.4,
+            ease: 'power2.out',
+            onUpdate: () => {
+                categoryPieChart.options.circumference = 360 * catAnim.progress;
+                categoryPieChart.data.datasets[0].data = targetCategoryCounts.map(v => v * catAnim.progress);
+                categoryPieChart.update('none');
+            },
+            onComplete: () => {
+                categoryPieChart.options.circumference = 360;
+                categoryPieChart.data.datasets[0].data = [...targetCategoryCounts];
+                categoryPieChart.update('none');
+            }
+        });
     }
 
-    // 4. Bar Chart: Order Reservation Volumes by Market
-    const marketOrderCounts = {!! json_encode($marketOrderCountData) !!};
+    // 4. Bar Chart: Order Reservation Volumes by Market (Animated Rising with Counting Numbers)
+    const targetMarketOrderCounts = {!! json_encode($marketOrderCountData) !!};
+    const maxMarketOrders = Math.max(...targetMarketOrderCounts, 5);
 
     const ctxOrders = document.getElementById('marketOrdersBarChart');
     if (ctxOrders) {
-        new Chart(ctxOrders, {
+        const animatedOrderLabelsPlugin = {
+            id: 'animatedMarketOrderLabels',
+            afterDatasetsDraw(chart) {
+                const { ctx, data } = chart;
+                ctx.save();
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.font = '700 11px "Poppins", sans-serif';
+                ctx.fillStyle = '#0284c7';
+
+                chart.getDatasetMeta(0).data.forEach((bar, index) => {
+                    const currentVal = data.datasets[0].data[index];
+                    const targetVal = targetMarketOrderCounts[index];
+                    if (targetVal > 0) {
+                        ctx.fillText(Math.round(currentVal).toString(), bar.x, bar.y - 4);
+                    }
+                });
+                ctx.restore();
+            }
+        };
+
+        const marketOrdersChart = new Chart(ctxOrders, {
             type: 'bar',
             data: {
                 labels: marketLabels,
                 datasets: [{
                     label: 'Total Orders',
-                    data: marketOrderCounts,
+                    data: targetMarketOrderCounts.map(() => 0),
                     backgroundColor: '#0284c7',
                     hoverBackgroundColor: '#0369a1',
                     borderRadius: 6,
@@ -719,19 +833,18 @@ document.addEventListener('DOMContentLoaded', function () {
                     maxBarThickness: 48
                 }]
             },
+            plugins: [animatedOrderLabelsPlugin],
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                animation: {
-                    duration: 1200,
-                    easing: 'easeOutQuart'
-                },
+                animation: false,
                 plugins: {
                     legend: { display: false }
                 },
                 scales: {
                     y: {
                         beginAtZero: true,
+                        suggestedMax: maxMarketOrders * 1.25,
                         ticks: { stepSize: 1 },
                         grid: { color: '#f1f5f9' }
                     },
@@ -739,6 +852,22 @@ document.addEventListener('DOMContentLoaded', function () {
                         grid: { display: false }
                     }
                 }
+            }
+        });
+
+        const ordersAnim = { progress: 0 };
+        gsap.to(ordersAnim, {
+            progress: 1,
+            duration: 1.6,
+            delay: 0.3,
+            ease: 'power2.out',
+            onUpdate: () => {
+                marketOrdersChart.data.datasets[0].data = targetMarketOrderCounts.map(v => v * ordersAnim.progress);
+                marketOrdersChart.update('none');
+            },
+            onComplete: () => {
+                marketOrdersChart.data.datasets[0].data = [...targetMarketOrderCounts];
+                marketOrdersChart.update('none');
             }
         });
     }

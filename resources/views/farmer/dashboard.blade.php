@@ -318,19 +318,43 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // 2. Bar Chart: 7-Day Revenue Trend
+    // 2. Bar Chart: 7-Day Revenue Trend (Animated from 0 upward with Counting Numbers)
     const revenueLabels = {!! json_encode($revenueTrendLabels) !!};
-    const revenueData = {!! json_encode($revenueTrendData) !!};
+    const targetRevenueData = {!! json_encode($revenueTrendData) !!};
+    const maxRevenue = Math.max(...targetRevenueData, 10);
 
     const ctxRev = document.getElementById('farmerRevenueChart');
     if (ctxRev) {
-        new Chart(ctxRev, {
+        // Custom plugin to render animated numbers directly above each rising bar
+        const animatedBarLabelsPlugin = {
+            id: 'animatedBarLabels',
+            afterDatasetsDraw(chart) {
+                const { ctx, data } = chart;
+                ctx.save();
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.font = '700 11px "Poppins", sans-serif';
+                ctx.fillStyle = '#1b4332';
+
+                chart.getDatasetMeta(0).data.forEach((bar, index) => {
+                    const currentVal = data.datasets[0].data[index];
+                    const targetVal = targetRevenueData[index];
+                    if (targetVal > 0) {
+                        const formatted = '$' + currentVal.toFixed(2);
+                        ctx.fillText(formatted, bar.x, bar.y - 4);
+                    }
+                });
+                ctx.restore();
+            }
+        };
+
+        const revenueChart = new Chart(ctxRev, {
             type: 'bar',
             data: {
                 labels: revenueLabels,
                 datasets: [{
                     label: 'Settled Sales ($)',
-                    data: revenueData,
+                    data: targetRevenueData.map(() => 0),
                     backgroundColor: '#1b4332',
                     hoverBackgroundColor: '#2d6a4f',
                     borderRadius: 6,
@@ -338,13 +362,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     maxBarThickness: 36
                 }]
             },
+            plugins: [animatedBarLabelsPlugin],
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                animation: {
-                    duration: 1200,
-                    easing: 'easeOutQuart'
-                },
+                animation: false,
                 plugins: {
                     legend: { display: false },
                     tooltip: {
@@ -358,6 +380,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 scales: {
                     y: {
                         beginAtZero: true,
+                        suggestedMax: maxRevenue * 1.18,
                         grid: { color: '#f1f5f9' },
                         ticks: {
                             callback: function(value) { return '$' + value; }
@@ -369,29 +392,49 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         });
+
+        // GSAP Tween to animate bars rising from down to up and numbers from 0 to real value
+        const barAnim = { progress: 0 };
+        gsap.to(barAnim, {
+            progress: 1,
+            duration: 1.6,
+            delay: 0.2,
+            ease: 'power2.out',
+            onUpdate: () => {
+                revenueChart.data.datasets[0].data = targetRevenueData.map(v => v * barAnim.progress);
+                revenueChart.update('none');
+            },
+            onComplete: () => {
+                revenueChart.data.datasets[0].data = [...targetRevenueData];
+                revenueChart.update('none');
+            }
+        });
     }
 
     // 3. Interactive Doughnut / Pie Chart: Pre-Order Pipeline Status Breakdown
     const orderStatusLabels = {!! json_encode($orderStatusLabels) !!};
-    const orderStatusData = {!! json_encode($orderStatusData) !!};
+    const targetStatusData = {!! json_encode($orderStatusData) !!};
+    const totalOrders = targetStatusData.reduce((a, b) => a + b, 0);
 
     const ctxStatus = document.getElementById('farmerStatusChart');
     if (ctxStatus) {
+        let currentAnimatedTotal = 0;
+        let isAnimating = true;
+
         const centerDoughnutPlugin = {
             id: 'centerFarmerDoughnutText',
             beforeDraw: function(chart) {
                 if (chart.config.type !== 'doughnut') return;
                 const ctx = chart.ctx;
                 const active = chart.getActiveElements();
-                const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
 
-                let mainText = total.toString();
+                let mainText = currentAnimatedTotal.toString();
                 let subText = 'PRE-ORDERS';
 
-                if (active.length > 0) {
+                if (!isAnimating && active.length > 0) {
                     const idx = active[0].index;
-                    const val = chart.data.datasets[0].data[idx];
-                    const pct = total > 0 ? Math.round((val / total) * 100) : 0;
+                    const val = targetStatusData[idx];
+                    const pct = totalOrders > 0 ? Math.round((val / totalOrders) * 100) : 0;
                     mainText = val + ' (' + pct + '%)';
                     subText = chart.data.labels[idx].toUpperCase();
                 }
@@ -400,7 +443,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const centerY = chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 2;
                 const centerX = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
 
-                ctx.font = '700 20px "Poppins", sans-serif';
+                ctx.font = '700 22px "Poppins", sans-serif';
                 ctx.fillStyle = '#1b4332';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
@@ -418,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function () {
             data: {
                 labels: orderStatusLabels,
                 datasets: [{
-                    data: orderStatusData,
+                    data: targetStatusData.map(() => 0),
                     backgroundColor: [
                         '#eab308', // Placed: Amber
                         '#3b82f6', // Accepted: Blue
@@ -435,20 +478,17 @@ document.addEventListener('DOMContentLoaded', function () {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                animation: {
-                    animateRotate: true,
-                    animateScale: true,
-                    duration: 1200,
-                    easing: 'easeOutQuart'
-                },
+                animation: false,
+                circumference: 0,
+                rotation: -90,
                 plugins: {
                     legend: { display: false },
                     tooltip: {
                         callbacks: {
                             label: function(context) {
-                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const total = targetStatusData.reduce((a, b) => a + b, 0);
                                 const pct = total > 0 ? ((context.raw / total) * 100).toFixed(1) : 0;
-                                return ' ' + context.label + ': ' + context.raw + ' orders (' + pct + '%)';
+                                return ' ' + context.label + ': ' + Math.round(context.raw) + ' orders (' + pct + '%)';
                             }
                         }
                     }
@@ -457,10 +497,50 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Interactive status pills click/hover to highlight chart segment
+        // GSAP Tween to sweep pie slices from 0° to 360° and count center number from 0 to total
+        const pieAnim = { progress: 0 };
+        gsap.to(pieAnim, {
+            progress: 1,
+            duration: 1.6,
+            delay: 0.35,
+            ease: 'power2.out',
+            onUpdate: () => {
+                statusDoughnutChart.options.circumference = 360 * pieAnim.progress;
+                statusDoughnutChart.data.datasets[0].data = targetStatusData.map(v => v * pieAnim.progress);
+                currentAnimatedTotal = Math.round(totalOrders * pieAnim.progress);
+                statusDoughnutChart.update('none');
+            },
+            onComplete: () => {
+                isAnimating = false;
+                statusDoughnutChart.options.circumference = 360;
+                statusDoughnutChart.data.datasets[0].data = [...targetStatusData];
+                currentAnimatedTotal = totalOrders;
+                statusDoughnutChart.update('none');
+            }
+        });
+
+        // Animate the status pill badge numbers underneath
         document.querySelectorAll('#farmerChartLegend .status-chart-pill').forEach(pill => {
             const itemIdx = parseInt(pill.getAttribute('data-item-index'));
+            const strong = pill.querySelector('strong');
+            if (strong) {
+                const targetVal = targetStatusData[itemIdx] || 0;
+                strong.innerText = '0';
+                const counterObj = { val: 0 };
+                gsap.to(counterObj, {
+                    val: targetVal,
+                    duration: 1.6,
+                    delay: 0.35,
+                    ease: 'power2.out',
+                    onUpdate: () => {
+                        strong.innerText = Math.round(counterObj.val);
+                    }
+                });
+            }
+
+            // Interactive status pills click/hover to highlight chart segment
             pill.addEventListener('mouseenter', () => {
+                if (isAnimating) return;
                 pill.classList.remove('bg-light');
                 pill.classList.add('bg-white', 'shadow-sm', 'border-primary');
                 statusDoughnutChart.setActiveElements([{ datasetIndex: 0, index: itemIdx }]);
@@ -468,6 +548,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 statusDoughnutChart.update();
             });
             pill.addEventListener('mouseleave', () => {
+                if (isAnimating) return;
                 pill.classList.remove('bg-white', 'shadow-sm', 'border-primary');
                 pill.classList.add('bg-light');
                 statusDoughnutChart.setActiveElements([]);

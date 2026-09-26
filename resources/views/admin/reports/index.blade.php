@@ -343,19 +343,41 @@ document.addEventListener('DOMContentLoaded', function () {
     Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
     Chart.defaults.color = '#64748b';
 
-    // 1. Report Market Revenue Bar Chart
+    // 1. Report Market Revenue Bar Chart (Animated Rising with Counting Numbers)
     const marketNames = {!! json_encode($marketNames) !!};
-    const marketRevenues = {!! json_encode($marketRevenues) !!};
+    const targetMarketRevenues = {!! json_encode($marketRevenues) !!};
+    const maxMarketRev = Math.max(...targetMarketRevenues, 100);
 
     const ctxRev = document.getElementById('reportMarketRevenueChart');
     if (ctxRev) {
-        new Chart(ctxRev, {
+        const animatedRevenueLabelsPlugin = {
+            id: 'animatedReportRevenueLabels',
+            afterDatasetsDraw(chart) {
+                const { ctx, data } = chart;
+                ctx.save();
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.font = '700 11px "Poppins", sans-serif';
+                ctx.fillStyle = '#1b4332';
+
+                chart.getDatasetMeta(0).data.forEach((bar, index) => {
+                    const currentVal = data.datasets[0].data[index];
+                    const targetVal = targetMarketRevenues[index];
+                    if (targetVal > 0) {
+                        ctx.fillText('$' + currentVal.toFixed(2), bar.x, bar.y - 4);
+                    }
+                });
+                ctx.restore();
+            }
+        };
+
+        const reportRevChart = new Chart(ctxRev, {
             type: 'bar',
             data: {
                 labels: marketNames,
                 datasets: [{
                     label: 'Settled Sales ($)',
-                    data: marketRevenues,
+                    data: targetMarketRevenues.map(() => 0),
                     backgroundColor: '#1b4332',
                     hoverBackgroundColor: '#2d6a4f',
                     borderRadius: 6,
@@ -363,13 +385,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     maxBarThickness: 45
                 }]
             },
+            plugins: [animatedRevenueLabelsPlugin],
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                animation: {
-                    duration: 1200,
-                    easing: 'easeOutQuart'
-                },
+                animation: false,
                 plugins: {
                     legend: { display: false },
                     tooltip: {
@@ -381,6 +401,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 scales: {
                     y: {
                         beginAtZero: true,
+                        suggestedMax: maxMarketRev * 1.18,
                         grid: { color: '#f1f5f9' },
                         ticks: {
                             callback: function(value) { return '$' + value; }
@@ -392,9 +413,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         });
+
+        const revAnim = { progress: 0 };
+        gsap.to(revAnim, {
+            progress: 1,
+            duration: 1.6,
+            delay: 0.2,
+            ease: 'power2.out',
+            onUpdate: () => {
+                reportRevChart.data.datasets[0].data = targetMarketRevenues.map(v => v * revAnim.progress);
+                reportRevChart.update('none');
+            },
+            onComplete: () => {
+                reportRevChart.data.datasets[0].data = [...targetMarketRevenues];
+                reportRevChart.update('none');
+            }
+        });
     }
 
-    // 2. Report Order Status Doughnut / Pie Chart
+    // 2. Report Order Status Doughnut / Pie Chart (Animated Sweep)
     const statusData = {
         'Placed': {{ $statusBreakdown['placed'] ?? 0 }},
         'Accepted': {{ $statusBreakdown['accepted'] ?? 0 }},
@@ -402,15 +439,16 @@ document.addEventListener('DOMContentLoaded', function () {
         'Completed': {{ $statusBreakdown['completed'] ?? 0 }},
         'Cancelled': {{ $statusBreakdown['cancelled'] ?? 0 }}
     };
+    const targetStatusVals = Object.values(statusData);
 
     const ctxStatus = document.getElementById('reportOrderStatusChart');
     if (ctxStatus) {
-        new Chart(ctxStatus, {
+        const reportStatusChart = new Chart(ctxStatus, {
             type: 'doughnut',
             data: {
                 labels: Object.keys(statusData),
                 datasets: [{
-                    data: Object.values(statusData),
+                    data: targetStatusVals.map(() => 0),
                     backgroundColor: ['#eab308', '#3b82f6', '#8b5cf6', '#10b981', '#94a3b8'],
                     borderWidth: 2,
                     borderColor: '#ffffff'
@@ -419,12 +457,9 @@ document.addEventListener('DOMContentLoaded', function () {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                animation: {
-                    animateRotate: true,
-                    animateScale: true,
-                    duration: 1300,
-                    easing: 'easeOutQuart'
-                },
+                animation: false,
+                circumference: 0,
+                rotation: -90,
                 plugins: {
                     legend: {
                         position: 'bottom',
@@ -434,20 +469,38 @@ document.addEventListener('DOMContentLoaded', function () {
                 cutout: '62%'
             }
         });
+
+        const statusAnim = { progress: 0 };
+        gsap.to(statusAnim, {
+            progress: 1,
+            duration: 1.6,
+            delay: 0.35,
+            ease: 'power2.out',
+            onUpdate: () => {
+                reportStatusChart.options.circumference = 360 * statusAnim.progress;
+                reportStatusChart.data.datasets[0].data = targetStatusVals.map(v => v * statusAnim.progress);
+                reportStatusChart.update('none');
+            },
+            onComplete: () => {
+                reportStatusChart.options.circumference = 360;
+                reportStatusChart.data.datasets[0].data = [...targetStatusVals];
+                reportStatusChart.update('none');
+            }
+        });
     }
 
-    // 3. Report Product Category Distribution Pie Chart
+    // 3. Report Product Category Distribution Pie Chart (Animated Sweep)
     const catNames = {!! json_encode($categoryNames) !!};
-    const catCounts = {!! json_encode($categoryProductCounts) !!};
+    const targetCatCounts = {!! json_encode($categoryProductCounts) !!};
 
     const ctxCat = document.getElementById('reportCategoryChart');
     if (ctxCat) {
-        new Chart(ctxCat, {
+        const reportCatChart = new Chart(ctxCat, {
             type: 'pie',
             data: {
                 labels: catNames,
                 datasets: [{
-                    data: catCounts,
+                    data: targetCatCounts.map(() => 0),
                     backgroundColor: ['#2d6a4f', '#52b788', '#d4a373', '#e76f51', '#74c69d', '#b7b7a4'],
                     borderWidth: 2,
                     borderColor: '#ffffff'
@@ -456,12 +509,9 @@ document.addEventListener('DOMContentLoaded', function () {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                animation: {
-                    animateRotate: true,
-                    animateScale: true,
-                    duration: 1300,
-                    easing: 'easeOutQuart'
-                },
+                animation: false,
+                circumference: 0,
+                rotation: -90,
                 plugins: {
                     legend: {
                         position: 'bottom',
@@ -470,22 +520,62 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         });
+
+        const catAnim = { progress: 0 };
+        gsap.to(catAnim, {
+            progress: 1,
+            duration: 1.6,
+            delay: 0.4,
+            ease: 'power2.out',
+            onUpdate: () => {
+                reportCatChart.options.circumference = 360 * catAnim.progress;
+                reportCatChart.data.datasets[0].data = targetCatCounts.map(v => v * catAnim.progress);
+                reportCatChart.update('none');
+            },
+            onComplete: () => {
+                reportCatChart.options.circumference = 360;
+                reportCatChart.data.datasets[0].data = [...targetCatCounts];
+                reportCatChart.update('none');
+            }
+        });
     }
 
-    // 4. Report Top Farmer Sales Horizontal Bar Chart
+    // 4. Report Top Farmer Sales Horizontal Bar Chart (Animated Extending from Left to Right)
     const farmerNames = {!! json_encode($topFarmers->pluck('stall_name')->toArray()) !!};
-    const farmerSales = {!! json_encode($topFarmers->pluck('total_sales')->toArray()) !!};
+    const targetFarmerSales = {!! json_encode($topFarmers->pluck('total_sales')->toArray()) !!};
+    const maxFarmerSales = Math.max(...targetFarmerSales, 100);
 
     const ctxFarmers = document.getElementById('reportTopFarmersChart');
     if (ctxFarmers) {
-        new Chart(ctxFarmers, {
+        const animatedFarmerLabelsPlugin = {
+            id: 'animatedFarmerSalesLabels',
+            afterDatasetsDraw(chart) {
+                const { ctx, data } = chart;
+                ctx.save();
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'middle';
+                ctx.font = '700 11px "Poppins", sans-serif';
+                ctx.fillStyle = '#1b4332';
+
+                chart.getDatasetMeta(0).data.forEach((bar, index) => {
+                    const currentVal = data.datasets[0].data[index];
+                    const targetVal = targetFarmerSales[index];
+                    if (targetVal > 0) {
+                        ctx.fillText('$' + currentVal.toFixed(2), bar.x + 6, bar.y);
+                    }
+                });
+                ctx.restore();
+            }
+        };
+
+        const reportFarmersChart = new Chart(ctxFarmers, {
             type: 'bar',
             data: {
                 labels: farmerNames,
                 datasets: [{
                     axis: 'y',
                     label: 'Completed Sales ($)',
-                    data: farmerSales,
+                    data: targetFarmerSales.map(() => 0),
                     backgroundColor: '#d4a373',
                     hoverBackgroundColor: '#c48b52',
                     borderRadius: 6,
@@ -493,14 +583,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     maxBarThickness: 32
                 }]
             },
+            plugins: [animatedFarmerLabelsPlugin],
             options: {
                 indexAxis: 'y',
                 responsive: true,
                 maintainAspectRatio: false,
-                animation: {
-                    duration: 1200,
-                    easing: 'easeOutQuart'
-                },
+                animation: false,
                 plugins: {
                     legend: { display: false },
                     tooltip: {
@@ -512,6 +600,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 scales: {
                     x: {
                         beginAtZero: true,
+                        suggestedMax: maxFarmerSales * 1.25,
                         grid: { color: '#f1f5f9' },
                         ticks: {
                             callback: function(value) { return '$' + value; }
@@ -521,6 +610,22 @@ document.addEventListener('DOMContentLoaded', function () {
                         grid: { display: false }
                     }
                 }
+            }
+        });
+
+        const farmersAnim = { progress: 0 };
+        gsap.to(farmersAnim, {
+            progress: 1,
+            duration: 1.6,
+            delay: 0.35,
+            ease: 'power2.out',
+            onUpdate: () => {
+                reportFarmersChart.data.datasets[0].data = targetFarmerSales.map(v => v * farmersAnim.progress);
+                reportFarmersChart.update('none');
+            },
+            onComplete: () => {
+                reportFarmersChart.data.datasets[0].data = [...targetFarmerSales];
+                reportFarmersChart.update('none');
             }
         });
     }
