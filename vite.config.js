@@ -3,11 +3,22 @@ import laravel from 'laravel-vite-plugin';
 import { bunny } from 'laravel-vite-plugin/fonts';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
+import path from 'path';
 
 export default defineConfig({
+    resolve: {
+        alias: {
+            '@': path.resolve(import.meta.dirname, './resources/js'),
+        },
+    },
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js', 'resources/js/agentation.jsx'],
+            input: [
+                'resources/css/app.css',
+                'resources/js/app.js',
+                'resources/js/agentation.jsx',
+                'resources/js/floating-dock-mount.tsx',
+            ],
             refresh: true,
             fonts: [
                 bunny('Instrument Sans', {

@@ -20,7 +20,7 @@
     <!-- GSAP for Smooth Motion Graphics & Antigravity Interactions -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
-    @vite(['resources/js/agentation.jsx'])
+    @vite(['resources/js/agentation.jsx', 'resources/js/floating-dock-mount.tsx'])
 
     <style>
         :root {
@@ -532,11 +532,11 @@
                 </a>
             </div>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+            <button class="navbar-toggler d-none" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navContent">
+            <div class="collapse navbar-collapse d-none d-lg-flex" id="navContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('home') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('home') }}">Home</a>
@@ -1088,6 +1088,14 @@
                 .replace(/\n/g, '<br>');
         }
     </script>
+    
+    <!-- 21st.dev Floating Navigation Dock Mount -->
+    <div id="marketlink-floating-dock" 
+         data-cart-count="{{ count(session('cart', [])) }}" 
+         data-auth="{{ auth()->check() ? 'true' : 'false' }}" 
+         data-dashboard-url="{{ auth()->check() ? (auth()->user()->role === 'admin' ? route('admin.dashboard') : (auth()->user()->role === 'farmer' ? route('farmer.dashboard') : route('customer.dashboard'))) : route('login') }}" 
+         data-role="{{ auth()->check() ? auth()->user()->role : 'guest' }}"></div>
+
     @yield('scripts')
 </body>
 </html>
