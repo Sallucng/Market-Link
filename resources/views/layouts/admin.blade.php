@@ -16,7 +16,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600;1,700&display=swap" rel="stylesheet">
 
     <!-- Chart.js for Admin Analytics (SRS §1.6) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -41,7 +41,7 @@
             --text-dark: #191c1e;
             --text-muted: #66696d;
             --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            --font-heading: 'Playfair Display', Georgia, serif;
+            --font-heading: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             --font-mono: 'Geist Mono', 'SF Mono', Consolas, monospace;
         }
 
@@ -55,9 +55,39 @@
             overflow-x: hidden;
         }
 
-        .heading-serif {
-            font-family: var(--font-heading);
+        /* Headings Typography - Poppins applied across all headings */
+        h1, h2, h3, h4, h5, h6,
+        .h1, .h2, .h3, .h4, .h5, .h6,
+        .heading-serif,
+        .display-1, .display-2, .display-3, .display-4, .display-5, .display-6,
+        .navbar-brand,
+        .admin-sidebar-header {
+            font-family: var(--font-heading) !important;
+        }
+
+        h1, .h1, .display-1, .display-2, .display-3, .display-4 {
             letter-spacing: -0.025em;
+            font-weight: 700;
+        }
+
+        h2, .h2, .display-5, .display-6 {
+            letter-spacing: -0.02em;
+            font-weight: 600;
+        }
+
+        h3, .h3, h4, .h4 {
+            letter-spacing: -0.015em;
+            font-weight: 600;
+        }
+
+        h5, .h5, h6, .h6 {
+            letter-spacing: -0.01em;
+            font-weight: 600;
+        }
+
+        .heading-serif {
+            font-family: var(--font-heading) !important;
+            letter-spacing: -0.02em;
         }
 
         .font-mono-meta {

@@ -400,7 +400,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const centerY = chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 2;
                 const centerX = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
 
-                ctx.font = 'bold 20px "Playfair Display", Georgia, serif';
+                ctx.font = '700 20px "Poppins", sans-serif';
                 ctx.fillStyle = '#1b4332';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
