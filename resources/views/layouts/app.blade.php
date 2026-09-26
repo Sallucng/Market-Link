@@ -464,6 +464,23 @@
                 </span>
                 MarketLink
             </a>
+
+            <!-- Mobile Quick Actions (Search & Cart directly in mobile header) -->
+            <div class="d-flex align-items-center gap-1 d-lg-none ms-auto me-2">
+                <button type="button" class="btn btn-sm btn-light border rounded-circle d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#globalSearchModal" aria-label="Search" style="width: 36px; height: 36px; background: #fbfdfa;">
+                    <i class="bi bi-search text-success"></i>
+                </button>
+                <a href="{{ route('cart.index') }}" class="btn btn-sm btn-light border rounded-circle d-flex align-items-center justify-content-center position-relative" style="width: 36px; height: 36px; background: #fbfdfa;" aria-label="Pickup Cart">
+                    <i class="bi bi-cart3 text-success"></i>
+                    @php $cartCount = count(session('cart', [])); @endphp
+                    @if($cartCount > 0)
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.62rem; padding: 0.25em 0.45em;">
+                            {{ $cartCount }}
+                        </span>
+                    @endif
+                </a>
+            </div>
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -491,12 +508,16 @@
                 </ul>
 
                 <div class="d-flex align-items-center gap-2">
+                    <!-- Desktop Omnisearch Trigger (Ctrl+K) -->
+                    <button type="button" class="btn btn-sm btn-light border rounded-pill px-3 py-1 text-muted d-none d-lg-inline-flex align-items-center gap-2 me-1" data-bs-toggle="modal" data-bs-target="#globalSearchModal" style="background: #fbfdfa; border-color: var(--border-hairline) !important;">
+                        <i class="bi bi-search text-success"></i>
+                        <span style="font-size: 0.82rem;">Search harvests, farmers...</span>
+                        <kbd class="bg-white border text-muted px-1.5 py-0.5 rounded font-mono-meta" style="font-size: 0.65rem;">Ctrl K</kbd>
+                    </button>
+
                     <!-- Pre-Order Cart Button -->
                     <a href="{{ route('cart.index') }}" class="btn btn-brand-outline position-relative me-2 px-3 py-1">
                         <i class="bi bi-cart3 me-1"></i> Pickup Cart
-                        @php
-                            $cartCount = count(session('cart', []));
-                        @endphp
                         @if($cartCount > 0)
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger font-mono-meta">
                                 {{ $cartCount }}
@@ -674,9 +695,277 @@
         </div>
     </div>
 
+    <!-- Global Omnisearch Modal (Ctrl+K / Mobile Search) -->
+    <div class="modal fade" id="globalSearchModal" tabindex="-1" aria-labelledby="globalSearchModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 20px; overflow: hidden; background: #ffffff;">
+                <div class="modal-header border-bottom p-3" style="background: #fafbfa;">
+                    <div class="input-group input-group-lg border-0 align-items-center">
+                        <span class="input-group-text bg-transparent border-0 text-success pe-2">
+                            <i class="bi bi-search fs-5"></i>
+                        </span>
+                        <input type="text" id="globalSearchInput" class="form-control bg-transparent border-0 shadow-none ps-0 fs-6" 
+                               placeholder="Search fresh products, farmers, market stalls..." 
+                               autocomplete="off">
+                        <button type="button" id="clearSearchBtn" class="btn btn-link text-muted pe-2 text-decoration-none d-none" onclick="clearGlobalSearch()">
+                            <i class="bi bi-x-circle-fill"></i>
+                        </button>
+                        <span class="input-group-text bg-transparent border-0 text-muted small d-none d-md-flex align-items-center">
+                            <kbd class="bg-light border text-muted px-2 py-0.5 rounded small font-mono-meta">ESC</kbd>
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-body p-3 p-md-4" style="max-height: 480px; overflow-y: auto;" id="globalSearchResults">
+                    <!-- Default Suggestions State -->
+                    <div id="searchSuggestionsState">
+                        <div class="mb-3">
+                            <span class="text-muted small fw-semibold text-uppercase font-mono-meta" style="letter-spacing: 0.05em;">Popular Searches</span>
+                            <div class="d-flex flex-wrap gap-2 mt-2">
+                                <button type="button" class="btn btn-sm btn-light border rounded-pill px-3 py-1 font-mono-meta" onclick="fillAndSearch('Heirloom Tomatoes')">🍅 Heirloom Tomatoes</button>
+                                <button type="button" class="btn btn-sm btn-light border rounded-pill px-3 py-1 font-mono-meta" onclick="fillAndSearch('Organic Eggs')">🥚 Organic Eggs</button>
+                                <button type="button" class="btn btn-sm btn-light border rounded-pill px-3 py-1 font-mono-meta" onclick="fillAndSearch('Sourdough')">🥖 Sourdough Bread</button>
+                                <button type="button" class="btn btn-sm btn-light border rounded-pill px-3 py-1 font-mono-meta" onclick="fillAndSearch('Honey')">🍯 Raw Farm Honey</button>
+                                <button type="button" class="btn btn-sm btn-light border rounded-pill px-3 py-1 font-mono-meta" onclick="fillAndSearch('Downtown')">📍 Downtown Plaza</button>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 pt-3 border-top">
+                            <span class="text-muted small fw-semibold text-uppercase font-mono-meta" style="letter-spacing: 0.05em;">Quick Jump</span>
+                            <div class="row g-2 mt-1">
+                                <div class="col-sm-4">
+                                    <a href="{{ route('products.index') }}" class="d-flex align-items-center gap-2 p-2 rounded-3 text-dark text-decoration-none border bg-light bg-opacity-50 hover-lift">
+                                        <i class="bi bi-basket text-success fs-5"></i>
+                                        <div>
+                                            <div class="fw-semibold small">All Products</div>
+                                            <div class="text-muted" style="font-size: 0.75rem;">Full harvest catalog</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-sm-4">
+                                    <a href="{{ route('markets.index') }}" class="d-flex align-items-center gap-2 p-2 rounded-3 text-dark text-decoration-none border bg-light bg-opacity-50 hover-lift">
+                                        <i class="bi bi-geo-alt text-success fs-5"></i>
+                                        <div>
+                                            <div class="fw-semibold small">Markets & Map</div>
+                                            <div class="text-muted" style="font-size: 0.75rem;">Find open stalls</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-sm-4">
+                                    <a href="{{ route('farmers.index') }}" class="d-flex align-items-center gap-2 p-2 rounded-3 text-dark text-decoration-none border bg-light bg-opacity-50 hover-lift">
+                                        <i class="bi bi-shop text-success fs-5"></i>
+                                        <div>
+                                            <div class="fw-semibold small">Growers & Farms</div>
+                                            <div class="text-muted" style="font-size: 0.75rem;">Meet local farmers</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live Dynamic Results State (Populated via JS) -->
+                    <div id="searchDynamicResults" class="d-none"></div>
+
+                    <!-- Loading State -->
+                    <div id="searchLoadingState" class="text-center py-4 d-none">
+                        <div class="spinner-border spinner-border-sm text-success" role="status"></div>
+                        <span class="ms-2 text-muted small">Searching catalog...</span>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="searchEmptyState" class="text-center py-4 d-none">
+                        <i class="bi bi-emoji-neutral text-muted fs-3 mb-2"></i>
+                        <p class="text-muted mb-0 small">No direct matches found. Try searching by generic term like "vegetables" or "apple".</p>
+                    </div>
+                </div>
+                <div class="modal-footer border-top py-2 px-3 bg-light d-flex justify-content-between align-items-center">
+                    <span class="text-muted small" style="font-size: 0.75rem;">
+                        <i class="bi bi-info-circle me-1"></i> Tip: Press <kbd class="bg-white border text-muted px-1 rounded">↵ Enter</kbd> to view full catalog results
+                    </span>
+                    <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Global Omnisearch Script -->
+    <script>
+        let searchDebounceTimer = null;
+        const searchInput = document.getElementById('globalSearchInput');
+        const suggestionsState = document.getElementById('searchSuggestionsState');
+        const dynamicResults = document.getElementById('searchDynamicResults');
+        const loadingState = document.getElementById('searchLoadingState');
+        const emptyState = document.getElementById('searchEmptyState');
+        const clearBtn = document.getElementById('clearSearchBtn');
+
+        function fillAndSearch(term) {
+            if (!searchInput) return;
+            searchInput.value = term;
+            triggerLiveSearch(term);
+        }
+
+        function clearGlobalSearch() {
+            if (!searchInput) return;
+            searchInput.value = '';
+            clearBtn.classList.add('d-none');
+            suggestionsState.classList.remove('d-none');
+            dynamicResults.classList.add('d-none');
+            dynamicResults.innerHTML = '';
+            emptyState.classList.add('d-none');
+            searchInput.focus();
+        }
+
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const val = e.target.value.trim();
+                if (val.length > 0) {
+                    clearBtn.classList.remove('d-none');
+                } else {
+                    clearBtn.classList.add('d-none');
+                }
+
+                clearTimeout(searchDebounceTimer);
+                if (val.length < 2) {
+                    suggestionsState.classList.remove('d-none');
+                    dynamicResults.classList.add('d-none');
+                    loadingState.classList.add('d-none');
+                    emptyState.classList.add('d-none');
+                    return;
+                }
+
+                searchDebounceTimer = setTimeout(() => {
+                    triggerLiveSearch(val);
+                }, 200);
+            });
+
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    const val = searchInput.value.trim();
+                    if (val) {
+                        window.location.href = "{{ route('products.index') }}?q=" + encodeURIComponent(val);
+                    }
+                }
+            });
+        }
+
+        // Global Ctrl+K / Cmd+K listener
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+                e.preventDefault();
+                const searchModalEl = document.getElementById('globalSearchModal');
+                if (searchModalEl) {
+                    const modal = bootstrap.Modal.getOrCreateInstance(searchModalEl);
+                    modal.show();
+                }
+            }
+        });
+
+        const globalSearchModalEl = document.getElementById('globalSearchModal');
+        if (globalSearchModalEl) {
+            globalSearchModalEl.addEventListener('shown.bs.modal', () => {
+                if (searchInput) searchInput.focus();
+            });
+        }
+
+        async function triggerLiveSearch(q) {
+            suggestionsState.classList.add('d-none');
+            emptyState.classList.add('d-none');
+            dynamicResults.classList.add('d-none');
+            loadingState.classList.remove('d-none');
+
+            try {
+                const res = await fetch("{{ route('api.search.live') }}?q=" + encodeURIComponent(q));
+                const data = await res.json();
+                loadingState.classList.add('d-none');
+
+                if (data.total === 0) {
+                    emptyState.classList.remove('d-none');
+                    return;
+                }
+
+                let html = '';
+
+                // Products Section
+                if (data.products && data.products.length > 0) {
+                    html += `<div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Farm Products (${data.products.length})</span>
+                            <a href="{{ route('products.index') }}?q=${encodeURIComponent(q)}" class="small text-success text-decoration-none fw-semibold">View all matching products &rarr;</a>
+                        </div>
+                        <div class="list-group list-group-flush border rounded-3 overflow-hidden">`;
+                    data.products.forEach(p => {
+                        html += `
+                            <a href="${p.url}" class="list-group-item list-group-item-action d-flex align-items-center gap-3 p-2 border-bottom">
+                                <img src="${p.image}" alt="${escapeHtml(p.name)}" class="rounded-2" style="width: 44px; height: 44px; object-fit: cover;">
+                                <div class="flex-grow-1 min-w-0">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold text-dark text-truncate">${escapeHtml(p.name)}</span>
+                                        <span class="fw-bold text-success font-mono-meta ms-2">${p.price}</span>
+                                    </div>
+                                    <div class="text-muted small" style="font-size: 0.78rem;">
+                                        <span class="badge bg-light text-secondary border me-1">${escapeHtml(p.category)}</span>
+                                        <span>${escapeHtml(p.farmer)}</span>
+                                    </div>
+                                </div>
+                            </a>`;
+                    });
+                    html += `</div></div>`;
+                }
+
+                // Farmers Section
+                if (data.farmers && data.farmers.length > 0) {
+                    html += `<div class="mb-3">
+                        <span class="text-muted small fw-semibold text-uppercase font-mono-meta d-block mb-2">Verified Farmers (${data.farmers.length})</span>
+                        <div class="list-group list-group-flush border rounded-3 overflow-hidden">`;
+                    data.farmers.forEach(f => {
+                        html += `
+                            <a href="${f.url}" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between p-2.5">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-shop text-success fs-5"></i>
+                                    <div>
+                                        <div class="fw-bold text-dark small">${escapeHtml(f.name)}</div>
+                                        <div class="text-muted" style="font-size: 0.76rem;">${escapeHtml(f.contact_person)}</div>
+                                    </div>
+                                </div>
+                                <i class="bi bi-chevron-right text-muted small"></i>
+                            </a>`;
+                    });
+                    html += `</div></div>`;
+                }
+
+                // Markets Section
+                if (data.markets && data.markets.length > 0) {
+                    html += `<div class="mb-2">
+                        <span class="text-muted small fw-semibold text-uppercase font-mono-meta d-block mb-2">Farmers Markets (${data.markets.length})</span>
+                        <div class="list-group list-group-flush border rounded-3 overflow-hidden">`;
+                    data.markets.forEach(m => {
+                        html += `
+                            <a href="${m.url}" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between p-2.5">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-geo-alt text-success fs-5"></i>
+                                    <div>
+                                        <div class="fw-bold text-dark small">${escapeHtml(m.name)}</div>
+                                        <div class="text-muted" style="font-size: 0.76rem;">${escapeHtml(m.city)} &bull; ${escapeHtml(m.days)}</div>
+                                    </div>
+                                </div>
+                                <i class="bi bi-chevron-right text-muted small"></i>
+                            </a>`;
+                    });
+                    html += `</div></div>`;
+                }
+
+                dynamicResults.innerHTML = html;
+                dynamicResults.classList.remove('d-none');
+            } catch (e) {
+                loadingState.classList.add('d-none');
+                emptyState.classList.remove('d-none');
+            }
+        }
+    </script>
 
     <!-- AI Assistant Interactive Script -->
     <script>

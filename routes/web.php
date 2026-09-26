@@ -32,6 +32,7 @@ Route::get('/products/{id}', [ProductController::class, 'show'])->name('products
 Route::get('/farmers', [FarmerProfileController::class, 'index'])->name('farmers.index');
 Route::get('/farmers/{id}', [FarmerProfileController::class, 'show'])->name('farmers.show');
 
+Route::get('/api/search/live', [ProductController::class, 'liveSearch'])->name('api.search.live');
 Route::post('/api/ai-assistant', [AiAssistantController::class, 'query'])->name('ai.assistant');
 
 /*
