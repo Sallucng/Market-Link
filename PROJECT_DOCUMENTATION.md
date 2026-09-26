@@ -406,3 +406,62 @@ Every design decision, controller logic path, and styling abstraction is fully d
 2. **OpenStreetMap Integration:** Technical decision to use Leaflet.js with OSM tiles for resilient, cost-free, API-key-independent geolocation.
 3. **Cut-off Window Logic:** How pre-order modifications and cancellations are blocked based on the farmer's configured cutoff hours before market day.
 4. **State Machine Verification:** Full inventory safety guarantees across `placed`, `accepted`, `ready_for_pickup`, `completed`, `cancelled`, and `declined` states.
+
+---
+
+## 9. Project Installation Instructions (MANDATORY per SRS Section 1.9)
+
+### 9.1 Environment Prerequisites:
+- **PHP Engine:** PHP 8.2 or 8.3 (with `pdo_sqlite`, `pdo_mysql`, `curl`, `mbstring`, `fileinfo`, `gd`, `openssl` extensions enabled).
+- **Dependency Manager:** Composer 2.x.
+- **Web Server Options:** Built-in PHP development server (`php artisan serve`), XAMPP (Apache + MySQL), or Nginx with PHP-FPM.
+
+### 9.2 Step-by-Step Setup Procedure:
+1. **Extract and Navigate:**
+   Extract the submitted zip file and open your terminal in the application root directory:
+   ```
+   cd MarketLink
+   ```
+2. **Install PHP Dependencies:**
+   ```
+   composer install
+   ```
+3. **Initialize Environment Variables:**
+   Copy the example environment configuration and generate the unique application encryption key:
+   ```
+   copy .env.example .env
+   php artisan key:generate
+   ```
+4. **Database Initialization (Two Options):**
+   - **Option A (Instant Zero-Config SQLite — Recommended):**
+     ```
+     php artisan migrate:fresh --seed
+     ```
+     *Automatically provisions all tables and populates pre-seeded evaluation records immediately without configuring MySQL services.*
+   - **Option B (MySQL / XAMPP phpMyAdmin):**
+     1. Start Apache and MySQL services in the XAMPP Control Panel.
+     2. Navigate to `http://localhost/phpmyadmin` in your web browser.
+     3. Create a new database named `marketlink`.
+     4. Import the provided `marketlink.sql` file located in the project root directory.
+     5. Update `.env` database parameters: `DB_CONNECTION=mysql`, `DB_DATABASE=marketlink`, `DB_USERNAME=root`, `DB_PASSWORD=`.
+5. **Launch Local Application Server:**
+   ```
+   php artisan serve
+   ```
+   Access the running application in your web browser at: `http://localhost:8000`
+
+---
+
+## 10. User Credentials for All Types of Users with Passwords (MANDATORY per SRS Section 1.9)
+
+Pre-seeded evaluation accounts provide immediate access across all defined roles:
+
+| Role Type | Username | Email Address | Password | Role Capabilities & Evaluation Purpose |
+|---|---|---|---|---|
+| **System Administrator** | `admin` | `admin@marketlink.local` | `Admin@123` | Dedicated backoffice dashboard (`/admin/dashboard`), vendor approval gate, customer moderation/deactivation, market plaza management, product/review moderation, and platform CSV analytics generation. |
+| **Approved Farmer (Primary)** | `greenvalley` | `farmer@marketlink.local` | `Farmer@123` | Active vendor profile (*Green Valley Organic Farm*), catalog inventory management, weekly recurring stock templates, order pipeline (`accepted`, `ready_for_pickup`, `completed`, `declined`), and review replies. |
+| **Approved Farmer (Secondary)** | `sunshineorchard` | `orchard@marketlink.local` | `Farmer@123` | Multi-vendor scenario (*Sunshine Orchards & Apiary* at Riverside Green Market) demonstrating cross-vendor pre-order separation and stall geolocation. |
+| **Pending Farmer (Approval Gate)** | `newharvest` | `newharvest@marketlink.local` | `Farmer@123` | Demonstrates the mandatory vendor onboarding gate: newly registered stalls are completely quarantined from public storefront search until an Administrator inspects and approves their registration. |
+| **Customer (Primary)** | `sarah_shopper` | `customer@marketlink.local` | `Customer@123` | Active shopper account loaded with active orders, pickup schedule modification, cutoff cancellation, 1-click reorder, saved favorites (markets, farmers, products), and receipt PDF downloads. |
+| **Customer (Secondary)** | `david_miller` | `david@marketlink.local` | `Customer@123` | Multi-customer concurrent pre-order testing and verified product review submission. |
+
