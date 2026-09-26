@@ -338,6 +338,15 @@ MarketLink implements a classic **Multi-Tier Web Architecture** (SRS Section 1.4
 | `rating` | TINYINT UNSIGNED| NOT NULL | Star rating (1 to 5) |
 | `comment` | TEXT | NOT NULL | Customer feedback statement |
 | `farmer_response`| TEXT | Nullable | Vendor public response |
+| `created_at` | TIMESTAMP | Nullable | Review submission timestamp (`review_date`) |
+
+### Table 8: `reports` (Analytics & Export Summary)
+| Field | Type | Constraint | Description |
+|---|---|---|---|
+| `id` | BIGINT UNSIGNED | PK, Auto Increment | Unique report tracking identifier |
+| `generated_by` | BIGINT UNSIGNED | FK (`users.id`), CASCADE | Administrator who generated the report |
+| `report_type` | VARCHAR(50) | NOT NULL | Category (e.g., `orders_summary`, `revenue_by_market`, `active_farmers_csv`) |
+| `generated_at` | TIMESTAMP | NOT NULL | Datetime when the report was compiled/exported |
 
 ---
 
