@@ -447,6 +447,57 @@
                 animation: none !important;
             }
         }
+
+        /* Prevent navbar text from wrapping into multi-line stacks */
+        .navbar .navbar-brand,
+        .navbar-nav .nav-link,
+        .navbar .btn {
+            white-space: nowrap !important;
+        }
+
+        /* Responsive adaptation for compact desktops/tablets (992px - 1200px) */
+        @media (min-width: 992px) and (max-width: 1199.98px) {
+            .navbar-nav .nav-link {
+                padding-left: 0.45rem !important;
+                padding-right: 0.45rem !important;
+                font-size: 0.9rem !important;
+            }
+            .navbar-brand {
+                font-size: 1.25rem !important;
+                margin-right: 0.5rem !important;
+            }
+            .navbar-user-name {
+                max-width: 85px !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                white-space: nowrap !important;
+                display: inline-block !important;
+                vertical-align: middle !important;
+            }
+            .btn-brand-outline {
+                padding-left: 0.65rem !important;
+                padding-right: 0.65rem !important;
+                font-size: 0.88rem !important;
+            }
+        }
+
+        /* Mobile drawer button layout */
+        @media (max-width: 991.98px) {
+            .navbar-collapse .navbar-user-actions {
+                flex-direction: column !important;
+                align-items: stretch !important;
+                width: 100%;
+                padding-top: 0.75rem;
+                margin-top: 0.75rem;
+                border-top: 1px solid var(--border-hairline);
+            }
+            .navbar-collapse .navbar-user-actions .btn,
+            .navbar-collapse .navbar-user-actions .dropdown,
+            .navbar-collapse .navbar-user-actions .dropdown button {
+                width: 100% !important;
+                justify-content: center !important;
+            }
+        }
     </style>
     @yield('styles')
 </head>
@@ -457,7 +508,7 @@
 
     <!-- Navigation Header -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-2" style="border-bottom: 1px solid var(--border-hairline);">
-        <div class="container">
+        <div class="container-xl">
             <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
                 <span class="p-2 text-white rounded-2 me-2 d-inline-flex align-items-center justify-content-center" style="width:34px; height:34px; background-color: var(--brand-primary);">
                     <i class="bi bi-flower2"></i>
@@ -507,14 +558,7 @@
                     </li>
                 </ul>
 
-                <div class="d-flex align-items-center gap-2">
-                    <!-- Desktop Omnisearch Trigger (Ctrl+K) -->
-                    <button type="button" class="btn btn-sm btn-light border rounded-pill px-3 py-1 text-muted d-none d-lg-inline-flex align-items-center gap-2 me-1" data-bs-toggle="modal" data-bs-target="#globalSearchModal" style="background: #fbfdfa; border-color: var(--border-hairline) !important;">
-                        <i class="bi bi-search text-success"></i>
-                        <span style="font-size: 0.82rem;">Search harvests, farmers...</span>
-                        <kbd class="bg-white border text-muted px-1.5 py-0.5 rounded font-mono-meta" style="font-size: 0.65rem;">Ctrl K</kbd>
-                    </button>
-
+                <div class="d-flex align-items-center gap-2 navbar-user-actions">
                     <!-- Pre-Order Cart Button -->
                     <a href="{{ route('cart.index') }}" class="btn btn-brand-outline position-relative me-2 px-3 py-1">
                         <i class="bi bi-cart3 me-1"></i> Pickup Cart
@@ -529,7 +573,7 @@
                         <div class="dropdown">
                             <button class="btn btn-liquid-glass dropdown-toggle d-flex align-items-center gap-2 rounded-pill px-3" type="button" data-bs-target="#userMenu" data-bs-toggle="dropdown">
                                 <i class="bi bi-person-circle text-success fs-5"></i>
-                                <span class="fw-semibold">{{ Auth::user()->name }}</span>
+                                <span class="fw-semibold navbar-user-name">{{ Auth::user()->name }}</span>
                                 <span class="badge bg-secondary ms-1 small text-uppercase" style="font-size: 0.65rem;">{{ Auth::user()->role }}</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end liquid-glass-menu shadow-lg" id="userMenu">
