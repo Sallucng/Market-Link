@@ -102,6 +102,23 @@
 
 
 <!-- Seasonal Categories Bento Grid -->
+<style>
+    .category-bento-link .category-bento-card {
+        transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.28s ease;
+    }
+    .category-bento-link:hover .category-bento-card {
+        transform: translateY(-4px);
+        border-color: #2d5a27;
+        box-shadow: 0 14px 28px -8px rgba(45, 90, 39, 0.12);
+    }
+    .category-bento-link:hover .category-icon-wrapper {
+        transform: translateY(-2px);
+        box-shadow: inset 0 1px 2px rgba(255,255,255,0.9), 0 8px 18px rgba(45, 90, 39, 0.1) !important;
+    }
+    .category-bento-link:hover .category-3d-img {
+        transform: scale(1.1) rotate(-2deg);
+    }
+</style>
 <section class="py-5">
     <div class="container py-2">
         <div class="d-flex justify-content-between align-items-end mb-4">
@@ -117,47 +134,21 @@
         <div class="row g-3">
             @foreach($categories as $cat)
                 <div class="col-6 col-md-4 col-lg">
-                    <a href="{{ route('products.index', ['category' => $cat->id]) }}" class="text-decoration-none">
-                        <div class="bento-card text-center p-3">
-                            <div class="mx-auto mb-2 rounded-3 d-inline-flex align-items-center justify-content-center" 
-                                 style="width: 52px; height: 52px; background-color: #edf3ec; color: var(--brand-primary);">
-                                @if($cat->slug == 'vegetables')
-                                    <!-- Fresh Vegetables Carrot / Greens Icon -->
-                                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M2.27 21.7s9.87-3.5 12.73-6.36a4.5 4.5 0 0 0-6.36-6.37C5.77 11.84 2.27 21.7 2.27 21.7zM8.64 14l4-4"/>
-                                        <path d="m14 9 4-4"/>
-                                        <path d="M17 4v3"/>
-                                        <path d="M17 4h3"/>
-                                    </svg>
-                                @elseif($cat->slug == 'fruits')
-                                    <!-- Orchard Fruits Basket / Berry Icon (not Apple Inc logo) -->
-                                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <circle cx="12" cy="13" r="8"/>
-                                        <path d="M12 5V2"/>
-                                        <path d="M12 2c2 1 3 3 3 3"/>
-                                    </svg>
-                                @elseif($cat->slug == 'dairy-eggs')
-                                    <!-- Dairy and Eggs Icon -->
-                                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M12 3C8.5 3 6 8 6 13a6 6 0 0 0 12 0c0-5-2.5-10-6-10z"/>
-                                    </svg>
-                                @elseif($cat->slug == 'baked-goods')
-                                    <!-- Artisanal Bread / Baked Goods Icon -->
-                                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M4 11h16a2 2 0 0 1 2 2v2a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5v-2a2 2 0 0 1 2-2z"/>
-                                        <path d="M6 11V8a6 6 0 0 1 12 0v3"/>
-                                    </svg>
-                                @else
-                                    <!-- Herbs and Honey Botanical Icon -->
-                                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M12 22v-9"/>
-                                        <path d="M12 13a6 6 0 0 1 6-6 6 6 0 0 1-6 6z"/>
-                                        <path d="M12 13a6 6 0 0 0-6-6 6 6 0 0 0 6 6z"/>
-                                    </svg>
-                                @endif
+                    <a href="{{ route('products.index', ['category' => $cat->id]) }}" class="text-decoration-none category-bento-link d-block h-100">
+                        <div class="bento-card category-bento-card text-center p-3 h-100 d-flex flex-column align-items-center justify-content-between">
+                            <div class="category-icon-wrapper mb-3 d-flex align-items-center justify-content-center" 
+                                 style="width: 82px; height: 82px; border-radius: 20px; background: radial-gradient(circle at 50% 35%, #ffffff 0%, #f3f7f2 100%); border: 1px solid rgba(45, 90, 39, 0.08); box-shadow: inset 0 1px 2px rgba(255,255,255,0.8), 0 4px 12px rgba(0, 0, 0, 0.03); transition: transform 0.25s ease, box-shadow 0.25s ease;">
+                                <img src="{{ asset('images/categories/' . $cat->slug . '.png') }}" 
+                                     alt="{{ $cat->name }}" 
+                                     class="category-3d-img" 
+                                     style="width: 62px; height: 62px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.07)); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);"
+                                     loading="lazy"
+                                     onerror="this.onerror=null; this.src='{{ asset('images/categories/vegetables.png') }}';">
                             </div>
-                            <h6 class="fw-bold text-dark mb-1">{{ $cat->name }}</h6>
-                            <span class="text-muted small font-mono-meta">{{ $cat->products_count }} Products</span>
+                            <div class="w-100">
+                                <h6 class="fw-bold text-dark mb-1" style="font-size: 0.95rem; letter-spacing: -0.01em;">{{ $cat->name }}</h6>
+                                <span class="text-muted small font-mono-meta">{{ $cat->products_count }} Products</span>
+                            </div>
                         </div>
                     </a>
                 </div>
