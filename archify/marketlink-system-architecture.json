@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "MarketLink: Full System Architecture & Runtime Topology",
+    "output": "public/docs/marketlink-architecture.html",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    { "id": "shopper", "type": "external", "label": "Community Shopper", "sublabel": "Browser / Mobile Web", "pos": [40, 200], "size": [130, 60] },
+    { "id": "farmer_user", "type": "external", "label": "Local Farmer", "sublabel": "Stall Dashboard", "pos": [40, 340], "size": [130, 60] },
+    { "id": "admin_user", "type": "external", "label": "Platform Admin", "sublabel": "Password Only", "pos": [40, 480], "size": [130, 60] },
+
+    { "id": "web_server", "type": "cloud", "label": "Web Gateway", "sublabel": "HTTP :8000 / HTTPS", "pos": [260, 280], "size": [120, 60] },
+    { "id": "laravel_core", "type": "backend", "label": "MarketLink Core", "sublabel": "Laravel 12 / PHP 8.3", "pos": [480, 280], "size": [130, 60] },
+    { "id": "auth_guard", "type": "security", "label": "OAuth Guard", "sublabel": "Customer / Farmer", "pos": [480, 130], "size": [130, 60], "tag": "Admin blocked" },
+
+    { "id": "google_oauth", "type": "cloud", "label": "Google OAuth", "sublabel": "Token Exchange", "pos": [200, 130], "size": [120, 60], "tag": "SSL Verified" },
+    { "id": "osm_api", "type": "cloud", "label": "OpenStreetMap", "sublabel": "Leaflet Tile Servers", "pos": [720, 130], "size": [130, 60] },
+    { "id": "gemini_ai", "type": "cloud", "label": "Gemini 2.5 Flash", "sublabel": "AI Assistant API", "pos": [720, 280], "size": [130, 60], "tag": "Fallback Engine" },
+
+    { "id": "mysql_db", "type": "database", "label": "XAMPP MySQL", "sublabel": "marketlink :3306", "pos": [720, 440], "size": [130, 60], "tag": "32 Tables" },
+    { "id": "order_engine", "type": "backend", "label": "Order Engine", "sublabel": "Cutoff & Stock Lock", "pos": [480, 440], "size": [130, 60] },
+    { "id": "mail_service", "type": "messagebus", "label": "Notification Mail", "sublabel": "Resend API / SMTP", "pos": [940, 440], "size": [130, 60] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "MarketLink Application Boundary", "wraps": ["web_server", "laravel_core", "auth_guard", "order_engine", "mysql_db"] },
+    { "kind": "security-group", "label": "External SaaS Integrations", "wraps": ["google_oauth", "osm_api", "gemini_ai", "mail_service"] }
+  ],
+  "connections": [
+    { "id": "shopper_to_web", "from": "shopper", "to": "web_server", "label": "HTTPS", "variant": "emphasis" },
+    { "id": "farmer_to_web", "from": "farmer_user", "to": "web_server", "label": "HTTPS" },
+    { "id": "admin_to_web", "from": "admin_user", "to": "web_server", "label": "Credentials" },
+    { "id": "web_to_laravel", "from": "web_server", "to": "laravel_core", "label": "Dispatch" },
+    { "id": "laravel_to_auth", "from": "laravel_core", "to": "auth_guard" },
+    { "id": "auth_to_google", "from": "auth_guard", "to": "google_oauth", "label": "OAuth", "variant": "security" },
+    { "id": "laravel_to_osm", "from": "laravel_core", "to": "osm_api", "label": "Map Tiles", "variant": "dashed" },
+    { "id": "laravel_to_gemini", "from": "laravel_core", "to": "gemini_ai", "label": "AI Chat", "variant": "dashed" },
+    { "id": "laravel_to_order", "from": "laravel_core", "to": "order_engine" },
+    { "id": "order_to_mysql", "from": "order_engine", "to": "mysql_db", "label": "SQL", "variant": "emphasis" },
+    { "id": "order_to_mail", "from": "order_engine", "to": "mail_service", "label": "Alerts", "variant": "dashed" }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Presentation & Access Tier",
+      "items": [
+        "Bootstrap 5 + Blade frontend with responsive mobile UX",
+        "Leaflet.js interactive maps powered by OpenStreetMap",
+        "Real-time search with debounced AJAX query endpoint"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Application & Business Logic",
+      "items": [
+        "Laravel 12 MVC architecture with role-based middleware",
+        "Cutoff engine prevents pre-orders within 2 hours of market opening",
+        "Google Socialite integration with SSL verification on Windows"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Persistence & Infrastructure",
+      "items": [
+        "Migrated to XAMPP MySQL database (marketlink on 127.0.0.1:3306)",
+        "32 Normalized relational tables with automated seeders",
+        "Transactional stock reservation preventing overselling"
+      ]
+    }
+  ]
+}

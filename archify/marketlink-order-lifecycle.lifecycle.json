@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "MarketLink: Order & Stall-Side Settlement Lifecycle",
+    "output": "public/docs/marketlink-order-lifecycle.html",
+    "animation": "trace",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    { "id": "main", "label": "Happy Path Lifecycle" },
+    { "id": "waiting", "label": "Cutoff & Hold States" },
+    { "id": "terminal", "label": "Terminal Exits" }
+  ],
+  "states": [
+    { "id": "placed", "type": "start", "label": "Order Placed", "sublabel": "Cart Reserved", "lane": "main", "col": 0, "step": "01", "tag": "entry" },
+    { "id": "cutoff_hold", "type": "waiting", "label": "Cutoff Check", "sublabel": "2h Prep Window", "lane": "waiting", "col": 0, "tag": "gate" },
+    { "id": "confirmed", "type": "active", "label": "Confirmed", "sublabel": "Farmer Accepted", "lane": "main", "col": 1, "step": "02", "tag": "stall" },
+    { "id": "ready", "type": "active", "label": "Ready for Pickup", "sublabel": "Harvest Packed", "lane": "main", "col": 2, "step": "03", "tag": "booth" },
+    { "id": "inspection", "type": "decision", "label": "Stall Handover", "sublabel": "Customer Inspects", "lane": "main", "col": 3, "step": "04", "tag": "in-person" },
+    { "id": "completed", "type": "success", "label": "Completed", "sublabel": "Paid at Stall (0% cut)", "lane": "main", "col": 4, "step": "05", "tag": "settled" },
+    { "id": "cancelled", "type": "failure", "label": "Cancelled", "sublabel": "Stock Released", "lane": "terminal", "col": 0, "tag": "terminal" },
+    { "id": "no_show", "type": "failure", "label": "No-Show Expired", "sublabel": "Market Closed", "lane": "terminal", "col": 1, "tag": "terminal" }
+  ],
+  "transitions": [
+    { "id": "t_placed_cutoff", "from": "placed", "to": "cutoff_hold", "variant": "security" },
+    { "id": "t_cutoff_confirmed", "from": "cutoff_hold", "to": "confirmed", "variant": "emphasis" },
+    { "id": "t_cutoff_cancelled", "from": "cutoff_hold", "to": "cancelled", "variant": "security" },
+    { "id": "t_confirmed_ready", "from": "confirmed", "to": "ready", "variant": "emphasis" },
+    { "id": "t_ready_inspection", "from": "ready", "to": "inspection", "variant": "emphasis" },
+    { "id": "t_inspection_completed", "from": "inspection", "to": "completed", "variant": "emphasis" },
+    { "id": "t_inspection_noshow", "from": "inspection", "to": "no_show", "variant": "security" }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Zero-Risk Reservation Model",
+      "items": [
+        "Shoppers reserve produce without needing upfront online payment",
+        "Farmers prepare exact harvest batches, minimizing perishables waste",
+        "Settlement occurs stall-side in person via Cash or Card terminal"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Cutoff Safeguards & Clean Exits",
+      "items": [
+        "Pre-order gate closes 2 hours before market gates open",
+        "Cancelled reservations immediately release stock back into active listings",
+        "Unclaimed orders expire at end of market day allowing stall walk-up sales"
+      ]
+    }
+  ]
+}

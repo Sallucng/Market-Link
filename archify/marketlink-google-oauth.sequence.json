@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "MarketLink: Google OAuth 2.0 Authentication Sequence",
+    "output": "public/docs/marketlink-google-oauth.html",
+    "column_fit": "spread",
+    "animation": "trace",
+    "quality_profile": "showcase"
+  },
+  "participants": [
+    { "id": "shopper", "type": "external", "label": "User", "sublabel": "Customer / Farmer" },
+    { "id": "client_ui", "type": "frontend", "label": "MarketLink", "sublabel": "Blade UI" },
+    { "id": "controller", "type": "backend", "label": "AuthCtrl", "sublabel": "Laravel Backend" },
+    { "id": "socialite", "type": "security", "label": "Socialite", "sublabel": "OAuth Client" },
+    { "id": "google_api", "type": "cloud", "label": "Google", "sublabel": "OAuth Provider" },
+    { "id": "mysql", "type": "database", "label": "MySQL", "sublabel": "marketlink :3306" }
+  ],
+  "segments": [
+    { "from": 150, "to": 320, "label": "1. Authorization Handshake" },
+    { "from": 330, "to": 470, "label": "2. Token Exchange & Verification" },
+    { "from": 480, "to": 610, "label": "3. Profile Gate & Session Issuance" }
+  ],
+  "messages": [
+    { "id": "click_btn", "from": "shopper", "to": "client_ui", "y": 165, "label": "Click 'Continue with Google'", "variant": "default" },
+    { "id": "redirect_req", "from": "client_ui", "to": "controller", "y": 200, "label": "GET /auth/google", "variant": "emphasis" },
+    { "id": "build_url", "from": "controller", "to": "socialite", "y": 235, "label": "buildAuthUrl()", "variant": "default" },
+    { "id": "oauth_redirect", "from": "socialite", "to": "google_api", "y": 270, "label": "302 accounts.google.com/o/oauth2/auth", "variant": "security" },
+    { "id": "user_consent", "from": "google_api", "to": "controller", "y": 305, "label": "302 /auth/google/callback?code=...", "variant": "return" },
+
+    { "id": "token_exchange", "from": "controller", "to": "socialite", "y": 345, "label": "Socialite::driver('google')->user()", "variant": "emphasis" },
+    { "id": "google_token_post", "from": "socialite", "to": "google_api", "y": 380, "label": "POST /oauth2/v4/token (SSL CA Verified)", "variant": "security" },
+    { "id": "google_profile_res", "from": "google_api", "to": "socialite", "y": 415, "label": "200 OK: id, email, name, avatar", "variant": "return" },
+    { "id": "user_data_return", "from": "socialite", "to": "controller", "y": 450, "label": "OAuth User Profile Object", "variant": "return" },
+
+    { "id": "admin_check", "from": "controller", "to": "mysql", "y": 490, "label": "SELECT * FROM users WHERE google_id OR email", "variant": "emphasis" },
+    { "id": "mysql_user_res", "from": "mysql", "to": "controller", "y": 525, "label": "User Record (or null)", "variant": "return" },
+    { "id": "complete_profile_flow", "from": "controller", "to": "client_ui", "y": 560, "label": "Redirect to Dashboard (or Complete Profile)", "variant": "emphasis" },
+    { "id": "final_render", "from": "client_ui", "to": "shopper", "y": 595, "label": "Welcome to MarketLink!", "variant": "return" }
+  ],
+  "activations": [
+    { "participant": "client_ui", "from": 160, "to": 600, "type": "frontend" },
+    { "participant": "controller", "from": 195, "to": 570, "type": "backend" },
+    { "participant": "socialite", "from": 230, "to": 455, "type": "security" },
+    { "participant": "google_api", "from": 265, "to": 420, "type": "cloud" },
+    { "participant": "mysql", "from": 485, "to": 530, "type": "database" }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "OAuth 2.0 Security Policies",
+      "items": [
+        "State token validation prevents CSRF during authorization callback",
+        "Role Guard: Admin users attempting Google sign-in are strictly blocked",
+        "OpenSSL CA bundle configured for secure Guzzle SSL token exchange"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Registration Profile Completion",
+      "items": [
+        "First-time sign-ins require phone number, delivery address, and role",
+        "Farmers configure their market stall name and contact person",
+        "Automatic welcome email dispatched upon successful account linking"
+      ]
+    }
+  ]
+}
