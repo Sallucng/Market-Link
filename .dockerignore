@@ -1,0 +1,16 @@
+.git
+.github
+.env
+.env.backup
+.env.production
+.phpunit.result.cache
+node_modules
+vendor
+public/build
+public/storage
+storage/*.key
+storage/logs/*.log
+archify-tool
+scratch
+*.png
+*.pdf

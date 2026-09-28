@@ -238,21 +238,43 @@ You can deploy MarketLink to a public, shareable live link **100% for free** wit
 
 ---
 
-### Option 3: 24/7 Cloud Hosting on Render + Free TiDB / Aiven MySQL (100% Free Forever)
-*If you need MarketLink to stay online 24/7 without keeping your computer on:*
+### Option 3: 24/7 Cloud Hosting on Render + Free TiDB Serverless MySQL (⭐ Recommended 100% Free Forever)
+*If you need MarketLink to stay online 24/7 permanently without keeping your computer on:*
 
-1. **Free Cloud MySQL Database**:
-   - Create a free account at [TiDB Cloud (Serverless)](https://tidbcloud.com) (5 GB free MySQL compatible) or [Aiven](https://aiven.io) (free MySQL service).
-   - Copy the database Host, Port, Database name, Username, and Password.
-2. **Free Web Service on Render**:
-   - Push your MarketLink repository to GitHub.
-   - Go to [render.com](https://render.com) and create a **New Web Service** connected to your repo.
-   - Set:
-     - **Environment:** PHP or Docker
-     - **Build Command:** `composer install --no-dev --optimize-autoloader && npm install && npm run build`
-     - **Start Command:** `php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT`
-   - Add your Environment Variables (`APP_KEY`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`, etc.) in the Render dashboard.
-3. Deploy! Render will build and assign you a free `https://marketlink.onrender.com` address.
+1. **Step 1: Get Your Free Cloud MySQL (60 Seconds, 5 GB Free Forever)**:
+   - Go to **[TiDB Cloud (Serverless)](https://tidbcloud.com)** (100% free, no credit card required).
+   - Click **Create Cluster** $\rightarrow$ select **Serverless (Free)**.
+   - Click **Connect** $\rightarrow$ select **General** (or MySQL CLI) to reveal your:
+     - `Host` (e.g. `gateway01.us-east-1.prod.aws.tidbcloud.com`)
+     - `Port` (`4000` or `3306`)
+     - `Database` (`test` or create `marketlink`)
+     - `User` (e.g. `xxxxxx.root`)
+     - `Password`
+
+2. **Step 2: Deploy to Render**:
+   - Go to **[dashboard.render.com](https://dashboard.render.com)**.
+   - Click **New +** $\rightarrow$ **Web Service**.
+   - Connect your GitHub repository `Sallucng/Market-Link`.
+   - Render automatically detects the production [`Dockerfile`](file:///c:/Users/User/Desktop/Projects/Websites/MarketLink/Dockerfile) and [`render.yaml`](file:///c:/Users/User/Desktop/Projects/Websites/MarketLink/render.yaml)!
+   - Under **Environment Variables**, add:
+     | Key | Value |
+     |---|---|
+     | `APP_KEY` | *(Generate in Render or copy from your local `.env`)* |
+     | `APP_URL` | `https://your-service-name.onrender.com` |
+     | `DB_CONNECTION` | `mysql` |
+     | `DB_HOST` | *Your TiDB Host* |
+     | `DB_PORT` | `4000` *(or your TiDB port)* |
+     | `DB_DATABASE` | *Your TiDB Database name* |
+     | `DB_USERNAME` | *Your TiDB User* |
+     | `DB_PASSWORD` | *Your TiDB Password* |
+     | `RUN_SEEDER` | `true` *(Automatically seeds demo users & products on first deploy)* |
+
+3. **Step 3: Click Deploy Web Service**:
+   - Render builds the production Docker container, runs migrations, seeds initial data, and assigns a permanent SSL URL like:
+     ```
+     https://marketlink.onrender.com
+     ```
+   - It is permanently live 24/7 at **$0.00/month**!
 
 ---
 
