@@ -15,6 +15,27 @@
                     <p class="text-muted small">Sign in to manage your pre-orders, stall inventory, or system</p>
                 </div>
 
+                @if(session('success'))
+                    <div class="alert alert-success d-flex align-items-center small py-2 mb-3" role="alert">
+                        <i class="bi bi-check-circle-fill me-2 fs-6"></i>
+                        <div>{{ session('success') }}</div>
+                    </div>
+                @endif
+
+                @if(session('status'))
+                    <div class="alert alert-success d-flex align-items-center small py-2 mb-3" role="alert">
+                        <i class="bi bi-info-circle-fill me-2 fs-6"></i>
+                        <div>{{ session('status') }}</div>
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="alert alert-danger d-flex align-items-center small py-2 mb-3" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill me-2 fs-6"></i>
+                        <div>{{ session('error') }}</div>
+                    </div>
+                @endif
+
                 @if($errors->any())
                     <div class="alert alert-danger small py-2 mb-3">
                         <ul class="mb-0 ps-3">
@@ -50,6 +71,7 @@
                             <input class="form-check-input" type="checkbox" name="remember" id="rememberMe">
                             <label class="form-check-label text-secondary" for="rememberMe">Remember me</label>
                         </div>
+                        <a href="{{ route('password.request') }}" class="text-success text-decoration-none fw-semibold">Forgot password?</a>
                     </div>
 
                     <button type="submit" class="btn btn-brand w-100 py-2 rounded-pill fw-semibold shadow-sm mb-3">
