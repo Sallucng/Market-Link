@@ -65,7 +65,7 @@
         background-size: 250% auto;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        animation: shimmerGoldGreen 2.6s ease-in-out infinite 0.5s;
+        animation: shimmerGoldGreen 12s ease-in-out infinite 0.5s;
     }
 
     /* Frosted glass pills for sales and metrics */

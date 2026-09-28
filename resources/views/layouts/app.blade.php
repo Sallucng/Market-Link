@@ -975,11 +975,21 @@
                 </div>
 
                 <div class="col-lg-3 col-md-6">
-                    <h6 class="text-uppercase small fw-bold mb-3" style="color: #d8f3dc; letter-spacing: 0.08em;">Quick Demo Logins</h6>
-                    <div class="p-3 rounded-3 small" style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); color: #cbd5e1;">
-                        <div class="mb-1"><span class="badge bg-secondary me-1">Admin</span> <code class="text-warning">admin</code> / <code class="text-light">Admin@123</code></div>
-                        <div class="mb-1"><span class="badge bg-success me-1">Farmer</span> <code class="text-warning">greenvalley</code> / <code class="text-light">Farmer@123</code></div>
-                        <div><span class="badge bg-info text-dark me-1">Customer</span> <code class="text-warning">sarah_shopper</code> / <code class="text-light">Customer@123</code></div>
+                    <h6 class="text-uppercase small fw-bold mb-3" style="color: #d8f3dc; letter-spacing: 0.08em;">Market Updates &amp; Help</h6>
+                    <p class="small mb-3" style="color: #a3b8ad; line-height: 1.55;">
+                        Subscribe to get notified every Thursday when weekend harvest lists and seasonal stall specials drop.
+                    </p>
+                    <form onsubmit="event.preventDefault(); this.querySelector('button').innerHTML='<i class=\'bi bi-check-lg\'></i> Subscribed!'; this.querySelector('input').disabled=true;" class="mb-3">
+                        <div class="input-group input-group-sm">
+                            <input type="email" class="form-control" placeholder="Your email address" required style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); color: #fff; font-size: 0.82rem;">
+                            <button class="btn btn-success px-3 fw-semibold" type="submit" style="font-size: 0.8rem;">
+                                Join
+                            </button>
+                        </div>
+                    </form>
+                    <div class="d-flex align-items-center gap-2 small" style="color: #74c69d;">
+                        <i class="bi bi-headset fs-6"></i>
+                        <span>Support: <a href="mailto:support@marketlink.local" class="text-decoration-none" style="color: #d8f3dc;">support@marketlink.local</a></span>
                     </div>
                 </div>
             </div>

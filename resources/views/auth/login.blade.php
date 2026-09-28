@@ -103,35 +103,8 @@
                         Don't have an account yet? <a href="{{ route('register') }}" class="text-success fw-bold text-decoration-none">Create Account</a>
                     </div>
                 </form>
-
-                <!-- One-Click Test Accounts for Evaluators (SRS §1.9 Mandatory Deliverable) -->
-                <div class="mt-4 pt-3 border-top">
-                    <h6 class="small fw-bold text-muted text-uppercase mb-2 text-center">
-                        <i class="bi bi-lightning-charge-fill text-warning me-1"></i> Quick Demo Logins
-                    </h6>
-                    <div class="d-grid gap-2">
-                        <button type="button" class="btn btn-sm btn-outline-secondary text-start" onclick="fillLogin('admin', 'Admin@123')">
-                            <strong>Admin:</strong> <code>admin</code> / <code>Admin@123</code>
-                        </button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary text-start" onclick="fillLogin('greenvalley', 'Farmer@123')">
-                            <strong>Farmer:</strong> <code>greenvalley</code> / <code>Farmer@123</code>
-                        </button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary text-start" onclick="fillLogin('sarah_shopper', 'Customer@123')">
-                            <strong>Customer:</strong> <code>sarah_shopper</code> / <code>Customer@123</code>
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 </div>
-@endsection
-
-@section('scripts')
-<script>
-    function fillLogin(user, pass) {
-        document.getElementById('loginField').value = user;
-        document.getElementById('passwordField').value = pass;
-    }
-</script>
 @endsection
