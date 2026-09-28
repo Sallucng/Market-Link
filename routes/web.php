@@ -120,28 +120,6 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-/*
-|--------------------------------------------------------------------------
-| Interactive OpenAPI / REST Documentation Viewer
-|--------------------------------------------------------------------------
-*/
-Route::get('/docs/openapi.yaml', function () {
-    $path = base_path('docs/openapi.yaml');
-    if (!file_exists($path)) {
-        abort(404);
-    }
-    return response(file_get_contents($path), 200, [
-        'Content-Type' => 'text/yaml; charset=UTF-8',
-    ]);
-});
-
-Route::get('/docs', function () {
-    return view('docs.index');
-})->name('api.docs');
-
-Route::get('/api/documentation', function () {
-    return redirect()->route('api.docs');
-});
 
 /*
 |--------------------------------------------------------------------------
