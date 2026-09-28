@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\Customer\CartController;
 use App\Http\Controllers\Customer\CheckoutController;
 use App\Http\Controllers\Customer\CustomerDashboardController;
@@ -57,6 +58,12 @@ Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkReques
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('/reset-password', [ForgotPasswordController::class, 'reset'])->name('password.update');
+
+// Google OAuth Authentication (Customer & Farmer ONLY)
+Route::get('/auth/google', [GoogleAuthController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('/auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
+Route::get('/auth/google/complete-profile', [GoogleAuthController::class, 'showCompleteProfile'])->name('auth.google.complete');
+Route::post('/auth/google/complete-profile', [GoogleAuthController::class, 'completeProfile'])->name('auth.google.complete.submit');
 
 /*
 |--------------------------------------------------------------------------
