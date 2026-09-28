@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ in_array(app()->getLocale(), ['ur', 'ar']) ? 'rtl' : 'ltr' }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,6 +48,30 @@
             flex-direction: column;
             letter-spacing: -0.01em;
             -webkit-font-smoothing: antialiased;
+        }
+
+        /* Multi-Language & RTL Optimization */
+        [dir="rtl"] {
+            text-align: right;
+            font-family: 'Segoe UI', Tahoma, -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        [dir="rtl"] .dropdown-menu {
+            text-align: right;
+        }
+        [dir="rtl"] .navbar-nav {
+            padding-right: 0;
+        }
+        [dir="rtl"] .me-auto {
+            margin-left: auto !important;
+            margin-right: 0 !important;
+        }
+        [dir="rtl"] .ms-auto {
+            margin-right: auto !important;
+            margin-left: 0 !important;
+        }
+        [dir="rtl"] .dropdown-menu-end {
+            right: auto !important;
+            left: 0 !important;
         }
 
         /* Headings Typography - Poppins applied across all headings */
@@ -457,6 +481,15 @@
             align-items: center !important;
         }
 
+        .dropdown-menu .dropdown-item.active,
+        .dropdown-menu .dropdown-item:active,
+        .liquid-glass-menu .dropdown-item.active,
+        .liquid-glass-menu .dropdown-item:active {
+            background: #e8f5e9 !important;
+            color: var(--brand-primary) !important;
+            font-weight: 700 !important;
+        }
+
         .dropdown-menu .dropdown-item:hover,
         .dropdown-menu .dropdown-item:focus,
         .liquid-glass-menu .dropdown-item:hover,
@@ -706,6 +739,18 @@
 
             <!-- Mobile Quick Actions & Toggler -->
             <div class="d-flex align-items-center gap-1 d-lg-none ms-auto me-1">
+                <!-- Mobile Language Dropdown -->
+                <div class="dropdown">
+                    <button type="button" class="btn btn-sm btn-light border rounded-circle d-flex align-items-center justify-content-center" data-bs-toggle="dropdown" aria-label="{{ __('Switch Language') }}" style="width: 36px; height: 36px; background: #fbfdfa;">
+                        <i class="bi bi-translate text-success"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border" style="min-width: 140px; border-radius: 12px;">
+                        <li><a class="dropdown-item py-1.5 {{ app()->getLocale() === 'en' ? 'active fw-bold' : '' }}" href="{{ route('locale.switch', 'en') }}">🇺🇸 English</a></li>
+                        <li><a class="dropdown-item py-1.5 {{ app()->getLocale() === 'ur' ? 'active fw-bold' : '' }}" href="{{ route('locale.switch', 'ur') }}">🇵🇰 اردو</a></li>
+                        <li><a class="dropdown-item py-1.5 {{ app()->getLocale() === 'es' ? 'active fw-bold' : '' }}" href="{{ route('locale.switch', 'es') }}">🇪🇸 Español</a></li>
+                    </ul>
+                </div>
+
                 <button type="button" class="btn btn-sm btn-light border rounded-circle d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#globalSearchModal" aria-label="Search" style="width: 36px; height: 36px; background: #fbfdfa;">
                     <i class="bi bi-search text-success"></i>
                 </button>
@@ -727,33 +772,61 @@
             <div class="collapse navbar-collapse" id="navContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('home') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('home') }}">Home</a>
+                        <a class="nav-link {{ request()->routeIs('home') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('home') }}">{{ __('Home') }}</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle {{ request()->routeIs('markets.*') ? 'active fw-bold text-success' : 'text-dark' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Markets</a>
+                        <a class="nav-link dropdown-toggle {{ request()->routeIs('markets.*') ? 'active fw-bold text-success' : 'text-dark' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('Markets') }}</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ route('markets.index') }}"><i class="bi bi-grid-3x3-gap me-2 text-success"></i>All Markets & Map</a></li>
-                            <li><a class="dropdown-item" href="{{ route('markets.nearby') }}"><i class="bi bi-crosshair me-2 text-primary"></i>Nearby Markets</a></li>
+                            <li><a class="dropdown-item" href="{{ route('markets.index') }}"><i class="bi bi-grid-3x3-gap me-2 text-success"></i>{{ __('All Markets & Map') }}</a></li>
+                            <li><a class="dropdown-item" href="{{ route('markets.nearby') }}"><i class="bi bi-crosshair me-2 text-primary"></i>{{ __('Nearby Markets') }}</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('products.*') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('products.index') }}">Farm Products</a>
+                        <a class="nav-link {{ request()->routeIs('products.*') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('products.index') }}">{{ __('Farm Products') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('farmers.*') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('farmers.index') }}">Farmers</a>
+                        <a class="nav-link {{ request()->routeIs('farmers.*') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('farmers.index') }}">{{ __('Farmers') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('about') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('about') }}">About Us</a>
+                        <a class="nav-link {{ request()->routeIs('about') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('about') }}">{{ __('About Us') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('contact') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('contact') }}">Contact</a>
+                        <a class="nav-link {{ request()->routeIs('contact') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('contact') }}">{{ __('Contact') }}</a>
                     </li>
                 </ul>
 
                 <div class="d-flex align-items-center gap-2 navbar-user-actions">
+                    <!-- Language Switcher Dropdown (Desktop) -->
+                    <div class="dropdown me-1">
+                        <button class="btn btn-sm btn-light border rounded-pill px-2.5 py-1.5 d-flex align-items-center gap-1.5 text-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="{{ __('Switch Language') }}" style="font-size: 0.82rem; font-weight: 600; background: #ffffff;">
+                            <i class="bi bi-translate text-success"></i>
+                            <span class="text-uppercase">{{ app()->getLocale() }}</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border" style="min-width: 155px; border-radius: 12px;">
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center justify-content-between py-1.5 {{ app()->getLocale() === 'en' ? 'active fw-bold' : '' }}" href="{{ route('locale.switch', 'en') }}">
+                                    <span>🇺🇸 English</span>
+                                    @if(app()->getLocale() === 'en') <i class="bi bi-check2 text-success"></i> @endif
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center justify-content-between py-1.5 {{ app()->getLocale() === 'ur' ? 'active fw-bold' : '' }}" href="{{ route('locale.switch', 'ur') }}">
+                                    <span>🇵🇰 اردو (Urdu)</span>
+                                    @if(app()->getLocale() === 'ur') <i class="bi bi-check2 text-success"></i> @endif
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center justify-content-between py-1.5 {{ app()->getLocale() === 'es' ? 'active fw-bold' : '' }}" href="{{ route('locale.switch', 'es') }}">
+                                    <span>🇪🇸 Español</span>
+                                    @if(app()->getLocale() === 'es') <i class="bi bi-check2 text-success"></i> @endif
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
                     <!-- Pre-Order Cart Button -->
                     <a href="{{ route('cart.index') }}" class="btn btn-brand-outline position-relative me-2 px-3 py-1">
-                        <i class="bi bi-cart3 me-1"></i> Pickup Cart
+                        <i class="bi bi-cart3 me-1"></i> {{ __('Pickup Cart') }}
                         @if($cartCount > 0)
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger font-mono-meta">
                                 {{ $cartCount }}
@@ -770,33 +843,33 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end liquid-glass-menu shadow-lg">
                                 @if(Auth::user()->isCustomer())
-                                    <li><h6 class="dropdown-header">Customer Portal</h6></li>
-                                    <li><a class="dropdown-item fw-semibold" href="{{ route('customer.dashboard') }}"><i class="bi bi-speedometer2 me-2 text-success"></i>My Dashboard</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('customer.orders.index') }}"><i class="bi bi-box-seam me-2"></i>My Pre-Orders</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('customer.messages.index') }}"><i class="bi bi-chat-dots me-2 text-success"></i>Stall Messages</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('customer.favorites.index') }}"><i class="bi bi-heart me-2"></i>Saved Favorites</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('customer.complaints.index') }}"><i class="bi bi-shield-exclamation me-2 text-danger"></i>My Complaints</a></li>
+                                    <li><h6 class="dropdown-header">{{ __('Customer Portal') }}</h6></li>
+                                    <li><a class="dropdown-item fw-semibold" href="{{ route('customer.dashboard') }}"><i class="bi bi-speedometer2 me-2 text-success"></i>{{ __('My Dashboard') }}</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('customer.orders.index') }}"><i class="bi bi-box-seam me-2"></i>{{ __('My Pre-Orders') }}</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('customer.messages.index') }}"><i class="bi bi-chat-dots me-2 text-success"></i>{{ __('Stall Messages') }}</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('customer.favorites.index') }}"><i class="bi bi-heart me-2"></i>{{ __('Saved Favorites') }}</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('customer.complaints.index') }}"><i class="bi bi-shield-exclamation me-2 text-danger"></i>{{ __('My Complaints') }}</a></li>
                                 @elseif(Auth::user()->isFarmer())
-                                    <li><h6 class="dropdown-header">Farmer Management</h6></li>
-                                    <li><a class="dropdown-item text-success fw-bold" href="{{ route('farmer.dashboard') }}"><i class="bi bi-speedometer2 me-2"></i>Farmer Portal</a></li>
+                                    <li><h6 class="dropdown-header">{{ __('Farmer Management') }}</h6></li>
+                                    <li><a class="dropdown-item text-success fw-bold" href="{{ route('farmer.dashboard') }}"><i class="bi bi-speedometer2 me-2"></i>{{ __('Farmer Portal') }}</a></li>
                                 @elseif(Auth::user()->isAdmin())
-                                    <li><h6 class="dropdown-header">Platform Backoffice</h6></li>
-                                    <li><a class="dropdown-item text-primary fw-bold" href="{{ route('admin.dashboard') }}"><i class="bi bi-shield-lock me-2"></i>Admin Dashboard</a></li>
+                                    <li><h6 class="dropdown-header">{{ __('Platform Backoffice') }}</h6></li>
+                                    <li><a class="dropdown-item text-primary fw-bold" href="{{ route('admin.dashboard') }}"><i class="bi bi-shield-lock me-2"></i>{{ __('Admin Dashboard') }}</a></li>
                                 @endif
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST">
                                         @csrf
                                         <button type="submit" class="dropdown-item text-danger">
-                                            <i class="bi bi-box-arrow-right me-2"></i>Sign Out
+                                            <i class="bi bi-box-arrow-right me-2"></i>{{ __('Sign Out') }}
                                         </button>
                                     </form>
                                 </li>
                             </ul>
                         </div>
                     @else
-                        <a href="{{ route('login') }}" class="btn btn-light border px-3 rounded-pill fw-semibold">Sign In</a>
-                        <a href="{{ route('register') }}" class="btn btn-brand px-3 rounded-pill">Register</a>
+                        <a href="{{ route('login') }}" class="btn btn-light border px-3 rounded-pill fw-semibold">{{ __('Sign In') }}</a>
+                        <a href="{{ route('register') }}" class="btn btn-brand px-3 rounded-pill">{{ __('Register') }}</a>
                     @endauth
                 </div>
             </div>
@@ -1344,7 +1417,7 @@
                 aria-controls="mobileMenuOffcanvas"
                 aria-label="Open Navigation Menu">
             <i class="bi bi-list fs-5"></i>
-            <span>Menu</span>
+            <span>{{ __('Menu') }}</span>
         </button>
     </div>
 
@@ -1366,11 +1439,23 @@
         </div>
 
         <div class="offcanvas-body p-3">
+            <!-- Language Quick Switcher (Mobile Drawer) -->
+            <div class="d-flex align-items-center justify-content-between p-2 rounded-3 bg-light border mb-3">
+                <span class="small fw-semibold text-muted d-flex align-items-center gap-2">
+                    <i class="bi bi-translate text-success"></i> {{ __('Language') }}
+                </span>
+                <div class="btn-group btn-group-sm" role="group">
+                    <a href="{{ route('locale.switch', 'en') }}" class="btn btn-sm {{ app()->getLocale() === 'en' ? 'btn-success fw-bold' : 'btn-outline-secondary' }} py-0 px-2.5" style="font-size: 0.78rem;">EN</a>
+                    <a href="{{ route('locale.switch', 'ur') }}" class="btn btn-sm {{ app()->getLocale() === 'ur' ? 'btn-success fw-bold' : 'btn-outline-secondary' }} py-0 px-2.5" style="font-size: 0.78rem;">اردو</a>
+                    <a href="{{ route('locale.switch', 'es') }}" class="btn btn-sm {{ app()->getLocale() === 'es' ? 'btn-success fw-bold' : 'btn-outline-secondary' }} py-0 px-2.5" style="font-size: 0.78rem;">ES</a>
+                </div>
+            </div>
+
             <!-- Navigation Links identical to desktop -->
             <div class="d-flex flex-column gap-1 mb-3">
                 <a href="{{ route('home') }}" class="mobile-drawer-link d-flex align-items-center gap-3 p-2 rounded-3 text-decoration-none {{ request()->routeIs('home') ? 'bg-success-subtle text-success fw-bold' : 'text-dark' }}">
                     <i class="bi bi-house-door fs-5 text-success"></i>
-                    <span>Home</span>
+                    <span>{{ __('Home') }}</span>
                 </a>
 
                 <!-- Markets Submenu -->
@@ -1382,17 +1467,17 @@
                             aria-expanded="{{ request()->routeIs('markets.*') ? 'true' : 'false' }}">
                         <div class="d-flex align-items-center gap-3">
                             <i class="bi bi-geo-alt fs-5 text-success"></i>
-                            <span>Markets</span>
+                            <span>{{ __('Markets') }}</span>
                         </div>
                         <i class="bi bi-chevron-down small text-muted"></i>
                     </button>
                     <div class="collapse {{ request()->routeIs('markets.*') ? 'show' : '' }} ps-4 pe-2 pt-1" id="mobileMarketsCollapse">
                         <div class="d-flex flex-column gap-1 border-start border-2 border-success-subtle ps-3 my-1">
                             <a href="{{ route('markets.index') }}" class="py-2 text-decoration-none {{ request()->routeIs('markets.index') ? 'text-success fw-bold' : 'text-secondary' }} small d-flex align-items-center gap-2">
-                                <i class="bi bi-grid-3x3-gap text-success"></i> All Markets & Map
+                                <i class="bi bi-grid-3x3-gap text-success"></i> {{ __('All Markets & Map') }}
                             </a>
                             <a href="{{ route('markets.nearby') }}" class="py-2 text-decoration-none {{ request()->routeIs('markets.nearby') ? 'text-success fw-bold' : 'text-secondary' }} small d-flex align-items-center gap-2">
-                                <i class="bi bi-crosshair text-primary"></i> Nearby Markets
+                                <i class="bi bi-crosshair text-primary"></i> {{ __('Nearby Markets') }}
                             </a>
                         </div>
                     </div>
@@ -1400,22 +1485,22 @@
 
                 <a href="{{ route('products.index') }}" class="mobile-drawer-link d-flex align-items-center gap-3 p-2 rounded-3 text-decoration-none {{ request()->routeIs('products.*') ? 'bg-success-subtle text-success fw-bold' : 'text-dark' }}">
                     <i class="bi bi-basket2 fs-5 text-success"></i>
-                    <span>Farm Products</span>
+                    <span>{{ __('Farm Products') }}</span>
                 </a>
 
                 <a href="{{ route('farmers.index') }}" class="mobile-drawer-link d-flex align-items-center gap-3 p-2 rounded-3 text-decoration-none {{ request()->routeIs('farmers.*') ? 'bg-success-subtle text-success fw-bold' : 'text-dark' }}">
                     <i class="bi bi-people fs-5 text-success"></i>
-                    <span>Farmers</span>
+                    <span>{{ __('Farmers') }}</span>
                 </a>
 
                 <a href="{{ route('about') }}" class="mobile-drawer-link d-flex align-items-center gap-3 p-2 rounded-3 text-decoration-none {{ request()->routeIs('about') ? 'bg-success-subtle text-success fw-bold' : 'text-dark' }}">
                     <i class="bi bi-info-circle fs-5 text-success"></i>
-                    <span>About Us</span>
+                    <span>{{ __('About Us') }}</span>
                 </a>
 
                 <a href="{{ route('contact') }}" class="mobile-drawer-link d-flex align-items-center gap-3 p-2 rounded-3 text-decoration-none {{ request()->routeIs('contact') ? 'bg-success-subtle text-success fw-bold' : 'text-dark' }}">
                     <i class="bi bi-envelope fs-5 text-success"></i>
-                    <span>Contact</span>
+                    <span>{{ __('Contact') }}</span>
                 </a>
             </div>
 
@@ -1426,7 +1511,7 @@
             <a href="{{ route('cart.index') }}" class="btn btn-brand-outline w-100 d-flex align-items-center justify-content-between p-2.5 rounded-pill mb-3">
                 <span class="d-flex align-items-center gap-2">
                     <i class="bi bi-cart3 fs-5"></i>
-                    <span class="fw-semibold">Pickup Cart</span>
+                    <span class="fw-semibold">{{ __('Pickup Cart') }}</span>
                 </span>
                 <span class="badge rounded-pill bg-danger font-mono-meta px-2 py-1">
                     {{ $cartCount }} {{ Str::plural('item', $cartCount) }}
@@ -1446,33 +1531,33 @@
                     <div class="d-flex flex-column gap-1 mt-2 pt-2 border-top">
                         @if(Auth::user()->isCustomer())
                             <a href="{{ route('customer.dashboard') }}" class="py-1.5 text-decoration-none text-success fw-semibold small d-flex align-items-center gap-2">
-                                <i class="bi bi-speedometer2"></i> My Dashboard
+                                <i class="bi bi-speedometer2"></i> {{ __('My Dashboard') }}
                             </a>
                             <a href="{{ route('customer.orders.index') }}" class="py-1.5 text-decoration-none text-dark small d-flex align-items-center gap-2">
-                                <i class="bi bi-box-seam"></i> My Pre-Orders
+                                <i class="bi bi-box-seam"></i> {{ __('My Pre-Orders') }}
                             </a>
                             <a href="{{ route('customer.messages.index') }}" class="py-1.5 text-decoration-none text-dark small d-flex align-items-center gap-2">
-                                <i class="bi bi-chat-dots"></i> Stall Messages
+                                <i class="bi bi-chat-dots"></i> {{ __('Stall Messages') }}
                             </a>
                             <a href="{{ route('customer.favorites.index') }}" class="py-1.5 text-decoration-none text-dark small d-flex align-items-center gap-2">
-                                <i class="bi bi-heart"></i> Saved Favorites
+                                <i class="bi bi-heart"></i> {{ __('Saved Favorites') }}
                             </a>
                             <a href="{{ route('customer.complaints.index') }}" class="py-1.5 text-decoration-none text-dark small d-flex align-items-center gap-2">
-                                <i class="bi bi-shield-exclamation text-danger"></i> My Complaints
+                                <i class="bi bi-shield-exclamation text-danger"></i> {{ __('My Complaints') }}
                             </a>
                         @elseif(Auth::user()->isFarmer())
                             <a href="{{ route('farmer.dashboard') }}" class="py-1.5 text-decoration-none text-success fw-bold small d-flex align-items-center gap-2">
-                                <i class="bi bi-speedometer2"></i> Farmer Portal
+                                <i class="bi bi-speedometer2"></i> {{ __('Farmer Portal') }}
                             </a>
                         @elseif(Auth::user()->isAdmin())
                             <a href="{{ route('admin.dashboard') }}" class="py-1.5 text-decoration-none text-primary fw-bold small d-flex align-items-center gap-2">
-                                <i class="bi bi-shield-lock"></i> Admin Dashboard
+                                <i class="bi bi-shield-lock"></i> {{ __('Admin Dashboard') }}
                             </a>
                         @endif
                         <form action="{{ route('logout') }}" method="POST" class="mt-2">
                             @csrf
                             <button type="submit" class="btn btn-sm btn-outline-danger w-100 rounded-pill mt-1">
-                                <i class="bi bi-box-arrow-right me-1"></i> Sign Out
+                                <i class="bi bi-box-arrow-right me-1"></i> {{ __('Sign Out') }}
                             </button>
                         </form>
                     </div>
@@ -1480,10 +1565,10 @@
             @else
                 <div class="d-grid gap-2">
                     <a href="{{ route('login') }}" class="btn btn-light border rounded-pill fw-semibold py-2">
-                        <i class="bi bi-box-arrow-in-right me-1"></i> Sign In
+                        <i class="bi bi-box-arrow-in-right me-1"></i> {{ __('Sign In') }}
                     </a>
                     <a href="{{ route('register') }}" class="btn btn-brand rounded-pill py-2">
-                        <i class="bi bi-person-plus me-1"></i> Register
+                        <i class="bi bi-person-plus me-1"></i> {{ __('Register') }}
                     </a>
                 </div>
             @endauth

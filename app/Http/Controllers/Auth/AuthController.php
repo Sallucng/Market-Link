@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\WelcomeUserMail;
 use App\Models\Farmer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -96,6 +99,12 @@ class AuthController extends Controller
                 'address' => $data['address'],
                 'cutoff_hours' => 2,
             ]);
+        }
+
+        try {
+            Mail::to($user->email)->send(new WelcomeUserMail($user));
+        } catch (\Throwable $e) {
+            Log::info('Welcome email notification skipped or deferred: ' . $e->getMessage());
         }
 
         Auth::login($user);

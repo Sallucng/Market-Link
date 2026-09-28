@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::get('/locale/{lang}', [\App\Http\Controllers\LocaleController::class, 'switch'])->name('locale.switch');
 
 Route::get('/markets', [MarketController::class, 'index'])->name('markets.index');
 Route::get('/markets/nearby', [MarketController::class, 'nearby'])->name('markets.nearby');
