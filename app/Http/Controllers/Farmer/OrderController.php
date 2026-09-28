@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Farmer;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OrderStatusUpdateCustomerMail;
 use App\Models\Farmer;
 use App\Models\Notification;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -59,7 +62,7 @@ class OrderController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $farmer = $this->getFarmer();
-        $order = Order::where('farmer_id', $farmer->id)->with('items.product')->findOrFail($id);
+        $order = Order::where('farmer_id', $farmer->id)->with(['items.product', 'customer', 'farmer.market'])->findOrFail($id);
 
         if (in_array($order->order_status, ['cancelled', 'completed', 'declined'])) {
             return back()->with('error', "Cannot update order #{$order->order_number} because it has already been {$order->order_status}.");
@@ -104,6 +107,16 @@ class OrderController extends Controller
             'message' => $messages[$newStatus] ?? "Status changed to {$newStatus}.",
             'type' => 'order',
         ]);
+
+        // Send Status Update Email to Customer
+        try {
+            $customerEmail = $order->customer?->email;
+            if ($customerEmail) {
+                Mail::to($customerEmail)->send(new OrderStatusUpdateCustomerMail($order, $newStatus));
+            }
+        } catch (\Throwable $e) {
+            Log::info("Customer order status update email deferred: " . $e->getMessage());
+        }
 
         return back()->with('success', "Order #{$order->order_number} updated to " . ucfirst(str_replace('_', ' ', $newStatus)) . ".");
     }

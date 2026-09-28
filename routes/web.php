@@ -8,6 +8,7 @@ use App\Http\Controllers\Customer\FavoriteController;
 use App\Http\Controllers\Customer\OrderController;
 use App\Http\Controllers\Customer\ReviewController;
 use App\Http\Controllers\Public\AiAssistantController;
+use App\Http\Controllers\Public\FaqController;
 use App\Http\Controllers\Public\FarmerProfileController;
 use App\Http\Controllers\Public\HomeController;
 use App\Http\Controllers\Public\MarketController;
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/locale/{lang}', [\App\Http\Controllers\LocaleController::class, 'switch'])->name('locale.switch');
 

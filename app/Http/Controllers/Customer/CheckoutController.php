@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Mail\NewOrderFarmerAlertMail;
+use App\Mail\OrderPlacedCustomerMail;
 use App\Models\Farmer;
 use App\Models\Notification;
 use App\Models\Order;
@@ -12,6 +14,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
 {
@@ -157,6 +161,28 @@ class CheckoutController extends Controller
 
             DB::commit();
             session()->forget('cart');
+
+            // Dispatch Order Confirmation Emails
+            foreach ($placedOrders as $order) {
+                // Customer Order Receipt
+                try {
+                    if ($user->email) {
+                        Mail::to($user->email)->send(new OrderPlacedCustomerMail($order));
+                    }
+                } catch (\Throwable $e) {
+                    Log::info("Customer order confirmation email skipped or deferred: " . $e->getMessage());
+                }
+
+                // Farmer Harvest Order Alert
+                try {
+                    $farmerUserEmail = $order->farmer?->user?->email;
+                    if ($farmerUserEmail) {
+                        Mail::to($farmerUserEmail)->send(new NewOrderFarmerAlertMail($order));
+                    }
+                } catch (\Throwable $e) {
+                    Log::info("Farmer order alert email skipped or deferred: " . $e->getMessage());
+                }
+            }
 
             return redirect()->route('customer.orders.index')
                 ->with('success', 'Your pre-order was successfully placed! Remember to pay the farmer in person when collecting your products at the stall.');

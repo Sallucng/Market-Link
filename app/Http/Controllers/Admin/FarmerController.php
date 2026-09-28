@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\FarmerApprovedMail;
 use App\Models\Farmer;
 use App\Models\Market;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class FarmerController extends Controller
 {
@@ -124,6 +127,16 @@ class FarmerController extends Controller
             $farmer->user->is_active = true;
             $farmer->user->status = 'active';
             $farmer->user->save();
+        }
+
+        // Send Approval Email to Farmer
+        try {
+            $farmerEmail = $farmer->user?->email;
+            if ($farmerEmail) {
+                Mail::to($farmerEmail)->send(new FarmerApprovedMail($farmer));
+            }
+        } catch (\Throwable $e) {
+            Log::info("Farmer approval email deferred: " . $e->getMessage());
         }
 
         return back()->with('success', "Stall '{$farmer->stall_name}' has been successfully approved. The farmer can now list fresh products and receive pre-orders.");

@@ -791,6 +791,9 @@
                         <a class="nav-link {{ request()->routeIs('about') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('about') }}">{{ __('About Us') }}</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('faq') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('faq') }}">{{ __('FAQs') }}</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('contact') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('contact') }}">{{ __('Contact') }}</a>
                     </li>
                 </ul>
@@ -955,8 +958,9 @@
                         <li class="mb-2"><a href="{{ route('markets.index') }}" class="footer-link">Markets and Map</a></li>
                         <li class="mb-2"><a href="{{ route('products.index') }}" class="footer-link">Farm Products</a></li>
                         <li class="mb-2"><a href="{{ route('farmers.index') }}" class="footer-link">Local Farmers</a></li>
-                        <li class="mb-2"><a href="{{ route('about') }}" class="footer-link">About Us</a></li>
-                        <li class="mb-2"><a href="{{ route('contact') }}" class="footer-link">Contact Us</a></li>
+                        <li class="mb-2"><a href="{{ route('about') }}" class="footer-link">{{ __('About Us') }}</a></li>
+                        <li class="mb-2"><a href="{{ route('faq') }}" class="footer-link">{{ __('Frequently Asked Questions') }}</a></li>
+                        <li class="mb-2"><a href="{{ route('contact') }}" class="footer-link">{{ __('Contact Us') }}</a></li>
                     </ul>
                 </div>
 
@@ -1496,6 +1500,11 @@
                 <a href="{{ route('about') }}" class="mobile-drawer-link d-flex align-items-center gap-3 p-2 rounded-3 text-decoration-none {{ request()->routeIs('about') ? 'bg-success-subtle text-success fw-bold' : 'text-dark' }}">
                     <i class="bi bi-info-circle fs-5 text-success"></i>
                     <span>{{ __('About Us') }}</span>
+                </a>
+
+                <a href="{{ route('faq') }}" class="mobile-drawer-link d-flex align-items-center gap-3 p-2 rounded-3 text-decoration-none {{ request()->routeIs('faq') ? 'bg-success-subtle text-success fw-bold' : 'text-dark' }}">
+                    <i class="bi bi-question-circle fs-5 text-success"></i>
+                    <span>{{ __('FAQs') }}</span>
                 </a>
 
                 <a href="{{ route('contact') }}" class="mobile-drawer-link d-flex align-items-center gap-3 p-2 rounded-3 text-decoration-none {{ request()->routeIs('contact') ? 'bg-success-subtle text-success fw-bold' : 'text-dark' }}">
