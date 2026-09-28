@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'MarketLink') — Farm Fresh Just a Click Away</title>
     
+    <!-- Favicon & App Icons -->
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+    
     <!-- Bootstrap 5.3 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -730,11 +734,9 @@
     <!-- Navigation Header -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-2" style="border-bottom: 1px solid var(--border-hairline);">
         <div class="container-xl">
-            <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
-                <span class="p-2 text-white rounded-2 me-2 d-inline-flex align-items-center justify-content-center" style="width:34px; height:34px; background-color: var(--brand-primary);">
-                    <i class="bi bi-flower2"></i>
-                </span>
-                MarketLink
+            <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('home') }}">
+                <img src="{{ asset('images/logo.png') }}" alt="MarketLink Logo" class="brand-logo-img" style="height: 38px; width: auto; max-width: 48px; object-fit: contain;">
+                <span class="fw-bold tracking-tight">MarketLink</span>
             </a>
 
             <!-- Mobile Quick Actions & Toggler -->
@@ -932,11 +934,9 @@
         <div class="container">
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6">
-                    <h5 class="heading-serif text-white mb-3 d-flex align-items-center">
-                        <span class="p-1 rounded-2 me-2 d-inline-flex align-items-center justify-content-center" style="width:30px; height:30px; background-color: #2d6a4f;">
-                            <i class="bi bi-flower2 text-white fs-6"></i>
-                        </span>
-                        MarketLink
+                    <h5 class="heading-serif text-white mb-3 d-flex align-items-center gap-2">
+                        <img src="{{ asset('images/logo.png') }}" alt="MarketLink Logo" style="height: 34px; width: auto; object-fit: contain;">
+                        <span>MarketLink</span>
                     </h5>
                     <p class="small mb-3" style="color: #a3b8ad; line-height: 1.6;">
                         Farm Fresh Just a Click Away. Connecting neighborhood growers directly with local community shoppers for convenient, verified weekend stall pre-orders.
@@ -1444,9 +1444,7 @@
 
         <div class="offcanvas-header pb-2 border-bottom">
             <div class="d-flex align-items-center gap-2">
-                <span class="p-2 text-white rounded-2 d-inline-flex align-items-center justify-content-center" style="width:32px; height:32px; background-color: var(--brand-primary);">
-                    <i class="bi bi-flower2"></i>
-                </span>
+                <img src="{{ asset('images/logo.png') }}" alt="MarketLink Logo" style="height: 32px; width: auto; object-fit: contain;">
                 <span class="fw-bold text-dark fs-5 font-heading">MarketLink</span>
             </div>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>

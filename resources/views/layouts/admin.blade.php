@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Admin Backoffice — MarketLink')</title>
     
+    <!-- Favicon & App Icons -->
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+    
     <!-- Bootstrap 5.3 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -589,10 +593,8 @@
         <!-- Sidebar Brand -->
         <div class="admin-sidebar-header">
             <div class="d-flex align-items-center justify-content-between">
-                <a href="{{ route('admin.dashboard') }}" class="d-flex align-items-center text-white text-decoration-none">
-                    <span class="p-2 bg-success text-white rounded-2 me-2 d-inline-flex align-items-center justify-content-center" style="width:34px; height:34px;">
-                        <i class="bi bi-flower2"></i>
-                    </span>
+                <a href="{{ route('admin.dashboard') }}" class="d-flex align-items-center text-white text-decoration-none gap-2">
+                    <img src="{{ asset('images/logo.png') }}" alt="MarketLink Logo" style="height: 38px; width: auto; object-fit: contain;">
                     <div>
                         <div class="heading-serif fw-bold text-white fs-5" style="letter-spacing: -0.02em;">MarketLink</div>
                         <div class="text-uppercase font-mono-meta fw-semibold" style="font-size: 0.68rem; letter-spacing: 0.08em; color: #52b788;">Admin Backoffice</div>
