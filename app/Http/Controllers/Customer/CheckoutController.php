@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
-use App\Mail\NewOrderFarmerAlertMail;
-use App\Mail\OrderPlacedCustomerMail;
 use App\Models\Farmer;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Services\OrderNotificationService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -162,26 +161,9 @@ class CheckoutController extends Controller
             DB::commit();
             session()->forget('cart');
 
-            // Dispatch Order Confirmation Emails
+            // Dispatch Order Confirmation & Notification Emails (Customer, Farmer, Admin)
             foreach ($placedOrders as $order) {
-                // Customer Order Receipt
-                try {
-                    if ($user->email) {
-                        Mail::to($user->email)->send(new OrderPlacedCustomerMail($order));
-                    }
-                } catch (\Throwable $e) {
-                    Log::info("Customer order confirmation email skipped or deferred: " . $e->getMessage());
-                }
-
-                // Farmer Harvest Order Alert
-                try {
-                    $farmerUserEmail = $order->farmer?->user?->email;
-                    if ($farmerUserEmail) {
-                        Mail::to($farmerUserEmail)->send(new NewOrderFarmerAlertMail($order));
-                    }
-                } catch (\Throwable $e) {
-                    Log::info("Farmer order alert email skipped or deferred: " . $e->getMessage());
-                }
+                OrderNotificationService::notifyOrderPlaced($order);
             }
 
             return redirect()->route('customer.orders.index')

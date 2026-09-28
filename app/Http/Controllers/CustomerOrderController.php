@@ -320,6 +320,8 @@ class CustomerOrderController extends Controller
             ]);
         });
 
+        \App\Services\OrderNotificationService::notifyStatusChange($order, 'cancelled');
+
         return response()->json([
             'message' =>
                 'Order cancelled successfully and stock restored.'

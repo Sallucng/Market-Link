@@ -37,10 +37,28 @@
             @elseif($status === 'completed')
                 <div style="background-color: #f0fdf4; border-left: 4px solid #16a34a; border-radius: 6px; padding: 16px; margin-bottom: 24px;">
                     <p style="margin: 0; font-size: 16px; font-weight: 700; color: #166534;">
-                        Pre-Order Completed — Thank You!
+                        🎉 Pre-Order Completed — Thank You!
                     </p>
                     <p style="margin: 6px 0 0 0; font-size: 13px; color: #15803d; line-height: 1.5;">
                         We hope you enjoy your farm fresh items! You can now leave a verified review for this farmer.
+                    </p>
+                </div>
+            @elseif($status === 'declined')
+                <div style="background-color: #fef2f2; border-left: 4px solid #ef4444; border-radius: 6px; padding: 16px; margin-bottom: 24px;">
+                    <p style="margin: 0; font-size: 16px; font-weight: 700; color: #991b1b;">
+                        ⚠️ Pre-Order Declined by Grower
+                    </p>
+                    <p style="margin: 6px 0 0 0; font-size: 13px; color: #b91c1c; line-height: 1.5;">
+                        The grower was unable to fulfill this pre-order. {{ $reason ? "Reason: {$reason}" : ($order->decline_reason ? "Reason: {$order->decline_reason}" : "Item inventory unavailable.") }}
+                    </p>
+                </div>
+            @elseif($status === 'cancelled')
+                <div style="background-color: #f8fafc; border-left: 4px solid #64748b; border-radius: 6px; padding: 16px; margin-bottom: 24px;">
+                    <p style="margin: 0; font-size: 16px; font-weight: 700; color: #334155;">
+                        🚫 Pre-Order Cancelled
+                    </p>
+                    <p style="margin: 6px 0 0 0; font-size: 13px; color: #475569; line-height: 1.5;">
+                        Your pre-order has been cancelled. Any reserved stall inventory has been released back to the grower.
                     </p>
                 </div>
             @else

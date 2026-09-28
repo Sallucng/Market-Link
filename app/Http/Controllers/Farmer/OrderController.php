@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Farmer;
 
 use App\Http\Controllers\Controller;
-use App\Mail\OrderStatusUpdateCustomerMail;
 use App\Models\Farmer;
 use App\Models\Notification;
 use App\Models\Order;
+use App\Services\OrderNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -108,15 +108,8 @@ class OrderController extends Controller
             'type' => 'order',
         ]);
 
-        // Send Status Update Email to Customer
-        try {
-            $customerEmail = $order->customer?->email;
-            if ($customerEmail) {
-                Mail::to($customerEmail)->send(new OrderStatusUpdateCustomerMail($order, $newStatus));
-            }
-        } catch (\Throwable $e) {
-            Log::info("Customer order status update email deferred: " . $e->getMessage());
-        }
+        // Send Status Update Email to Customer and Admin
+        OrderNotificationService::notifyStatusChange($order, $newStatus, $validated['reason'] ?? null);
 
         return back()->with('success', "Order #{$order->order_number} updated to " . ucfirst(str_replace('_', ' ', $newStatus)) . ".");
     }

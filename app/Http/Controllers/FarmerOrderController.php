@@ -73,6 +73,8 @@ class FarmerOrderController extends Controller
             'status' => $request->status
         ]);
 
+        \App\Services\OrderNotificationService::notifyStatusChange($order, $request->status);
+
         return response()->json([
             'message' => 'Order status updated successfully.',
             'order' => $order->fresh()

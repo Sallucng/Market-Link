@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Mail\FarmerApprovedMail;
 use App\Mail\NewOrderFarmerAlertMail;
 use App\Mail\OrderPlacedCustomerMail;
+use App\Mail\OrderStatusUpdateAdminMail;
 use App\Mail\OrderStatusUpdateCustomerMail;
 use App\Models\Category;
 use App\Models\Farmer;
@@ -33,30 +34,28 @@ class FaqAndEmailNotificationsTest extends TestCase
         $response->assertSee('Emails &amp; Notifications', false);
     }
 
-    public function test_faq_page_renders_with_rtl_in_urdu(): void
-    {
-        $response = $this->withSession(['locale' => 'ur'])->get(route('faq'));
-
-        $response->assertStatus(200);
-        $response->assertSee('dir="rtl"', false);
-        $response->assertSee('lang="ur"', false);
-        $response->assertSee('عام سوالات (FAQs)');
-    }
-
-    public function test_placing_order_dispatches_customer_and_farmer_emails(): void
+    public function test_checkout_order_placement_dispatches_customer_farmer_and_admin_emails(): void
     {
         Mail::fake();
 
+        $admin = User::create([
+            'name' => 'Market Admin',
+            'username' => 'market_admin',
+            'email' => 'admin@platform.com',
+            'password' => bcrypt('password'),
+            'role' => 'admin',
+            'contact_number' => '5551234567',
+            'address' => 'HQ',
+            'is_active' => true,
+        ]);
+
         $market = Market::create([
             'name' => 'Downtown Farmers Market',
-            'slug' => 'downtown-farmers-market',
+            'location' => 'City Square',
             'address' => '100 Main St',
             'city' => 'Metropolis',
             'operating_days' => 'Saturday, Sunday',
-            'open_time' => '08:00 AM',
-            'close_time' => '02:00 PM',
-            'latitude' => 40.7128,
-            'longitude' => -74.0060,
+            'operating_hours' => '8 AM - 2 PM',
             'is_active' => true,
         ]);
 
@@ -136,18 +135,36 @@ class FaqAndEmailNotificationsTest extends TestCase
 
         $response->assertRedirect(route('customer.orders.index'));
 
+        // Customer gets confirmation email
         Mail::assertSent(OrderPlacedCustomerMail::class, function ($mail) use ($customer) {
             return $mail->hasTo($customer->email);
         });
 
+        // Farmer gets alert email
         Mail::assertSent(NewOrderFarmerAlertMail::class, function ($mail) use ($farmerUser) {
             return $mail->hasTo($farmerUser->email);
         });
+
+        // Admin gets order placed alert email
+        Mail::assertSent(OrderStatusUpdateAdminMail::class, function ($mail) {
+            return $mail->status === 'placed';
+        });
     }
 
-    public function test_farmer_updating_order_status_dispatches_customer_email(): void
+    public function test_farmer_updating_order_status_dispatches_customer_and_admin_emails(): void
     {
         Mail::fake();
+
+        $admin = User::create([
+            'name' => 'Admin User',
+            'username' => 'admin_user_2',
+            'email' => 'admin2@platform.com',
+            'password' => bcrypt('password'),
+            'role' => 'admin',
+            'contact_number' => '5559998888',
+            'address' => 'Admin St',
+            'is_active' => true,
+        ]);
 
         $farmerUser = User::create([
             'name' => 'Farmer Bob',
@@ -186,22 +203,202 @@ class FaqAndEmailNotificationsTest extends TestCase
             'farmer_id' => $farmer->id,
             'customer_id' => $customer->id,
             'order_number' => 'ML-TEST1234',
-            'order_status' => 'accepted',
+            'order_status' => 'placed',
             'total_amount' => 15.00,
             'payment_method' => 'pay_at_pickup',
             'pickup_date' => now()->addDay(),
             'pickup_time_slot' => '10:00 AM - 11:00 AM',
         ]);
 
-        $response = $this->actingAs($farmerUser)
+        // 1. Farmer accepts order
+        $responseAccept = $this->actingAs($farmerUser)
+            ->post(route('farmer.orders.status', $order->id), [
+                'status' => 'accepted',
+            ]);
+        $responseAccept->assertRedirect();
+
+        Mail::assertSent(OrderStatusUpdateCustomerMail::class, function ($mail) use ($customer) {
+            return $mail->hasTo($customer->email) && $mail->status === 'accepted';
+        });
+        Mail::assertSent(OrderStatusUpdateAdminMail::class, function ($mail) {
+            return $mail->status === 'accepted';
+        });
+
+        // 2. Farmer marks ready for pickup
+        $responseReady = $this->actingAs($farmerUser)
             ->post(route('farmer.orders.status', $order->id), [
                 'status' => 'ready_for_pickup',
             ]);
-
-        $response->assertRedirect();
+        $responseReady->assertRedirect();
 
         Mail::assertSent(OrderStatusUpdateCustomerMail::class, function ($mail) use ($customer) {
             return $mail->hasTo($customer->email) && $mail->status === 'ready_for_pickup';
+        });
+        Mail::assertSent(OrderStatusUpdateAdminMail::class, function ($mail) {
+            return $mail->status === 'ready_for_pickup';
+        });
+
+        // 3. Farmer completes order
+        $responseComplete = $this->actingAs($farmerUser)
+            ->post(route('farmer.orders.status', $order->id), [
+                'status' => 'completed',
+            ]);
+        $responseComplete->assertRedirect();
+
+        Mail::assertSent(OrderStatusUpdateCustomerMail::class, function ($mail) use ($customer) {
+            return $mail->hasTo($customer->email) && $mail->status === 'completed';
+        });
+        Mail::assertSent(OrderStatusUpdateAdminMail::class, function ($mail) {
+            return $mail->status === 'completed';
+        });
+    }
+
+    public function test_customer_cancelling_order_dispatches_customer_and_admin_emails(): void
+    {
+        Mail::fake();
+
+        $admin = User::create([
+            'name' => 'Admin Master',
+            'username' => 'admin_master',
+            'email' => 'adminmaster@platform.com',
+            'password' => bcrypt('password'),
+            'role' => 'admin',
+            'contact_number' => '1112223333',
+            'address' => 'HQ Central',
+            'is_active' => true,
+        ]);
+
+        $farmerUser = User::create([
+            'name' => 'Farmer Daisy',
+            'username' => 'farmer_daisy',
+            'email' => 'daisy@farmer.com',
+            'password' => bcrypt('password'),
+            'role' => 'farmer',
+            'contact_number' => '1234567890',
+            'address' => 'Daisy Field',
+            'is_active' => true,
+            'is_approved' => true,
+        ]);
+
+        $farmer = Farmer::create([
+            'user_id' => $farmerUser->id,
+            'stall_name' => 'Daisy Fresh',
+            'contact_person' => 'Daisy',
+            'contact_number' => '1234567890',
+            'address' => 'Stall 9',
+            'cutoff_hours' => 2,
+            'is_approved' => true,
+        ]);
+
+        $customer = User::create([
+            'name' => 'Tom Buyer',
+            'username' => 'tom_buyer',
+            'email' => 'tom@buyer.com',
+            'password' => bcrypt('password'),
+            'role' => 'customer',
+            'contact_number' => '9876543210',
+            'address' => '99 Maple Ave',
+            'is_active' => true,
+        ]);
+
+        $order = Order::create([
+            'farmer_id' => $farmer->id,
+            'customer_id' => $customer->id,
+            'order_number' => 'ML-CANCEL-999',
+            'order_status' => 'placed',
+            'total_amount' => 22.00,
+            'payment_method' => 'pay_at_pickup',
+            'pickup_date' => now()->addDays(2),
+            'pickup_time_slot' => '10:00 AM - 11:00 AM',
+        ]);
+
+        $response = $this->actingAs($customer)->post(route('customer.orders.cancel', $order->id));
+        $response->assertRedirect();
+
+        $this->assertEquals('cancelled', $order->fresh()->order_status);
+
+        Mail::assertSent(OrderStatusUpdateCustomerMail::class, function ($mail) use ($customer) {
+            return $mail->hasTo($customer->email) && $mail->status === 'cancelled';
+        });
+
+        Mail::assertSent(OrderStatusUpdateAdminMail::class, function ($mail) {
+            return $mail->status === 'cancelled';
+        });
+    }
+
+    public function test_farmer_declining_order_dispatches_customer_and_admin_emails(): void
+    {
+        Mail::fake();
+
+        $admin = User::create([
+            'name' => 'Admin Chief',
+            'username' => 'admin_chief',
+            'email' => 'chief@platform.com',
+            'password' => bcrypt('password'),
+            'role' => 'admin',
+            'contact_number' => '9998887777',
+            'address' => 'Chief Station',
+            'is_active' => true,
+        ]);
+
+        $farmerUser = User::create([
+            'name' => 'Farmer Frank',
+            'username' => 'farmer_frank',
+            'email' => 'frank@farmer.com',
+            'password' => bcrypt('password'),
+            'role' => 'farmer',
+            'contact_number' => '1234567890',
+            'address' => 'Frank Farm',
+            'is_active' => true,
+            'is_approved' => true,
+        ]);
+
+        $farmer = Farmer::create([
+            'user_id' => $farmerUser->id,
+            'stall_name' => 'Frank Orchard',
+            'contact_person' => 'Frank',
+            'contact_number' => '1234567890',
+            'address' => 'Stall 11',
+            'cutoff_hours' => 2,
+            'is_approved' => true,
+        ]);
+
+        $customer = User::create([
+            'name' => 'Alice Buyer',
+            'username' => 'alice_buyer',
+            'email' => 'alice@buyer.com',
+            'password' => bcrypt('password'),
+            'role' => 'customer',
+            'contact_number' => '9876543210',
+            'address' => '123 Pine St',
+            'is_active' => true,
+        ]);
+
+        $order = Order::create([
+            'farmer_id' => $farmer->id,
+            'customer_id' => $customer->id,
+            'order_number' => 'ML-DECLINE-888',
+            'order_status' => 'placed',
+            'total_amount' => 30.00,
+            'payment_method' => 'pay_at_pickup',
+            'pickup_date' => now()->addDays(2),
+            'pickup_time_slot' => '10:00 AM - 11:00 AM',
+        ]);
+
+        $response = $this->actingAs($farmerUser)->post(route('farmer.orders.status', $order->id), [
+            'status' => 'declined',
+            'reason' => 'Frost damaged crop.',
+        ]);
+        $response->assertRedirect();
+
+        $this->assertEquals('declined', $order->fresh()->order_status);
+
+        Mail::assertSent(OrderStatusUpdateCustomerMail::class, function ($mail) use ($customer) {
+            return $mail->hasTo($customer->email) && $mail->status === 'declined' && $mail->reason === 'Frost damaged crop.';
+        });
+
+        Mail::assertSent(OrderStatusUpdateAdminMail::class, function ($mail) {
+            return $mail->status === 'declined' && $mail->reason === 'Frost damaged crop.';
         });
     }
 

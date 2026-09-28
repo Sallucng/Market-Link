@@ -13,8 +13,11 @@ class OrderStatusUpdateCustomerMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(public Order $order, public string $status)
-    {
+    public function __construct(
+        public Order $order,
+        public string $status,
+        public ?string $reason = null
+    ) {
     }
 
     public function envelope(): Envelope
@@ -23,9 +26,10 @@ class OrderStatusUpdateCustomerMail extends Mailable
         
         $subject = match ($this->status) {
             'ready_for_pickup' => "🧺 Great News! Pre-Order #{$this->order->order_number} is Packed & Ready for Pickup at {$stallName}",
-            'accepted' => "Pre-Order #{$this->order->order_number} Confirmed by {$stallName}",
-            'completed' => "Thank You! Pre-Order #{$this->order->order_number} Completed at {$stallName}",
-            'declined' => "Pre-Order #{$this->order->order_number} Update from {$stallName}",
+            'accepted' => "🌿 Pre-Order #{$this->order->order_number} Confirmed by {$stallName}",
+            'completed' => "🎉 Thank You! Pre-Order #{$this->order->order_number} Completed at {$stallName}",
+            'declined' => "⚠️ Pre-Order #{$this->order->order_number} Declined by {$stallName}",
+            'cancelled' => "Pre-Order #{$this->order->order_number} Cancelled",
             default => "Update on Your Pre-Order #{$this->order->order_number} from {$stallName}",
         };
 

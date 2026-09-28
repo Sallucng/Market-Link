@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Product;
+use App\Services\OrderNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -68,6 +69,9 @@ class OrderController extends Controller
                 'type' => 'order',
             ]);
         }
+
+        // Send Status Update Email to Customer and Admin
+        OrderNotificationService::notifyStatusChange($order, 'cancelled');
 
         return back()->with('success', 'Pre-order has been cancelled.');
     }

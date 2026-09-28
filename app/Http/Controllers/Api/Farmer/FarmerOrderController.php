@@ -152,6 +152,8 @@ class FarmerOrderController extends Controller
             }
             $order->save();
 
+            \App\Services\OrderNotificationService::notifyStatusChange($order, $newStatus, $declineReason);
+
             return response()->json([
                 'status' => 'success',
                 'message' => "Order status updated to '{$newStatus}' successfully.",
@@ -200,6 +202,8 @@ class FarmerOrderController extends Controller
 
             $order->status = 'accepted';
             $order->save();
+
+            \App\Services\OrderNotificationService::notifyStatusChange($order, 'accepted');
 
             return response()->json([
                 'status' => 'success',
@@ -250,6 +254,8 @@ class FarmerOrderController extends Controller
             $order->decline_reason = $declineReason;
             $order->save();
 
+            \App\Services\OrderNotificationService::notifyStatusChange($order, 'declined', $declineReason);
+
             // Return stock back to inventory atomically
             foreach ($order->items as $item) {
                 if ($item->product_id) {
@@ -299,6 +305,8 @@ class FarmerOrderController extends Controller
             $order->status = 'ready_for_pickup';
             $order->save();
 
+            \App\Services\OrderNotificationService::notifyStatusChange($order, 'ready_for_pickup');
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Order marked as ready for pickup.',
@@ -340,6 +348,8 @@ class FarmerOrderController extends Controller
 
             $order->status = 'completed';
             $order->save();
+
+            \App\Services\OrderNotificationService::notifyStatusChange($order, 'completed');
 
             return response()->json([
                 'status' => 'success',
