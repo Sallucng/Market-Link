@@ -50,6 +50,21 @@ class GoogleAuthTest extends TestCase
         $response->assertSessionHas('error');
     }
 
+    public function test_redirect_to_google_redirects_to_accounts_google_com_when_configured(): void
+    {
+        config([
+            'services.google.client_id' => '877988720114-ud1bkiqal5do3bp7v96dk8ghbp8qpg74.apps.googleusercontent.com',
+            'services.google.client_secret' => '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',
+            'services.google.redirect' => 'http://localhost:8000/auth/google/callback',
+        ]);
+
+        $response = $this->get(route('auth.google'));
+
+        $response->assertStatus(302);
+        $this->assertStringContainsString('accounts.google.com/o/oauth2/auth', $response->headers->get('Location'));
+        $this->assertStringContainsString('877988720114-ud1bkiqal5do3bp7v96dk8ghbp8qpg74.apps.googleusercontent.com', $response->headers->get('Location'));
+    }
+
     public function test_existing_customer_can_login_via_google_callback(): void
     {
         $user = User::create([
