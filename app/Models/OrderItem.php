@@ -16,7 +16,10 @@ class OrderItem extends Model
         'quantity',
         'unit_price',
         'subtotal',
+        'total_price',
     ];
+
+    protected $appends = ['total_price', 'product_name'];
 
     protected function casts(): array
     {
@@ -25,6 +28,21 @@ class OrderItem extends Model
             'subtotal' => 'decimal:2',
             'quantity' => 'integer',
         ];
+    }
+
+    public function getProductNameAttribute(): string
+    {
+        return $this->attributes['product_name'] ?? ($this->product?->name ?? '');
+    }
+
+    public function getTotalPriceAttribute(): ?float
+    {
+        return (float) ($this->attributes['subtotal'] ?? ($this->unit_price * $this->quantity));
+    }
+
+    public function setTotalPriceAttribute($value): void
+    {
+        $this->attributes['subtotal'] = $value;
     }
 
     public function order(): BelongsTo

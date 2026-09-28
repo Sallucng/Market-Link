@@ -22,14 +22,16 @@
         object-fit: cover;
     }
     .farmer-avatar-badge {
-        width: 64px;
-        height: 64px;
+        width: 68px;
+        height: 68px;
         border-radius: 50%;
-        border: 3px solid #ffffff;
+        border: 3.5px solid #ffffff;
         object-fit: cover;
-        margin-top: -32px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        margin-top: -34px;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.16);
         background-color: #ffffff;
+        position: relative;
+        z-index: 5;
     }
 </style>
 @endsection
@@ -133,14 +135,17 @@
     <div class="row g-4">
         @forelse($farmers as $farmer)
             <div class="col-md-6 col-lg-4">
-                <div class="card farmer-card h-100 d-flex flex-column position-relative">
-                    <!-- Farm Banner Image -->
-                    <div class="position-relative">
-                        <img src="{{ $farmer->image_url ?: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=600&q=80' }}" 
-                             alt="{{ $farmer->stall_name }}" 
-                             class="farmer-header-img"
-                             onerror="this.src='https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=600&q=80'">
-                        <div class="position-absolute top-0 end-0 m-2">
+                <div class="card farmer-card h-100 d-flex flex-column position-relative" style="cursor: pointer;">
+                    <!-- Farm Banner Image (Clickable Link to Profile) -->
+                    <div class="position-relative overflow-hidden" style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
+                        <a href="{{ route('farmers.show', $farmer->id) }}" class="d-block text-decoration-none" title="View {{ $farmer->stall_name }} Profile">
+                            <img src="{{ $farmer->cover_image_url ?: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=600&q=80' }}" 
+                                 alt="{{ $farmer->stall_name }}" 
+                                 class="farmer-header-img"
+                                 style="height: 175px; width: 100%; object-fit: cover;"
+                                 onerror="this.src='https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=600&q=80'">
+                        </a>
+                        <div class="position-absolute top-0 end-0 m-2" style="z-index: 3;">
                             <span class="badge-pastel-green" style="background: rgba(255,255,255,0.92); backdrop-filter: blur(4px);">
                                 <i class="bi bi-check-circle-fill text-success me-1"></i> Verified
                             </span>
@@ -149,11 +154,17 @@
 
                     <!-- Card Body -->
                     <div class="card-body p-3 pt-0 d-flex flex-column">
-                        <div class="d-flex justify-content-between align-items-end mb-2">
-                            <div class="farmer-avatar-badge d-flex align-items-center justify-content-center bg-light text-success fs-3 fw-bold">
-                                {{ strtoupper(substr($farmer->stall_name, 0, 1)) }}
-                            </div>
-                            <span class="badge-pastel-slate small">
+                        <div class="d-flex justify-content-between align-items-end mb-2" style="position: relative; z-index: 5;">
+                            <a href="{{ route('farmers.show', $farmer->id) }}" class="text-decoration-none d-inline-block" title="View {{ $farmer->stall_name }} Profile">
+                                <div class="farmer-avatar-badge d-flex align-items-center justify-content-center bg-white text-success fs-3 fw-bold rounded-circle shadow-sm" style="width: 68px; height: 68px; border: 3.5px solid #ffffff; margin-top: -34px; position: relative; z-index: 5; box-shadow: 0 6px 14px rgba(0,0,0,0.14) !important;">
+                                    @if($farmer->image_url)
+                                        <img src="{{ $farmer->image_url }}" alt="{{ $farmer->contact_person }}" class="w-100 h-100 rounded-circle" style="object-fit: cover; object-position: center 20%;">
+                                    @else
+                                        {{ strtoupper(substr($farmer->stall_name, 0, 1)) }}
+                                    @endif
+                                </div>
+                            </a>
+                            <span class="badge-pastel-slate small" style="position: relative; z-index: 3;">
                                 <i class="bi bi-basket2 me-1 text-success"></i> {{ $farmer->products_count }} {{ Str::plural('Product', $farmer->products_count) }}
                             </span>
                         </div>

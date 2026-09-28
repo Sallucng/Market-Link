@@ -286,4 +286,33 @@ class FarmerPortalTest extends TestCase
         $respondRes->assertSessionHas('success');
         $this->assertEquals('Thank you for supporting our family farm!', $review->fresh()->farmer_response);
     }
+
+    public function test_farmer_can_export_orders_csv(): void
+    {
+        $customer = User::create([
+            'name' => 'CSV Buyer',
+            'username' => 'csvbuyer',
+            'email' => 'csvbuyer@test.local',
+            'role' => 'customer',
+            'password' => bcrypt('password'),
+        ]);
+
+        Order::create([
+            'customer_id' => $customer->id,
+            'farmer_id' => $this->farmer->id,
+            'market_id' => $this->market->id,
+            'order_number' => 'ML-EXPORT1',
+            'order_status' => 'placed',
+            'payment_status' => 'pending',
+            'pickup_date' => now()->toDateString(),
+            'pickup_time_slot' => '08:00 AM - 10:00 AM',
+            'total_amount' => 25.50,
+            'payment_method' => 'pay_at_pickup',
+        ]);
+
+        $response = $this->actingAs($this->farmerUser)->get(route('farmer.orders.export'));
+        $response->assertStatus(200);
+        $this->assertTrue(str_contains($response->headers->get('content-disposition'), 'marketlink-stall-orders-'));
+    }
 }
+

@@ -1,74 +1,51 @@
 import React from "react";
-import { FloatingDock } from "@/components/ui/floating-dock";
+import { MobileNavDock } from "@/components/ui/mobile-nav-dock";
 import {
-  IconBrandGithub,
-  IconBrandX,
-  IconExchange,
   IconHome,
-  IconNewSection,
-  IconTerminal2,
+  IconMapPin,
+  IconPackage,
+  IconUsers,
+  IconInfoCircle,
+  IconMail,
 } from "@tabler/icons-react";
 
-export default function FloatingDockDemo() {
-  const links = [
+export default function MobileNavDockDemo() {
+  const items = [
     {
       title: "Home",
-      icon: (
-        <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />
-      ),
-      href: "#",
+      icon: <IconHome className="h-full w-full" />,
+      href: "/",
     },
     {
-      title: "Products",
-      icon: (
-        <IconTerminal2 className="h-full w-full text-neutral-500 dark:text-neutral-300" />
-      ),
-      href: "#",
+      title: "Markets",
+      icon: <IconMapPin className="h-full w-full" />,
+      href: "/markets",
+      subItems: [
+        { title: "All Markets & Map", href: "/markets" },
+        { title: "Nearby Markets", href: "/markets/nearby" },
+      ],
     },
     {
-      title: "Components",
-      icon: (
-        <IconNewSection className="h-full w-full text-neutral-500 dark:text-neutral-300" />
-      ),
-      href: "#",
+      title: "Farm Products",
+      icon: <IconPackage className="h-full w-full" />,
+      href: "/products",
     },
     {
-      title: "Aceternity UI",
-      icon: (
-        <img
-          src="https://cdn.21st.dev/assets/mirror/b0/b01d86a4b524d129b752a71ca8faf20c4f89447742e65315f1b8bc3e5e72745d.png"
-          width={20}
-          height={20}
-          alt="Aceternity Logo"
-        />
-      ),
-      href: "#",
+      title: "Farmers",
+      icon: <IconUsers className="h-full w-full" />,
+      href: "/farmers",
     },
     {
-      title: "Changelog",
-      icon: (
-        <IconExchange className="h-full w-full text-neutral-500 dark:text-neutral-300" />
-      ),
-      href: "#",
+      title: "About Us",
+      icon: <IconInfoCircle className="h-full w-full" />,
+      href: "/about",
     },
     {
-      title: "Twitter",
-      icon: (
-        <IconBrandX className="h-full w-full text-neutral-500 dark:text-neutral-300" />
-      ),
-      href: "#",
-    },
-    {
-      title: "GitHub",
-      icon: (
-        <IconBrandGithub className="h-full w-full text-neutral-500 dark:text-neutral-300" />
-      ),
-      href: "#",
+      title: "Contact",
+      icon: <IconMail className="h-full w-full" />,
+      href: "/contact",
     },
   ];
-  return (
-    <div className="flex h-[35rem] w-full items-center justify-center">
-      <FloatingDock mobileClassName="translate-y-20" items={links} />
-    </div>
-  );
+
+  return <MobileNavDock items={items} />;
 }

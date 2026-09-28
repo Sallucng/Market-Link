@@ -17,7 +17,7 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
                 'resources/js/agentation.jsx',
-                'resources/js/floating-dock-mount.tsx',
+                'resources/js/testimonials-mount.tsx',
             ],
             refresh: true,
             fonts: [

@@ -18,6 +18,11 @@
             <h2 class="heading-serif fw-bold text-dark mb-0">Customer Pre-Orders</h2>
             <small class="text-muted">{{ $farmer->stall_name }} &bull; Review, pack, and mark orders ready for stall pickup</small>
         </div>
+        <div class="d-flex align-items-center gap-2">
+            <a href="{{ route('farmer.orders.export', request()->query()) }}" class="btn btn-outline-success rounded-pill px-3 py-2 btn-sm fw-semibold shadow-xs">
+                <i class="bi bi-file-earmark-arrow-down me-1"></i> Export Orders (CSV)
+            </a>
+        </div>
     </div>
 
     <!-- Status Tabs -->

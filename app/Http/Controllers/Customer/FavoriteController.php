@@ -37,7 +37,20 @@ class FavoriteController extends Controller
 
         $userId = Auth::id();
         $type = $request->input('item_type');
-        $itemId = $request->input('item_id');
+        $itemId = (int) $request->input('item_id');
+
+        $exists = match ($type) {
+            'farmer' => Farmer::where('id', $itemId)->exists(),
+            'product' => Product::where('id', $itemId)->exists(),
+            'market' => Market::where('id', $itemId)->exists(),
+            default => false,
+        };
+
+        if (!$exists) {
+            return $request->wantsJson()
+                ? response()->json(['error' => 'Item not found.'], 404)
+                : back()->with('error', 'Item not found.');
+        }
 
         $fav = Favorite::where('customer_id', $userId)
             ->where('item_type', $type)

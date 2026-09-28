@@ -28,6 +28,14 @@ class ReviewController extends Controller
             'product_id' => 'nullable|exists:products,id',
         ]);
 
+        if (!empty($data['product_id'])) {
+            $isProductInOrder = $order->items()->where('product_id', $data['product_id'])->exists();
+            $isProductFromFarmer = \App\Models\Product::where('id', $data['product_id'])->where('farmer_id', $order->farmer_id)->exists();
+            if (!$isProductInOrder && !$isProductFromFarmer) {
+                return back()->with('error', 'The selected product does not belong to this pre-order.');
+            }
+        }
+
         Review::create([
             'order_id' => $order->id,
             'customer_id' => Auth::id(),
@@ -36,6 +44,15 @@ class ReviewController extends Controller
             'rating' => $data['rating'],
             'comment' => $data['comment'],
         ]);
+
+        if ($order->farmer && $order->farmer->user_id) {
+            \App\Models\Notification::create([
+                'user_id' => $order->farmer->user_id,
+                'title' => 'New Review on Order #' . $order->order_number,
+                'message' => Auth::user()->name . " left a {$data['rating']}-star review for order #{$order->order_number}.",
+                'type' => 'review',
+            ]);
+        }
 
         return back()->with('success', 'Thank you! Your feedback has been posted.');
     }

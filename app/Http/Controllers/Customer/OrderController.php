@@ -34,7 +34,7 @@ class OrderController extends Controller
     public function cancel($id)
     {
         $order = Order::where('customer_id', Auth::id())
-            ->with('items.product')
+            ->with(['items.product', 'farmer.user', 'customer'])
             ->findOrFail($id);
 
         if (!$order->canModifyOrCancel()) {
@@ -60,12 +60,22 @@ class OrderController extends Controller
             'type' => 'order',
         ]);
 
+        if ($order->farmer && $order->farmer->user_id) {
+            Notification::create([
+                'user_id' => $order->farmer->user_id,
+                'title' => "Pre-Order #{$order->order_number} Cancelled",
+                'message' => "Customer " . ($order->customer->name ?? 'Shopper') . " cancelled pre-order #{$order->order_number}. Reserved stock has been returned to your stall inventory.",
+                'type' => 'order',
+            ]);
+        }
+
         return back()->with('success', 'Pre-order has been cancelled.');
     }
 
     public function modify(Request $request, $id)
     {
         $order = Order::where('customer_id', Auth::id())
+            ->with(['farmer.user', 'customer'])
             ->findOrFail($id);
 
         if (!$order->canModifyOrCancel()) {
@@ -90,6 +100,16 @@ class OrderController extends Controller
             'message' => "You have updated the pickup schedule for pre-order #{$order->order_number}.",
             'type' => 'order',
         ]);
+
+        if ($order->farmer && $order->farmer->user_id) {
+            $formattedDate = $order->pickup_date ? $order->pickup_date->format('M d, Y') : $validated['pickup_date'];
+            Notification::create([
+                'user_id' => $order->farmer->user_id,
+                'title' => "Pre-Order #{$order->order_number} Rescheduled",
+                'message' => "Customer " . ($order->customer->name ?? 'Shopper') . " rescheduled pre-order #{$order->order_number} to {$formattedDate} ({$order->pickup_time_slot}).",
+                'type' => 'order',
+            ]);
+        }
 
         return back()->with('success', 'Pre-order details updated successfully.');
     }

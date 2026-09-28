@@ -30,6 +30,7 @@ Route::middleware(['auth', 'role:farmer'])->prefix('farmer')->name('farmer.')->g
 
     // 3. Pre-Order Queue Management
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/export', [OrderController::class, 'export'])->name('orders.export');
     Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
     Route::get('/orders/{id}/receipt', [OrderController::class, 'receipt'])->name('orders.receipt');
     Route::post('/orders/{id}/status', [OrderController::class, 'updateStatus'])->name('orders.status');
@@ -38,7 +39,27 @@ Route::middleware(['auth', 'role:farmer'])->prefix('farmer')->name('farmer.')->g
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
-    // 5. Customer Reviews & Responses
+    // 5. Stall Operational Settings & Policies
+    Route::get('/settings', [ProfileController::class, 'settings'])->name('settings.index');
+    Route::post('/settings', [ProfileController::class, 'updateSettings'])->name('settings.update');
+    Route::post('/settings/quick-toggle', [ProfileController::class, 'quickToggle'])->name('settings.quick-toggle');
+
+    // 6. Customer Reviews & Responses
     Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
     Route::post('/reviews/{id}/respond', [ReviewController::class, 'respond'])->name('reviews.respond');
+
+    // 7. Customer ↔ Farmer Chat / Stall Messages
+    Route::get('/messages', [\App\Http\Controllers\ChatController::class, 'farmerIndex'])->name('messages.index');
+    Route::post('/messages/start', [\App\Http\Controllers\ChatController::class, 'startFromFarmer'])->name('messages.start');
+    Route::post('/messages/{conversation}/send', [\App\Http\Controllers\ChatController::class, 'sendMessage'])->name('messages.send');
+    Route::get('/messages/{conversation}/poll', [\App\Http\Controllers\ChatController::class, 'pollMessages'])->name('messages.poll');
+
+    // 8. Stall Promotions & Sales Campaigns
+    Route::get('/sales', [\App\Http\Controllers\Farmer\SaleController::class, 'index'])->name('sales.index');
+    Route::get('/sales/create', [\App\Http\Controllers\Farmer\SaleController::class, 'create'])->name('sales.create');
+    Route::post('/sales', [\App\Http\Controllers\Farmer\SaleController::class, 'store'])->name('sales.store');
+    Route::get('/sales/{id}/edit', [\App\Http\Controllers\Farmer\SaleController::class, 'edit'])->name('sales.edit');
+    Route::put('/sales/{id}', [\App\Http\Controllers\Farmer\SaleController::class, 'update'])->name('sales.update');
+    Route::post('/sales/{id}/toggle', [\App\Http\Controllers\Farmer\SaleController::class, 'toggle'])->name('sales.toggle');
+    Route::delete('/sales/{id}', [\App\Http\Controllers\Farmer\SaleController::class, 'destroy'])->name('sales.destroy');
 });

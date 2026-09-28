@@ -108,4 +108,105 @@ class MarketController extends Controller
 
         return view('public.market-detail', compact('market'));
     }
+
+    /**
+     * Nearby Markets Browse page — uses browser geolocation.
+     */
+    public function nearby(Request $request)
+    {
+        $lat = $request->float('lat');
+        $lng = $request->float('lng');
+        $radius = $request->float('radius', 25);
+
+        $markets = null;
+        $mapData = [];
+
+        if ($lat && $lng) {
+            $markets = Market::nearby($lat, $lng, $radius)
+                ->with(['farmers' => function ($q) {
+                    $q->whereHas('user', function ($uq) {
+                        $uq->where('is_approved', true);
+                    })->with('products');
+                }])
+                ->get();
+
+            foreach ($markets as $market) {
+                // Calculate real Haversine distance in PHP
+                $market->distance_km = $this->haversineDistance($lat, $lng, $market->latitude, $market->longitude);
+
+                $mapData[] = [
+                    'type' => 'market',
+                    'id' => $market->id,
+                    'name' => $market->name,
+                    'address' => $market->address . ', ' . $market->city,
+                    'operating_days' => $market->operating_days,
+                    'timings' => $market->timings,
+                    'latitude' => (float) $market->latitude,
+                    'longitude' => (float) $market->longitude,
+                    'distance_km' => round($market->distance_km, 1),
+                    'farmer_count' => $market->farmers->count(),
+                    'url' => route('markets.show', $market->id),
+                ];
+            }
+        }
+
+        return view('public.markets-nearby', compact('markets', 'mapData', 'lat', 'lng', 'radius'));
+    }
+
+    /**
+     * JSON endpoint for AJAX-powered nearby search.
+     */
+    public function nearbyJson(Request $request)
+    {
+        $request->validate([
+            'lat' => 'required|numeric|between:-90,90',
+            'lng' => 'required|numeric|between:-180,180',
+            'radius' => 'nullable|numeric|min:1|max:200',
+        ]);
+
+        $lat = $request->float('lat');
+        $lng = $request->float('lng');
+        $radius = $request->float('radius', 25);
+
+        $markets = Market::nearby($lat, $lng, $radius)
+            ->with(['farmers' => function ($q) {
+                $q->whereHas('user', function ($uq) {
+                    $uq->where('is_approved', true);
+                });
+            }])
+            ->get()
+            ->map(function ($market) use ($lat, $lng) {
+                $market->distance_km = round($this->haversineDistance($lat, $lng, $market->latitude, $market->longitude), 1);
+                return [
+                    'id' => $market->id,
+                    'name' => $market->name,
+                    'address' => $market->address . ', ' . $market->city,
+                    'operating_days' => (string) $market->operating_days,
+                    'timings' => $market->timings,
+                    'latitude' => (float) $market->latitude,
+                    'longitude' => (float) $market->longitude,
+                    'distance_km' => $market->distance_km,
+                    'farmer_count' => $market->farmers->count(),
+                    'url' => route('markets.show', $market->id),
+                ];
+            });
+
+        return response()->json(['markets' => $markets]);
+    }
+
+    /**
+     * Haversine formula: distance between two lat/lng pairs in km.
+     */
+    private function haversineDistance(float $lat1, float $lng1, float $lat2, float $lng2): float
+    {
+        $earthRadiusKm = 6371;
+        $dLat = deg2rad($lat2 - $lat1);
+        $dLng = deg2rad($lng2 - $lng1);
+        $a = sin($dLat / 2) * sin($dLat / 2)
+            + cos(deg2rad($lat1)) * cos(deg2rad($lat2))
+            * sin($dLng / 2) * sin($dLng / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+        return $earthRadiusKm * $c;
+    }
 }

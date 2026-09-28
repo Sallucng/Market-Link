@@ -21,7 +21,11 @@ class CartController extends Controller
 
     public function add(Request $request, $id)
     {
-        $product = Product::with('farmer.market')->findOrFail($id);
+        $product = Product::with(['farmer.market', 'farmer.user'])->findOrFail($id);
+
+        if (!$product->farmer || !$product->farmer->is_approved || !$product->farmer->user?->is_active) {
+            return back()->with('error', 'This stall is currently inactive or not approved for pre-orders.');
+        }
 
         if (!$product->is_available || $product->is_sold_out || $product->stock_quantity <= 0) {
             return back()->with('error', 'Sorry, this product is currently sold out.');

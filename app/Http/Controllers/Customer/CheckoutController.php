@@ -26,16 +26,30 @@ class CheckoutController extends Controller
         $groupedCart = [];
         $total = 0;
         foreach ($cart as $id => $item) {
-            $groupedCart[$item['farmer_id']]['farmer_name'] = $item['farmer_name'];
-            $groupedCart[$item['farmer_id']]['market_name'] = $item['market_name'];
-            $groupedCart[$item['farmer_id']]['pickup_time_windows'] = $item['pickup_time_windows'];
-            $groupedCart[$item['farmer_id']]['operating_days'] = $item['operating_days'];
-            $groupedCart[$item['farmer_id']]['cutoff_hours'] = $item['cutoff_hours'];
-            $groupedCart[$item['farmer_id']]['items'][$id] = $item;
+            $farmerId = $item['farmer_id'];
+            if (!isset($groupedCart[$farmerId])) {
+                $farmer = Farmer::with('market', 'user')->find($farmerId);
+                $groupedCart[$farmerId] = [
+                    'farmer' => $farmer,
+                    'farmer_name' => $farmer ? $farmer->stall_name : $item['farmer_name'],
+                    'contact_person' => $farmer ? ($farmer->contact_person ?: ($farmer->user->name ?? 'Grower')) : 'Grower',
+                    'contact_number' => $farmer ? ($farmer->contact_number ?: ($farmer->user->contact_number ?? 'N/A')) : 'N/A',
+                    'stall_address' => $farmer ? $farmer->address : 'Stall Counter',
+                    'market_name' => $farmer && $farmer->market ? $farmer->market->name : $item['market_name'],
+                    'market_address' => $farmer && $farmer->market ? ($farmer->market->address . ', ' . $farmer->market->city) : 'Local Market Plaza',
+                    'pickup_time_windows' => $farmer ? $farmer->pickup_time_windows : $item['pickup_time_windows'],
+                    'operating_days' => $farmer ? $farmer->operating_days : $item['operating_days'],
+                    'cutoff_hours' => $farmer ? $farmer->cutoff_hours : $item['cutoff_hours'],
+                    'items' => [],
+                ];
+            }
+            $groupedCart[$farmerId]['items'][$id] = $item;
             $total += $item['price'] * $item['quantity'];
         }
 
-        return view('customer.checkout', compact('groupedCart', 'total'));
+        $customer = Auth::user();
+
+        return view('customer.checkout', compact('groupedCart', 'total', 'customer'));
     }
 
     public function placeOrder(Request $request)
@@ -65,7 +79,12 @@ class CheckoutController extends Controller
             }
 
             foreach ($byFarmer as $farmerId => $items) {
-                $farmer = Farmer::with('market')->findOrFail($farmerId);
+                $farmer = Farmer::with(['market', 'user'])->findOrFail($farmerId);
+
+                if (!$farmer->is_approved || !$farmer->user?->is_active) {
+                    throw new \Exception("Stall '{$farmer->stall_name}' is currently unavailable for pre-orders.");
+                }
+
                 $pickupDate = $request->input("pickup_date.{$farmerId}");
                 $pickupSlot = $request->input("pickup_time_slot.{$farmerId}");
                 $notes = $request->input("notes.{$farmerId}", '');
@@ -115,12 +134,23 @@ class CheckoutController extends Controller
                     ]);
                 }
 
+                // Notify customer
                 Notification::create([
                     'user_id' => $user->id,
                     'title' => 'Pre-Order Confirmation #' . $order->order_number,
                     'message' => "Your pre-order for {$farmer->stall_name} has been placed. Selected Pickup: {$order->pickup_date->format('M d, Y')} ({$order->pickup_time_slot}). Settlement is due in person at pickup.",
                     'type' => 'order',
                 ]);
+
+                // Notify farmer
+                if ($farmer->user_id) {
+                    Notification::create([
+                        'user_id' => $farmer->user_id,
+                        'title' => 'New Pre-Order #' . $order->order_number,
+                        'message' => "New pre-order received from {$user->name} (" . count($items) . " items, $" . number_format($farmerTotal, 2) . "). Scheduled Pickup: {$order->pickup_date->format('M d, Y')} ({$order->pickup_time_slot}).",
+                        'type' => 'order',
+                    ]);
+                }
 
                 $placedOrders[] = $order;
             }

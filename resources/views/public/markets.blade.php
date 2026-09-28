@@ -41,12 +41,16 @@
 
 @section('content')
 <div class="container py-4">
-    <!-- Header -->
-    <div class="mb-3">
-        <span class="badge-pastel-green mb-1">
-            <i class="bi bi-geo-alt-fill text-danger me-1"></i> OpenStreetMap Geolocation
-        </span>
-        <h2 class="heading-serif fw-bold text-dark mb-0">Local Farmers Markets and Stalls</h2>
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+        <div>
+            <span class="badge-pastel-green mb-1">
+                <i class="bi bi-geo-alt-fill text-danger me-1"></i> OpenStreetMap Geolocation
+            </span>
+            <h2 class="heading-serif fw-bold text-dark mb-0">Local Farmers Markets and Stalls</h2>
+        </div>
+        <a href="{{ route('markets.nearby') }}" class="btn btn-brand rounded-pill px-3 shadow-sm">
+            <i class="bi bi-crosshair me-1"></i> Find Nearby Markets
+        </a>
     </div>
 
     <!-- Search, Location & Day Filter Bar -->

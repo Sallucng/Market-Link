@@ -27,8 +27,8 @@
     </div>
 
     <!-- Platform Key Metrics (SRS §1.6) -->
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 mb-4 align-items-stretch">
-        <div class="col">
+    <div class="stat-grid-5 mb-4">
+        <a href="{{ route('admin.farmers.index') }}" class="text-decoration-none">
             <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
                 <div>
                     <div class="d-flex justify-content-between align-items-center">
@@ -39,9 +39,9 @@
                 </div>
                 <small class="text-success fw-medium mt-2 d-block text-truncate"><i class="bi bi-check-circle-fill me-1"></i>{{ $activeFarmers->count() }} Approved</small>
             </div>
-        </div>
+        </a>
 
-        <div class="col">
+        <a href="{{ route('admin.customers.index') }}" class="text-decoration-none">
             <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
                 <div>
                     <div class="d-flex justify-content-between align-items-center">
@@ -52,9 +52,9 @@
                 </div>
                 <small class="text-muted mt-2 d-block text-truncate">Registered shoppers</small>
             </div>
-        </div>
+        </a>
 
-        <div class="col">
+        <a href="{{ route('admin.markets.index') }}" class="text-decoration-none">
             <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
                 <div>
                     <div class="d-flex justify-content-between align-items-center">
@@ -65,9 +65,9 @@
                 </div>
                 <small class="text-muted mt-2 d-block text-truncate">Physical plazas</small>
             </div>
-        </div>
+        </a>
 
-        <div class="col">
+        <a href="{{ route('admin.reports.index') }}" class="text-decoration-none">
             <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
                 <div>
                     <div class="d-flex justify-content-between align-items-center">
@@ -78,19 +78,17 @@
                 </div>
                 <small class="text-muted mt-2 d-block text-truncate">Stall reservations</small>
             </div>
-        </div>
+        </a>
 
-        <div class="col">
-            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
-                <div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Platform Volume</span>
-                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1 small">Sales</span>
-                    </div>
-                    <h3 class="fw-bold text-success mb-0 mt-2 stat-counter" data-target="{{ $metrics['total_volume'] }}" data-is-currency="true">$0.00</h3>
+        <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+            <div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Platform Volume</span>
+                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1 small">Sales</span>
                 </div>
-                <small class="text-muted mt-2 d-block text-truncate">Pay-at-pickup volume</small>
+                <h3 class="fw-bold text-success mb-0 mt-2 stat-counter" data-target="{{ $metrics['total_volume'] }}" data-is-currency="true">$0.00</h3>
             </div>
+            <small class="text-muted mt-2 d-block text-truncate">Pay-at-pickup volume</small>
         </div>
     </div>
 
@@ -196,7 +194,12 @@
                 <h5 class="heading-serif fw-bold text-dark mb-0">Farmer Approval Gate</h5>
                 <small class="text-muted">Growers cannot publish weekly products until verified and approved by an administrator.</small>
             </div>
-            <span class="badge bg-warning text-dark">{{ $pendingFarmers->count() }} Pending Review</span>
+            <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-warning text-dark">{{ $pendingFarmers->count() }} Pending Review</span>
+                <a href="{{ route('admin.farmers.index', ['status' => 'pending']) }}" class="btn btn-sm btn-outline-warning text-dark rounded-pill px-3">
+                    <i class="bi bi-clock-history me-1"></i> Open Approval Queue
+                </a>
+            </div>
         </div>
 
         @if($pendingFarmers->count() > 0)
@@ -304,18 +307,24 @@
         @endif
     </div>
 
-    <!-- Active Farmers & Customer Moderation -->
-    <div class="row g-4">
+    <!-- Active Farmers & Platform Operations Intelligence -->
+    <div class="row g-4 mb-4">
         <!-- Active Farmers Table -->
         <div class="col-lg-6">
-            <div class="card card-custom table-card p-4 bg-white border-0 shadow-sm h-100">
+            <div class="card card-custom table-card p-4 bg-white border-0 shadow-sm h-100 d-flex flex-column">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="heading-serif fw-bold text-dark mb-0">Approved Farmer Stalls ({{ $activeFarmers->count() }})</h5>
-                    <a href="{{ route('admin.moderation.products') }}" class="btn btn-sm btn-outline-secondary rounded-pill px-3">Product Listings</a>
+                    <div>
+                        <h5 class="heading-serif fw-bold text-dark mb-0">Approved Farmer Stalls ({{ $activeFarmers->count() }})</h5>
+                        <small class="text-muted">Verified growers operating across physical markets</small>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <a href="{{ route('admin.farmers.index') }}" class="btn btn-sm btn-outline-success rounded-pill px-3">All Farmers</a>
+                        <a href="{{ route('admin.moderation.products') }}" class="btn btn-sm btn-outline-secondary rounded-pill px-3">Listings</a>
+                    </div>
                 </div>
-                <div class="table-responsive">
+                <div class="table-responsive flex-grow-1" style="max-height: 640px; overflow-y: auto;">
                     <table class="table table-hover align-middle mb-0 small">
-                        <thead class="table-light">
+                        <thead class="table-light sticky-top" style="z-index: 2;">
                             <tr>
                                 <th>Stall</th>
                                 <th>Market</th>
@@ -327,7 +336,7 @@
                             @forelse($activeFarmers as $af)
                                 <tr>
                                     <td>
-                                        <div class="fw-bold">{{ $af->stall_name }}</div>
+                                        <div class="fw-bold text-dark">{{ $af->stall_name }}</div>
                                         <span class="text-muted" style="font-size: 0.72rem;">{{ $af->contact_person }}</span>
                                     </td>
                                     <td>{{ $af->market->name ?? 'Local Market' }}</td>
@@ -352,12 +361,16 @@
             </div>
         </div>
 
-        <!-- Customer Moderation Table (SRS §1.6) -->
-        <div class="col-lg-6">
-            <div class="card card-custom table-card p-4 bg-white border-0 shadow-sm h-100">
+        <!-- Right Column: Customer Accounts, Homepage Sale Spotlight & Community Reviews -->
+        <div class="col-lg-6 d-flex flex-column gap-4">
+            <!-- 1. Customer Accounts Card -->
+            <div class="card card-custom table-card p-4 bg-white border-0 shadow-sm">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="heading-serif fw-bold text-dark mb-0">Customer Accounts ({{ $customers->count() }})</h5>
-                    <span class="badge bg-light text-dark border font-mono-meta">Moderation</span>
+                    <div>
+                        <h5 class="heading-serif fw-bold text-dark mb-0">Customer Accounts ({{ $customers->count() }})</h5>
+                        <small class="text-muted">Recent shoppers registered on MarketLink</small>
+                    </div>
+                    <a href="{{ route('admin.customers.index') }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">Manage Customers</a>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0 small">
@@ -370,10 +383,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($customers as $c)
+                            @forelse($customers->take(3) as $c)
                                 <tr>
                                     <td>
-                                        <div class="fw-bold">{{ $c->name }}</div>
+                                        <div class="fw-bold text-dark">{{ $c->name }}</div>
                                         <span class="text-muted" style="font-size: 0.72rem;">{{ $c->email }}</span>
                                     </td>
                                     <td>{{ $c->contact_number ?? '—' }}</td>
@@ -400,6 +413,99 @@
                     </table>
                 </div>
             </div>
+
+            <!-- 2. Homepage Featured Sale Spotlight Card -->
+            <div class="card card-custom p-4 border-0 shadow-sm" style="background: linear-gradient(135deg, #fffdf5 0%, #fffbeb 100%); border: 1.5px solid #fde68a !important;">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-warning text-dark px-2.5 py-1 rounded-pill fw-bold" style="font-size: 0.75rem;">
+                            <i class="bi bi-stars"></i> HOMEPAGE SPOTLIGHT
+                        </span>
+                        <span class="text-muted small">&bull; {{ $activeSalesCount }} Active Deals Running</span>
+                    </div>
+                    <a href="{{ route('admin.sales.index') }}" class="btn btn-sm btn-outline-dark rounded-pill px-3 py-1 shadow-2xs" style="font-size: 0.8rem;">
+                        <i class="bi bi-sliders me-1"></i> Manage Spotlight
+                    </a>
+                </div>
+
+                @if($featuredSale)
+                    <div class="d-flex align-items-center gap-3 bg-white p-3 rounded-3 border border-warning border-opacity-25 shadow-2xs">
+                        @if($featuredSale->banner_image)
+                            <img src="{{ $featuredSale->banner_image }}" alt="{{ $featuredSale->title }}" class="rounded-2 object-fit-cover flex-shrink-0" style="width: 58px; height: 58px;">
+                        @else
+                            <div class="rounded-2 bg-warning bg-opacity-20 text-warning d-flex align-items-center justify-content-center flex-shrink-0" style="width: 58px; height: 58px;">
+                                <i class="bi bi-tag-fill fs-4 text-warning"></i>
+                            </div>
+                        @endif
+                        <div class="overflow-hidden flex-grow-1">
+                            <div class="d-flex align-items-center gap-2">
+                                <h6 class="fw-bold text-dark mb-0 text-truncate">{{ $featuredSale->title }}</h6>
+                                <span class="badge bg-danger text-white rounded-pill px-2 py-0.5" style="font-size: 0.7rem;">
+                                    {{ $featuredSale->computed_badge }}
+                                </span>
+                            </div>
+                            <div class="small text-muted text-truncate mt-0.5" style="font-size: 0.78rem;">
+                                Stall: <strong class="text-success">{{ $featuredSale->farmer->stall_name }}</strong>
+                                &bull; <i class="bi bi-geo-alt"></i> {{ $featuredSale->farmer->market ? $featuredSale->farmer->market->name : 'Community Plaza' }}
+                            </div>
+                            <div class="small text-muted font-mono-meta mt-0.5" style="font-size: 0.72rem;">
+                                Valid through {{ $featuredSale->end_date->format('M d, Y') }}
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <div class="p-3 bg-white rounded-3 border text-center text-muted small">
+                        <i class="bi bi-tag text-muted fs-4 d-block mb-1 opacity-50"></i>
+                        No sale is currently spotlighted on the homepage.
+                        <div class="mt-2">
+                            <a href="{{ route('admin.sales.index') }}" class="btn btn-sm btn-brand rounded-pill px-3">
+                                Select Sale to Spotlight
+                            </a>
+                        </div>
+                    </div>
+                @endif
+            </div>
+
+            <!-- 3. Recent Community Reviews Pulse Card -->
+            <div class="card card-custom p-4 bg-white border-0 shadow-sm">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h6 class="fw-bold text-dark mb-0">Community Reviews & Sentiment</h6>
+                        <small class="text-muted">Direct customer feedback on product freshness & stall pickups</small>
+                    </div>
+                    <a href="{{ route('admin.moderation.reviews') }}" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" style="font-size: 0.8rem;">
+                        View All
+                    </a>
+                </div>
+
+                @if($recentReviews->isEmpty())
+                    <div class="p-3 text-center text-muted small">No customer reviews recorded yet.</div>
+                @else
+                    <div class="d-flex flex-column gap-2.5">
+                        @foreach($recentReviews as $rev)
+                            <div class="p-2.5 bg-light rounded-3 d-flex justify-content-between align-items-start gap-2">
+                                <div>
+                                    <div class="d-flex align-items-center gap-1.5 mb-1">
+                                        <div class="text-warning small" style="font-size: 0.75rem;">
+                                            @for($i = 1; $i <= 5; $i++)
+                                                <i class="bi {{ $i <= $rev->rating ? 'bi-star-fill' : 'bi-star' }}"></i>
+                                            @endfor
+                                        </div>
+                                        <span class="fw-bold text-dark small" style="font-size: 0.8rem;">{{ $rev->customer->name ?? 'Shopper' }}</span>
+                                        <span class="text-muted" style="font-size: 0.72rem;">&bull; for {{ $rev->farmer->stall_name ?? 'Local Stall' }}</span>
+                                    </div>
+                                    <p class="text-muted small mb-0 fst-italic text-truncate" style="max-width: 440px; font-size: 0.78rem;">
+                                        "{{ $rev->comment }}"
+                                    </p>
+                                </div>
+                                <span class="text-muted font-mono-meta flex-shrink-0" style="font-size: 0.7rem;">
+                                    {{ $rev->created_at ? $rev->created_at->diffForHumans(null, true) : 'recent' }}
+                                </span>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
 </div>
@@ -412,33 +518,35 @@ document.addEventListener('DOMContentLoaded', function () {
     // GSAP Motion Graphics & Entrances (antigravity-design-expert)
     // ----------------------------------------------------
     if (typeof gsap !== 'undefined') {
-        // Staggered entrance for Stat Cards
+        // Staggered entrance for Stat Cards - clean fade with clearProps so cards stay 100% leveled
         gsap.from('.stat-card', {
             opacity: 0,
-            y: 28,
-            duration: 0.65,
-            stagger: 0.08,
-            ease: 'power3.out'
+            duration: 0.45,
+            stagger: 0.05,
+            ease: 'power2.out',
+            clearProps: 'all'
         });
 
         // Staggered entrance for Analytics Chart Cards
         gsap.from('.chart-card', {
             opacity: 0,
-            y: 24,
-            duration: 0.75,
-            delay: 0.25,
-            stagger: 0.12,
-            ease: 'power3.out'
+            y: 20,
+            duration: 0.5,
+            delay: 0.15,
+            stagger: 0.08,
+            ease: 'power2.out',
+            clearProps: 'all'
         });
 
         // Entrance for Management Tables
         gsap.from('.table-card', {
             opacity: 0,
-            y: 20,
-            duration: 0.65,
-            delay: 0.45,
-            stagger: 0.1,
-            ease: 'power3.out'
+            y: 16,
+            duration: 0.5,
+            delay: 0.2,
+            stagger: 0.08,
+            ease: 'power2.out',
+            clearProps: 'all'
         });
 
         // Smooth Counter Animation for Metric Numbers
@@ -494,17 +602,19 @@ document.addEventListener('DOMContentLoaded', function () {
     Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
     Chart.defaults.color = '#64748b';
 
-    // 1. Bar Chart: Revenue Generated per Market (Animated Rising with Counting Numbers)
+    // 1. Bar Chart: Revenue Generated per Market (GSAP Motion Graphics: Rising Bars & Counting Numbers)
     const marketLabels = {!! json_encode($marketRevenueLabels) !!};
     const targetMarketRevenueData = {!! json_encode($marketRevenueData) !!};
     const maxMarketRevenue = Math.max(...targetMarketRevenueData, 100);
 
     const ctxRev = document.getElementById('marketRevenueBarChart');
     if (ctxRev) {
+        let currentMarketRevenue = targetMarketRevenueData.map(() => 0);
+
         const animatedRevenueLabelsPlugin = {
             id: 'animatedMarketRevenueLabels',
             afterDatasetsDraw(chart) {
-                const { ctx, data } = chart;
+                const { ctx } = chart;
                 ctx.save();
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'bottom';
@@ -512,9 +622,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 ctx.fillStyle = '#1b4332';
 
                 chart.getDatasetMeta(0).data.forEach((bar, index) => {
-                    const currentVal = data.datasets[0].data[index];
-                    const targetVal = targetMarketRevenueData[index];
-                    if (targetVal > 0) {
+                    const currentVal = currentMarketRevenue[index] ?? 0;
+                    if (targetMarketRevenueData[index] > 0) {
                         const formatted = '$' + currentVal.toFixed(2);
                         ctx.fillText(formatted, bar.x, bar.y - 4);
                     }
@@ -541,7 +650,7 @@ document.addEventListener('DOMContentLoaded', function () {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                animation: false,
+                animation: false, // GSAP precision control
                 plugins: {
                     legend: { display: false },
                     tooltip: {
@@ -555,7 +664,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 scales: {
                     y: {
                         beginAtZero: true,
-                        suggestedMax: maxMarketRevenue * 1.18,
+                        min: 0,
+                        max: Math.ceil(maxMarketRevenue * 1.25),
                         grid: { color: '#f1f5f9' },
                         ticks: {
                             callback: function(value) { return '$' + value; }
@@ -568,17 +678,20 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        const revAnim = { progress: 0 };
-        gsap.to(revAnim, {
+        // GSAP Tween to animate market bars rising and dollar amounts counting up
+        const mktRevAnim = { progress: 0 };
+        gsap.to(mktRevAnim, {
             progress: 1,
             duration: 1.6,
-            delay: 0.2,
+            delay: 0.25,
             ease: 'power2.out',
             onUpdate: () => {
-                marketRevenueChart.data.datasets[0].data = targetMarketRevenueData.map(v => v * revAnim.progress);
+                currentMarketRevenue = targetMarketRevenueData.map(v => v * mktRevAnim.progress);
+                marketRevenueChart.data.datasets[0].data = [...currentMarketRevenue];
                 marketRevenueChart.update('none');
             },
             onComplete: () => {
+                currentMarketRevenue = [...targetMarketRevenueData];
                 marketRevenueChart.data.datasets[0].data = [...targetMarketRevenueData];
                 marketRevenueChart.update('none');
             }
@@ -792,16 +905,18 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // 4. Bar Chart: Order Reservation Volumes by Market (Animated Rising with Counting Numbers)
+    // 4. Bar Chart: Order Reservation Volumes by Market (GSAP Motion Graphics: Rising Bars & Counting Numbers)
     const targetMarketOrderCounts = {!! json_encode($marketOrderCountData) !!};
     const maxMarketOrders = Math.max(...targetMarketOrderCounts, 5);
 
     const ctxOrders = document.getElementById('marketOrdersBarChart');
     if (ctxOrders) {
+        let currentMarketOrders = targetMarketOrderCounts.map(() => 0);
+
         const animatedOrderLabelsPlugin = {
             id: 'animatedMarketOrderLabels',
             afterDatasetsDraw(chart) {
-                const { ctx, data } = chart;
+                const { ctx } = chart;
                 ctx.save();
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'bottom';
@@ -809,9 +924,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 ctx.fillStyle = '#0284c7';
 
                 chart.getDatasetMeta(0).data.forEach((bar, index) => {
-                    const currentVal = data.datasets[0].data[index];
-                    const targetVal = targetMarketOrderCounts[index];
-                    if (targetVal > 0) {
+                    const currentVal = currentMarketOrders[index] ?? 0;
+                    if (targetMarketOrderCounts[index] > 0) {
                         ctx.fillText(Math.round(currentVal).toString(), bar.x, bar.y - 4);
                     }
                 });
@@ -837,14 +951,15 @@ document.addEventListener('DOMContentLoaded', function () {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                animation: false,
+                animation: false, // GSAP precision control
                 plugins: {
                     legend: { display: false }
                 },
                 scales: {
                     y: {
                         beginAtZero: true,
-                        suggestedMax: maxMarketOrders * 1.25,
+                        min: 0,
+                        max: Math.ceil(maxMarketOrders * 1.25),
                         ticks: { stepSize: 1 },
                         grid: { color: '#f1f5f9' }
                     },
@@ -855,17 +970,20 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        const ordersAnim = { progress: 0 };
-        gsap.to(ordersAnim, {
+        // GSAP Tween to animate venue order bars rising and counts counting up
+        const mktOrderAnim = { progress: 0 };
+        gsap.to(mktOrderAnim, {
             progress: 1,
             duration: 1.6,
-            delay: 0.3,
+            delay: 0.35,
             ease: 'power2.out',
             onUpdate: () => {
-                marketOrdersChart.data.datasets[0].data = targetMarketOrderCounts.map(v => v * ordersAnim.progress);
+                currentMarketOrders = targetMarketOrderCounts.map(v => v * mktOrderAnim.progress);
+                marketOrdersChart.data.datasets[0].data = [...currentMarketOrders];
                 marketOrdersChart.update('none');
             },
             onComplete: () => {
+                currentMarketOrders = [...targetMarketOrderCounts];
                 marketOrdersChart.data.datasets[0].data = [...targetMarketOrderCounts];
                 marketOrdersChart.update('none');
             }

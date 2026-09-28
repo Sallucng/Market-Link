@@ -20,7 +20,7 @@
     <!-- GSAP for Smooth Motion Graphics & Antigravity Interactions -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
-    @vite(['resources/js/agentation.jsx', 'resources/js/floating-dock-mount.tsx'])
+    @vite(['resources/js/agentation.jsx'])
 
     <style>
         :root {
@@ -211,6 +211,55 @@
             transform: translateY(-4px);
         }
 
+        /* Fully Level Responsive Stat Cards Grids */
+        .stat-grid-5 {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 1rem;
+            align-items: stretch;
+        }
+        @media (max-width: 1199px) and (min-width: 768px) {
+            .stat-grid-5 {
+                grid-template-columns: repeat(5, minmax(0, 1fr));
+                gap: 0.65rem;
+            }
+        }
+        @media (max-width: 767px) {
+            .stat-grid-5 {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 0.75rem;
+            }
+            .stat-grid-5 > :last-child:nth-child(odd) {
+                grid-column: span 2;
+            }
+        }
+
+        .stat-grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 1rem;
+            align-items: stretch;
+        }
+        @media (max-width: 767px) {
+            .stat-grid-4 {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 0.75rem;
+            }
+        }
+
+        .stat-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1rem;
+            align-items: stretch;
+        }
+        @media (max-width: 767px) {
+            .stat-grid-3 {
+                grid-template-columns: repeat(1, minmax(0, 1fr));
+                gap: 0.75rem;
+            }
+        }
+
         /* Antigravity Motion Graphics & Floating Physics */
         @keyframes float-gentle {
             0%, 100% {
@@ -322,6 +371,21 @@
             border-radius: 16px;
             overflow: hidden;
             background: #ffffff;
+        }
+
+        @media (max-width: 767.98px) {
+            #ai-assistant-bubble {
+                bottom: 18px !important;
+                right: 18px !important;
+            }
+            #ai-assistant-window {
+                bottom: 86px !important;
+                right: 12px !important;
+                left: 12px !important;
+                width: auto !important;
+                max-width: 360px !important;
+                margin: 0 auto !important;
+            }
         }
 
         /* ==========================================================================
@@ -448,6 +512,21 @@
             }
         }
 
+        /* ── Navbar defence: override any Tailwind `.collapse` utility that
+           sets `visibility: collapse` — Bootstrap needs its own `.collapse`
+           class to toggle `display` between `none` and `flex/block`. ────── */
+        @media (min-width: 992px) {
+            .navbar-expand-lg .navbar-collapse {
+                display: flex !important;
+                visibility: visible !important;
+            }
+        }
+        /* On mobile (<992px), Bootstrap toggles via JS — ensure visibility
+           is never the reason the menu is hidden; `display` handles that. */
+        .navbar-collapse {
+            visibility: visible !important;
+        }
+
         /* Prevent navbar text from wrapping into multi-line stacks */
         .navbar .navbar-brand,
         .navbar-nav .nav-link,
@@ -498,6 +577,115 @@
                 justify-content: center !important;
             }
         }
+
+        /* ── Liquid Glass Flash Alerts (Agentation Feedback) ── */
+        .alert-liquid-glass {
+            position: relative;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 14px !important;
+            padding: 0.85rem 1.25rem !important;
+            box-shadow: 0 10px 30px -4px rgba(11, 33, 22, 0.08), 0 4px 12px rgba(0, 0, 0, 0.03), inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+            border: 1px solid rgba(255, 255, 255, 0.6) !important;
+            transition: opacity 0.35s ease, transform 0.35s ease, max-height 0.35s ease, margin 0.35s ease, padding 0.35s ease;
+            overflow: hidden;
+        }
+        .alert-liquid-glass.alert-success {
+            background: rgba(236, 253, 243, 0.88) !important;
+            border: 1px solid rgba(45, 90, 39, 0.25) !important;
+            color: #14532d !important;
+        }
+        .alert-liquid-glass.alert-danger {
+            background: rgba(254, 242, 242, 0.88) !important;
+            border: 1px solid rgba(220, 38, 38, 0.25) !important;
+            color: #991b1b !important;
+        }
+        .alert-liquid-glass.alert-warning {
+            background: rgba(254, 252, 232, 0.88) !important;
+            border: 1px solid rgba(202, 138, 4, 0.28) !important;
+            color: #854d0e !important;
+        }
+        .alert-liquid-glass.alert-info {
+            background: rgba(239, 246, 255, 0.88) !important;
+            border: 1px solid rgba(37, 99, 235, 0.25) !important;
+            color: #1e40af !important;
+        }
+        .alert-liquid-glass .btn-close {
+            opacity: 0.45;
+            transition: opacity 0.2s ease;
+        }
+        .alert-liquid-glass .btn-close:hover {
+            opacity: 1;
+        }
+        .alert-liquid-glass::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            width: 100%;
+            background: currentColor;
+            opacity: 0.25;
+            transform-origin: left;
+            animation: liquid-alert-progress 2s linear forwards;
+        }
+        @keyframes liquid-alert-progress {
+            from { transform: scaleX(1); }
+            to { transform: scaleX(0); }
+        }
+
+        /* Mobile Bottom Floating Menu Trigger Button & Offcanvas Drawer */
+        .mobile-menu-trigger-btn {
+            background-color: var(--brand-primary) !important;
+            color: #ffffff !important;
+            border: 2px solid rgba(255, 255, 255, 0.9) !important;
+            box-shadow: 0 10px 28px rgba(27, 67, 50, 0.45) !important;
+            font-size: 0.95rem;
+            font-weight: 700;
+            padding: 0.6rem 1.6rem;
+            border-radius: 999px;
+            pointer-events: auto !important;
+            cursor: pointer !important;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+        .mobile-menu-trigger-btn:hover,
+        .mobile-menu-trigger-btn:focus,
+        .mobile-menu-trigger-btn:active {
+            background-color: #2d6a4f !important;
+            color: #ffffff !important;
+            transform: scale(1.04) !important;
+            box-shadow: 0 14px 34px rgba(27, 67, 50, 0.55) !important;
+        }
+
+        #mobileMenuOffcanvas {
+            height: auto !important;
+            max-height: 86vh !important;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            border-top: 1px solid rgba(27, 67, 50, 0.15);
+            box-shadow: 0 -12px 36px rgba(0, 0, 0, 0.22);
+            background: #ffffff;
+        }
+
+        #mobileMenuOffcanvas .offcanvas-body {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        #mobileMenuOffcanvas .offcanvas-body::-webkit-scrollbar {
+            display: none;
+        }
+
+        .mobile-drawer-link {
+            font-size: 0.98rem;
+            font-weight: 600;
+            color: #1e293b;
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+        .mobile-drawer-link:hover,
+        .mobile-drawer-link:active {
+            background-color: #f1f8f4;
+            color: var(--brand-primary);
+        }
     </style>
     @yield('styles')
 </head>
@@ -516,8 +704,8 @@
                 MarketLink
             </a>
 
-            <!-- Mobile Quick Actions (Search & Cart directly in mobile header) -->
-            <div class="d-flex align-items-center gap-1 d-lg-none ms-auto me-2">
+            <!-- Mobile Quick Actions & Toggler -->
+            <div class="d-flex align-items-center gap-1 d-lg-none ms-auto me-1">
                 <button type="button" class="btn btn-sm btn-light border rounded-circle d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#globalSearchModal" aria-label="Search" style="width: 36px; height: 36px; background: #fbfdfa;">
                     <i class="bi bi-search text-success"></i>
                 </button>
@@ -532,17 +720,21 @@
                 </a>
             </div>
 
-            <button class="navbar-toggler d-none" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-label="Toggle navigation">
+            <button class="navbar-toggler ms-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenuOffcanvas" aria-controls="mobileMenuOffcanvas" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse d-none d-lg-flex" id="navContent">
+            <div class="collapse navbar-collapse" id="navContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('home') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('home') }}">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('markets.*') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('markets.index') }}">Markets and Map</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {{ request()->routeIs('markets.*') ? 'active fw-bold text-success' : 'text-dark' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Markets</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('markets.index') }}"><i class="bi bi-grid-3x3-gap me-2 text-success"></i>All Markets & Map</a></li>
+                            <li><a class="dropdown-item" href="{{ route('markets.nearby') }}"><i class="bi bi-crosshair me-2 text-primary"></i>Nearby Markets</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('products.*') ? 'active fw-bold text-success' : 'text-dark' }}" href="{{ route('products.index') }}">Farm Products</a>
@@ -571,17 +763,19 @@
 
                     @auth
                         <div class="dropdown">
-                            <button class="btn btn-liquid-glass dropdown-toggle d-flex align-items-center gap-2 rounded-pill px-3" type="button" data-bs-target="#userMenu" data-bs-toggle="dropdown">
+                            <button class="btn btn-liquid-glass dropdown-toggle d-flex align-items-center gap-2 rounded-pill px-3" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-person-circle text-success fs-5"></i>
                                 <span class="fw-semibold navbar-user-name">{{ Auth::user()->name }}</span>
                                 <span class="badge bg-secondary ms-1 small text-uppercase" style="font-size: 0.65rem;">{{ Auth::user()->role }}</span>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end liquid-glass-menu shadow-lg" id="userMenu">
+                            <ul class="dropdown-menu dropdown-menu-end liquid-glass-menu shadow-lg">
                                 @if(Auth::user()->isCustomer())
                                     <li><h6 class="dropdown-header">Customer Portal</h6></li>
                                     <li><a class="dropdown-item fw-semibold" href="{{ route('customer.dashboard') }}"><i class="bi bi-speedometer2 me-2 text-success"></i>My Dashboard</a></li>
                                     <li><a class="dropdown-item" href="{{ route('customer.orders.index') }}"><i class="bi bi-box-seam me-2"></i>My Pre-Orders</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('customer.messages.index') }}"><i class="bi bi-chat-dots me-2 text-success"></i>Stall Messages</a></li>
                                     <li><a class="dropdown-item" href="{{ route('customer.favorites.index') }}"><i class="bi bi-heart me-2"></i>Saved Favorites</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('customer.complaints.index') }}"><i class="bi bi-shield-exclamation me-2 text-danger"></i>My Complaints</a></li>
                                 @elseif(Auth::user()->isFarmer())
                                     <li><h6 class="dropdown-header">Farmer Management</h6></li>
                                     <li><a class="dropdown-item text-success fw-bold" href="{{ route('farmer.dashboard') }}"><i class="bi bi-speedometer2 me-2"></i>Farmer Portal</a></li>
@@ -609,29 +803,45 @@
         </div>
     </nav>
 
-    <!-- Global Flash Alerts -->
-    <div class="container mt-3">
+    <!-- Global Flash Alerts (Liquid Glass UX) -->
+    <div class="container mt-3" id="global-flash-alerts">
         @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show d-flex align-items-center" role="alert">
-                <i class="bi bi-check-circle-fill me-2 fs-5"></i>
-                <div>{{ session('success') }}</div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <div class="alert alert-success alert-liquid-glass alert-dismissible fade show d-flex align-items-center" role="alert">
+                <i class="bi bi-check-circle-fill me-2 fs-5 text-success"></i>
+                <div class="fw-medium text-dark">{{ session('success') }}</div>
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
 
         @if(session('error'))
-            <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center" role="alert">
-                <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
-                <div>{{ session('error') }}</div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <div class="alert alert-danger alert-liquid-glass alert-dismissible fade show d-flex align-items-center" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2 fs-5 text-danger"></i>
+                <div class="fw-medium text-dark">{{ session('error') }}</div>
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
 
         @if(session('warning'))
-            <div class="alert alert-warning alert-dismissible fade show d-flex align-items-center" role="alert">
-                <i class="bi bi-info-circle-fill me-2 fs-5"></i>
-                <div>{{ session('warning') }}</div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <div class="alert alert-warning alert-liquid-glass alert-dismissible fade show d-flex align-items-center" role="alert">
+                <i class="bi bi-info-circle-fill me-2 fs-5 text-warning"></i>
+                <div class="fw-medium text-dark">{{ session('warning') }}</div>
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if(session('status'))
+            <div class="alert alert-info alert-liquid-glass alert-dismissible fade show d-flex align-items-center" role="alert">
+                <i class="bi bi-info-circle-fill me-2 fs-5 text-primary"></i>
+                <div class="fw-medium text-dark">{{ session('status') }}</div>
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if(session('info'))
+            <div class="alert alert-info alert-liquid-glass alert-dismissible fade show d-flex align-items-center" role="alert">
+                <i class="bi bi-info-circle-fill me-2 fs-5 text-primary"></i>
+                <div class="fw-medium text-dark">{{ session('info') }}</div>
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
     </div>
@@ -1087,14 +1297,198 @@
                 .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-success text-decoration-underline">$1</a>')
                 .replace(/\n/g, '<br>');
         }
+
+        // Auto-dismiss liquid glass flash notifications in 1.8-2 seconds (Agentation UX)
+        document.addEventListener('DOMContentLoaded', function () {
+            const alerts = document.querySelectorAll('.alert-liquid-glass, #global-flash-alerts .alert');
+            alerts.forEach(function (alert) {
+                let timer = setTimeout(function () {
+                    dismissAlert(alert);
+                }, 2000);
+
+                alert.addEventListener('mouseenter', function () {
+                    clearTimeout(timer);
+                });
+                alert.addEventListener('mouseleave', function () {
+                    timer = setTimeout(function () {
+                        dismissAlert(alert);
+                    }, 1000);
+                });
+            });
+
+            function dismissAlert(alert) {
+                alert.style.transition = 'opacity 0.35s ease, transform 0.35s ease, max-height 0.35s ease, margin 0.35s ease, padding 0.35s ease';
+                alert.style.opacity = '0';
+                alert.style.transform = 'translateY(-8px)';
+                setTimeout(function () {
+                    alert.style.maxHeight = '0';
+                    alert.style.paddingTop = '0';
+                    alert.style.paddingBottom = '0';
+                    alert.style.marginTop = '0';
+                    alert.style.marginBottom = '0';
+                    alert.style.border = 'none';
+                    setTimeout(function () {
+                        if (alert.parentNode) alert.remove();
+                    }, 350);
+                }, 350);
+            }
+        });
     </script>
     
-    <!-- 21st.dev Floating Navigation Dock Mount -->
-    <div id="marketlink-floating-dock" 
-         data-cart-count="{{ count(session('cart', [])) }}" 
-         data-auth="{{ auth()->check() ? 'true' : 'false' }}" 
-         data-dashboard-url="{{ auth()->check() ? (auth()->user()->role === 'admin' ? route('admin.dashboard') : (auth()->user()->role === 'farmer' ? route('farmer.dashboard') : route('customer.dashboard'))) : route('login') }}" 
-         data-role="{{ auth()->check() ? auth()->user()->role : 'guest' }}"></div>
+    <!-- Mobile Bottom Floating "Menu" Button (Mobile Only, d-lg-none) -->
+    <div class="fixed-bottom d-lg-none d-flex justify-content-center pb-3" style="z-index: 1040; pointer-events: none;">
+        <button type="button" 
+                class="btn mobile-menu-trigger-btn d-inline-flex align-items-center gap-2 pointer-events-auto"
+                data-bs-toggle="offcanvas" 
+                data-bs-target="#mobileMenuOffcanvas" 
+                aria-controls="mobileMenuOffcanvas"
+                aria-label="Open Navigation Menu">
+            <i class="bi bi-list fs-5"></i>
+            <span>Menu</span>
+        </button>
+    </div>
+
+    <!-- Mobile Navigation Offcanvas Bottom Sheet (Mobile Only, d-lg-none) -->
+    <div class="offcanvas offcanvas-bottom d-lg-none" tabindex="-1" id="mobileMenuOffcanvas" aria-labelledby="mobileMenuOffcanvasLabel">
+        <!-- Drawer Drag Handle -->
+        <div class="d-flex justify-content-center pt-2">
+            <div style="width: 42px; height: 5px; background: #cbd5e1; border-radius: 999px;"></div>
+        </div>
+
+        <div class="offcanvas-header pb-2 border-bottom">
+            <div class="d-flex align-items-center gap-2">
+                <span class="p-2 text-white rounded-2 d-inline-flex align-items-center justify-content-center" style="width:32px; height:32px; background-color: var(--brand-primary);">
+                    <i class="bi bi-flower2"></i>
+                </span>
+                <span class="fw-bold text-dark fs-5 font-heading">MarketLink</span>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+
+        <div class="offcanvas-body p-3">
+            <!-- Navigation Links identical to desktop -->
+            <div class="d-flex flex-column gap-1 mb-3">
+                <a href="{{ route('home') }}" class="mobile-drawer-link d-flex align-items-center gap-3 p-2 rounded-3 text-decoration-none {{ request()->routeIs('home') ? 'bg-success-subtle text-success fw-bold' : 'text-dark' }}">
+                    <i class="bi bi-house-door fs-5 text-success"></i>
+                    <span>Home</span>
+                </a>
+
+                <!-- Markets Submenu -->
+                <div class="mobile-drawer-accordion">
+                    <button class="mobile-drawer-link w-100 d-flex align-items-center justify-content-between p-2 rounded-3 text-decoration-none border-0 bg-transparent {{ request()->routeIs('markets.*') ? 'bg-success-subtle text-success fw-bold' : 'text-dark' }}" 
+                            type="button" 
+                            data-bs-toggle="collapse" 
+                            data-bs-target="#mobileMarketsCollapse" 
+                            aria-expanded="{{ request()->routeIs('markets.*') ? 'true' : 'false' }}">
+                        <div class="d-flex align-items-center gap-3">
+                            <i class="bi bi-geo-alt fs-5 text-success"></i>
+                            <span>Markets</span>
+                        </div>
+                        <i class="bi bi-chevron-down small text-muted"></i>
+                    </button>
+                    <div class="collapse {{ request()->routeIs('markets.*') ? 'show' : '' }} ps-4 pe-2 pt-1" id="mobileMarketsCollapse">
+                        <div class="d-flex flex-column gap-1 border-start border-2 border-success-subtle ps-3 my-1">
+                            <a href="{{ route('markets.index') }}" class="py-2 text-decoration-none {{ request()->routeIs('markets.index') ? 'text-success fw-bold' : 'text-secondary' }} small d-flex align-items-center gap-2">
+                                <i class="bi bi-grid-3x3-gap text-success"></i> All Markets & Map
+                            </a>
+                            <a href="{{ route('markets.nearby') }}" class="py-2 text-decoration-none {{ request()->routeIs('markets.nearby') ? 'text-success fw-bold' : 'text-secondary' }} small d-flex align-items-center gap-2">
+                                <i class="bi bi-crosshair text-primary"></i> Nearby Markets
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="{{ route('products.index') }}" class="mobile-drawer-link d-flex align-items-center gap-3 p-2 rounded-3 text-decoration-none {{ request()->routeIs('products.*') ? 'bg-success-subtle text-success fw-bold' : 'text-dark' }}">
+                    <i class="bi bi-basket2 fs-5 text-success"></i>
+                    <span>Farm Products</span>
+                </a>
+
+                <a href="{{ route('farmers.index') }}" class="mobile-drawer-link d-flex align-items-center gap-3 p-2 rounded-3 text-decoration-none {{ request()->routeIs('farmers.*') ? 'bg-success-subtle text-success fw-bold' : 'text-dark' }}">
+                    <i class="bi bi-people fs-5 text-success"></i>
+                    <span>Farmers</span>
+                </a>
+
+                <a href="{{ route('about') }}" class="mobile-drawer-link d-flex align-items-center gap-3 p-2 rounded-3 text-decoration-none {{ request()->routeIs('about') ? 'bg-success-subtle text-success fw-bold' : 'text-dark' }}">
+                    <i class="bi bi-info-circle fs-5 text-success"></i>
+                    <span>About Us</span>
+                </a>
+
+                <a href="{{ route('contact') }}" class="mobile-drawer-link d-flex align-items-center gap-3 p-2 rounded-3 text-decoration-none {{ request()->routeIs('contact') ? 'bg-success-subtle text-success fw-bold' : 'text-dark' }}">
+                    <i class="bi bi-envelope fs-5 text-success"></i>
+                    <span>Contact</span>
+                </a>
+            </div>
+
+            <hr class="my-3 text-muted opacity-25">
+
+            <!-- Pre-Order Pickup Cart -->
+            @php $cartCount = count(session('cart', [])); @endphp
+            <a href="{{ route('cart.index') }}" class="btn btn-brand-outline w-100 d-flex align-items-center justify-content-between p-2.5 rounded-pill mb-3">
+                <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-cart3 fs-5"></i>
+                    <span class="fw-semibold">Pickup Cart</span>
+                </span>
+                <span class="badge rounded-pill bg-danger font-mono-meta px-2 py-1">
+                    {{ $cartCount }} {{ Str::plural('item', $cartCount) }}
+                </span>
+            </a>
+
+            <!-- Authentication / User Actions -->
+            @auth
+                <div class="card bg-light border-0 rounded-3 p-3 mb-2">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="bi bi-person-circle text-success fs-4"></i>
+                        <div>
+                            <div class="fw-bold text-dark">{{ Auth::user()->name }}</div>
+                            <span class="badge bg-secondary small text-uppercase" style="font-size: 0.65rem;">{{ Auth::user()->role }}</span>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column gap-1 mt-2 pt-2 border-top">
+                        @if(Auth::user()->isCustomer())
+                            <a href="{{ route('customer.dashboard') }}" class="py-1.5 text-decoration-none text-success fw-semibold small d-flex align-items-center gap-2">
+                                <i class="bi bi-speedometer2"></i> My Dashboard
+                            </a>
+                            <a href="{{ route('customer.orders.index') }}" class="py-1.5 text-decoration-none text-dark small d-flex align-items-center gap-2">
+                                <i class="bi bi-box-seam"></i> My Pre-Orders
+                            </a>
+                            <a href="{{ route('customer.messages.index') }}" class="py-1.5 text-decoration-none text-dark small d-flex align-items-center gap-2">
+                                <i class="bi bi-chat-dots"></i> Stall Messages
+                            </a>
+                            <a href="{{ route('customer.favorites.index') }}" class="py-1.5 text-decoration-none text-dark small d-flex align-items-center gap-2">
+                                <i class="bi bi-heart"></i> Saved Favorites
+                            </a>
+                            <a href="{{ route('customer.complaints.index') }}" class="py-1.5 text-decoration-none text-dark small d-flex align-items-center gap-2">
+                                <i class="bi bi-shield-exclamation text-danger"></i> My Complaints
+                            </a>
+                        @elseif(Auth::user()->isFarmer())
+                            <a href="{{ route('farmer.dashboard') }}" class="py-1.5 text-decoration-none text-success fw-bold small d-flex align-items-center gap-2">
+                                <i class="bi bi-speedometer2"></i> Farmer Portal
+                            </a>
+                        @elseif(Auth::user()->isAdmin())
+                            <a href="{{ route('admin.dashboard') }}" class="py-1.5 text-decoration-none text-primary fw-bold small d-flex align-items-center gap-2">
+                                <i class="bi bi-shield-lock"></i> Admin Dashboard
+                            </a>
+                        @endif
+                        <form action="{{ route('logout') }}" method="POST" class="mt-2">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-outline-danger w-100 rounded-pill mt-1">
+                                <i class="bi bi-box-arrow-right me-1"></i> Sign Out
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            @else
+                <div class="d-grid gap-2">
+                    <a href="{{ route('login') }}" class="btn btn-light border rounded-pill fw-semibold py-2">
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Sign In
+                    </a>
+                    <a href="{{ route('register') }}" class="btn btn-brand rounded-pill py-2">
+                        <i class="bi bi-person-plus me-1"></i> Register
+                    </a>
+                </div>
+            @endauth
+        </div>
+    </div>
 
     @yield('scripts')
 </body>

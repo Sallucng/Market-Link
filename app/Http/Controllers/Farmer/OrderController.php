@@ -61,6 +61,10 @@ class OrderController extends Controller
         $farmer = $this->getFarmer();
         $order = Order::where('farmer_id', $farmer->id)->with('items.product')->findOrFail($id);
 
+        if (in_array($order->order_status, ['cancelled', 'completed', 'declined'])) {
+            return back()->with('error', "Cannot update order #{$order->order_number} because it has already been {$order->order_status}.");
+        }
+
         $validated = $request->validate([
             'status' => 'required|in:accepted,declined,ready_for_pickup,completed',
             'reason' => 'nullable|string|max:255',
@@ -77,14 +81,13 @@ class OrderController extends Controller
                     $item->product->save();
                 }
             }
+            $order->decline_reason = $validated['reason'] ?? 'Stall inventory unavailable.';
+            $order->payment_status = 'declined';
+        } elseif ($newStatus === 'completed') {
+            $order->payment_status = 'paid';
         }
 
         $order->order_status = $newStatus;
-        if ($newStatus === 'completed') {
-            $order->payment_status = 'paid';
-        } elseif ($newStatus === 'declined') {
-            $order->payment_status = 'declined';
-        }
         $order->save();
 
         // Send In-App notification to Customer per SRS Section 1.6
@@ -117,4 +120,71 @@ class OrderController extends Controller
 
         return $pdf->download("MarketLink-Receipt-{$order->order_number}.pdf");
     }
+
+    public function export(Request $request)
+    {
+        $farmer = $this->getFarmer();
+        $query = Order::where('farmer_id', $farmer->id)->with(['customer', 'items.product']);
+
+        if ($request->filled('status')) {
+            $query->where('order_status', $request->status);
+        }
+
+        if ($request->filled('date')) {
+            $query->whereDate('pickup_date', $request->date);
+        }
+
+        $orders = $query->latest()->get();
+        $filename = "marketlink-stall-orders-{$farmer->id}-" . date('Y-m-d_His') . ".csv";
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0',
+        ];
+
+        $callback = function () use ($orders) {
+            $handle = fopen('php://output', 'w');
+            fputcsv($handle, [
+                'Order Number',
+                'Customer Name',
+                'Contact Phone',
+                'Email',
+                'Pickup Date',
+                'Pickup Time Slot',
+                'Order Status',
+                'Payment Status',
+                'Total Amount ($)',
+                'Items Summary',
+                'Order Placed Date',
+            ]);
+
+            foreach ($orders as $order) {
+                $itemsList = $order->items->map(function ($item) {
+                    return "{$item->quantity}x " . ($item->product->name ?? 'Harvest Item');
+                })->implode('; ');
+
+                fputcsv($handle, [
+                    $order->order_number,
+                    $order->customer->name ?? 'Guest Shopper',
+                    $order->customer->contact_number ?? 'N/A',
+                    $order->customer->email ?? 'N/A',
+                    $order->pickup_date ? $order->pickup_date->format('Y-m-d') : 'N/A',
+                    $order->pickup_time_slot,
+                    $order->order_status,
+                    $order->payment_status,
+                    number_format($order->total_amount, 2),
+                    $itemsList,
+                    $order->created_at->format('Y-m-d H:i:s'),
+                ]);
+            }
+
+            fclose($handle);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }
+

@@ -65,12 +65,20 @@ class FarmerProfileController extends Controller
         })->with([
             'market',
             'products' => function ($q) {
-                $q->where('is_available', true)->with('category');
+                $q->where('is_available', true)->with(['category', 'sales']);
             },
             'reviews.customer',
             'reviews.product',
         ])->findOrFail($id);
 
-        return view('public.farmer-detail', compact('farmer'));
+        $activeSales = \App\Models\Sale::where('farmer_id', $farmer->id)
+            ->active()
+            ->with('products')
+            ->latest()
+            ->get();
+
+        $activeSale = $activeSales->first();
+
+        return view('public.farmer-detail', compact('farmer', 'activeSale', 'activeSales'));
     }
 }

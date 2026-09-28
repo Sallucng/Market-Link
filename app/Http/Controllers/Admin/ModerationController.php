@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Review;
 use Illuminate\Http\Request;
@@ -43,6 +44,19 @@ class ModerationController extends Controller
     {
         $product = Product::findOrFail($id);
         $name = $product->name;
+
+        $hasActiveOrders = OrderItem::where('product_id', $product->id)
+            ->whereHas('order', function ($q) {
+                $q->whereIn('order_status', ['placed', 'accepted', 'ready_for_pickup', 'pending', 'ready']);
+            })->exists();
+
+        if ($hasActiveOrders) {
+            $product->is_available = false;
+            $product->is_sold_out = true;
+            $product->save();
+            return back()->with('info', "Product '{$name}' has active pre-orders and has been hidden and marked sold out instead of permanently deleted.");
+        }
+
         $product->delete();
 
         return back()->with('success', "Inappropriate product listing '{$name}' was removed from the platform.");

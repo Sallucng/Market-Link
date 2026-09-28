@@ -51,7 +51,7 @@
                             </td>
                             <td><span class="badge bg-light text-dark border">{{ $m->city }}</span></td>
                             <td class="small">
-                                <div class="fw-semibold text-dark">{{ $m->operating_days }}</div>
+                                <div class="fw-semibold text-dark">{{ is_array($m->operating_days) ? implode(', ', $m->operating_days) : (string)$m->operating_days }}</div>
                                 <div class="text-muted">{{ $m->timings }}</div>
                             </td>
                             <td class="small text-muted font-monospace">

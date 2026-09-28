@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Farmer;
 
 use App\Http\Controllers\Controller;
 use App\Models\Farmer;
+use App\Models\Notification;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class ReviewController extends Controller
 {
@@ -44,6 +46,14 @@ class ReviewController extends Controller
 
         $review->update([
             'farmer_response' => $validated['farmer_response'],
+            'responded_at' => now(),
+        ]);
+
+        Notification::create([
+            'user_id' => $review->customer_id,
+            'title' => "Response to your review from {$farmer->stall_name}",
+            'message' => "{$farmer->stall_name} replied: \"" . Str::limit($validated['farmer_response'], 80) . "\"",
+            'type' => 'review',
         ]);
 
         return back()->with('success', 'Your response to the customer feedback has been posted.');

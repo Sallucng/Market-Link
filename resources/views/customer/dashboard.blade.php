@@ -25,7 +25,13 @@
                 </div>
             </div>
 
-            <div class="d-flex gap-2">
+            <div class="d-flex flex-wrap gap-2">
+                <a href="{{ route('customer.settings.index') }}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-sliders me-1"></i> Preferences
+                </a>
+                <a href="{{ route('customer.complaints.index') }}" class="btn btn-outline-danger btn-sm">
+                    <i class="bi bi-shield-exclamation me-1"></i> Complaints
+                </a>
                 <a href="{{ route('customer.favorites.index') }}" class="btn btn-brand-outline btn-sm">
                     <i class="bi bi-heart me-1 text-danger"></i> Saved Favorites
                 </a>
@@ -33,6 +39,45 @@
                     <i class="bi bi-receipt me-1"></i> All Orders
                 </a>
             </div>
+        </div>
+    </div>
+
+    <!-- Customer Pre-Order & Activity Quick Metrics (Symmetrical 4-Card Level Grid) -->
+    <div class="stat-grid-4 mb-4">
+        <div class="card card-custom stat-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Total Orders</span>
+                <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-2 py-1 small">Lifetime</span>
+            </div>
+            <h3 class="fw-bold text-dark mb-0 mt-2">{{ $totalOrdersCount }}</h3>
+            <small class="text-muted mt-2 d-block text-truncate">All pre-orders placed</small>
+        </div>
+
+        <div class="card card-custom stat-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Active Pickups</span>
+                <span class="badge bg-warning bg-opacity-10 text-warning-emphasis rounded-pill px-2 py-1 small">Awaiting</span>
+            </div>
+            <h3 class="fw-bold text-warning mb-0 mt-2">{{ $activeOrdersCount }}</h3>
+            <small class="text-muted mt-2 d-block text-truncate">Pre-orders ready or in progress</small>
+        </div>
+
+        <div class="card card-custom stat-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Completed</span>
+                <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1 small">Settled</span>
+            </div>
+            <h3 class="fw-bold text-success mb-0 mt-2">{{ $completedOrdersCount }}</h3>
+            <small class="text-muted mt-2 d-block text-truncate">Picked up & paid at stall</small>
+        </div>
+
+        <div class="card card-custom stat-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Favorites</span>
+                <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-2 py-1 small">Bookmarked</span>
+            </div>
+            <h3 class="fw-bold text-dark mb-0 mt-2">{{ $savedFavoritesCount }}</h3>
+            <small class="text-muted mt-2 d-block text-truncate">Saved products & growers</small>
         </div>
     </div>
 
@@ -116,7 +161,7 @@
         @endif
     </div>
 
-    <div class="row g-4 mb-4">
+    <div class="row g-4 mb-4 align-items-stretch">
         <!-- Favorite Products with Restock Alerts -->
         <div class="col-lg-6">
             <div class="card card-custom p-4 bg-white h-100">

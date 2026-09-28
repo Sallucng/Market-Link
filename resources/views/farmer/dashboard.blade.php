@@ -50,57 +50,49 @@
     </div>
 
     <!-- Sales & Pre-Order Insights (SRS §1.6: Level 4-Card Row with Tilt & Stat-Card Gradient) -->
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3 mb-4 align-items-stretch">
-        <div class="col">
-            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
-                <div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Total Orders</span>
-                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-2 py-1 small">Lifetime</span>
-                    </div>
-                    <h3 class="fw-bold text-dark mb-0 mt-2 stat-counter" data-target="{{ $totalOrders }}">0</h3>
+    <div class="stat-grid-4 mb-4">
+        <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+            <div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Total Orders</span>
+                    <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-2 py-1 small">Lifetime</span>
                 </div>
-                <small class="text-muted mt-2 d-block text-truncate">All pre-order reservations</small>
+                <h3 class="fw-bold text-dark mb-0 mt-2 stat-counter" data-target="{{ $totalOrders }}">0</h3>
             </div>
+            <small class="text-muted mt-2 d-block text-truncate">All pre-order reservations</small>
         </div>
 
-        <div class="col">
-            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
-                <div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Pending Packing</span>
-                        <span class="badge bg-warning bg-opacity-10 text-warning-emphasis rounded-pill px-2 py-1 small">Queue</span>
-                    </div>
-                    <h3 class="fw-bold text-warning mb-0 mt-2 stat-counter" data-target="{{ $pendingOrders }}">0</h3>
+        <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+            <div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Pending Packing</span>
+                    <span class="badge bg-warning bg-opacity-10 text-warning-emphasis rounded-pill px-2 py-1 small">Queue</span>
                 </div>
-                <small class="text-muted mt-2 d-block text-truncate">Awaiting packing or pickup</small>
+                <h3 class="fw-bold text-warning mb-0 mt-2 stat-counter" data-target="{{ $pendingOrders }}">0</h3>
             </div>
+            <small class="text-muted mt-2 d-block text-truncate">Awaiting packing or pickup</small>
         </div>
 
-        <div class="col">
-            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
-                <div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Today's Pickups</span>
-                        <span class="badge bg-info bg-opacity-10 text-info-emphasis rounded-pill px-2 py-1 small">Scheduled</span>
-                    </div>
-                    <h3 class="fw-bold text-info mb-0 mt-2 stat-counter" data-target="{{ $todayPickups }}">0</h3>
+        <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+            <div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Today's Pickups</span>
+                    <span class="badge bg-info bg-opacity-10 text-info-emphasis rounded-pill px-2 py-1 small">Scheduled</span>
                 </div>
-                <small class="text-muted mt-2 d-block text-truncate">Scheduled for pickup today</small>
+                <h3 class="fw-bold text-info mb-0 mt-2 stat-counter" data-target="{{ $todayPickups }}">0</h3>
             </div>
+            <small class="text-muted mt-2 d-block text-truncate">Scheduled for pickup today</small>
         </div>
 
-        <div class="col">
-            <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
-                <div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Settled Revenue</span>
-                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1 small">Completed</span>
-                    </div>
-                    <h3 class="fw-bold text-success mb-0 mt-2 stat-counter" data-target="{{ $totalRevenue }}" data-is-currency="true">$0.00</h3>
+        <div class="card card-custom stat-card tilt-card p-3 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+            <div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-muted small fw-semibold text-uppercase font-mono-meta">Settled Revenue</span>
+                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1 small">Completed</span>
                 </div>
-                <small class="text-muted mt-2 d-block text-truncate">Pay-at-pickup collected</small>
+                <h3 class="fw-bold text-success mb-0 mt-2 stat-counter" data-target="{{ $totalRevenue }}" data-is-currency="true">$0.00</h3>
             </div>
+            <small class="text-muted mt-2 d-block text-truncate">Pay-at-pickup collected</small>
         </div>
     </div>
 
@@ -160,7 +152,6 @@
             </div>
         </div>
     </div>
-
     <!-- Operational Queue & Best Sellers Section -->
     <div class="row g-4 mb-4">
         <!-- Recent Incoming Orders -->
@@ -318,18 +309,20 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // 2. Bar Chart: 7-Day Revenue Trend (Animated from 0 upward with Counting Numbers)
+    // 2. Bar Chart: 7-Day Revenue Trend (GSAP Motion Graphics: Rising Bars & Real-Time Counting Numbers)
     const revenueLabels = {!! json_encode($revenueTrendLabels) !!};
     const targetRevenueData = {!! json_encode($revenueTrendData) !!};
     const maxRevenue = Math.max(...targetRevenueData, 10);
 
     const ctxRev = document.getElementById('farmerRevenueChart');
     if (ctxRev) {
+        let currentAnimatedRev = targetRevenueData.map(() => 0);
+
         // Custom plugin to render animated numbers directly above each rising bar
         const animatedBarLabelsPlugin = {
             id: 'animatedBarLabels',
             afterDatasetsDraw(chart) {
-                const { ctx, data } = chart;
+                const { ctx } = chart;
                 ctx.save();
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'bottom';
@@ -337,9 +330,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 ctx.fillStyle = '#1b4332';
 
                 chart.getDatasetMeta(0).data.forEach((bar, index) => {
-                    const currentVal = data.datasets[0].data[index];
-                    const targetVal = targetRevenueData[index];
-                    if (targetVal > 0) {
+                    const currentVal = currentAnimatedRev[index] ?? 0;
+                    if (targetRevenueData[index] > 0) {
                         const formatted = '$' + currentVal.toFixed(2);
                         ctx.fillText(formatted, bar.x, bar.y - 4);
                     }
@@ -366,7 +358,7 @@ document.addEventListener('DOMContentLoaded', function () {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                animation: false,
+                animation: false, // GSAP coordinates exact 60fps rising and counting numbers
                 plugins: {
                     legend: { display: false },
                     tooltip: {
@@ -380,7 +372,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 scales: {
                     y: {
                         beginAtZero: true,
-                        suggestedMax: maxRevenue * 1.18,
+                        min: 0,
+                        max: Math.ceil(maxRevenue * 1.25),
                         grid: { color: '#f1f5f9' },
                         ticks: {
                             callback: function(value) { return '$' + value; }
@@ -393,18 +386,20 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // GSAP Tween to animate bars rising from down to up and numbers from 0 to real value
-        const barAnim = { progress: 0 };
-        gsap.to(barAnim, {
+        // GSAP Tween to sweep bars upward from 0 to target value and count numbers synchronously
+        const barMotion = { progress: 0 };
+        gsap.to(barMotion, {
             progress: 1,
             duration: 1.6,
-            delay: 0.2,
+            delay: 0.25,
             ease: 'power2.out',
             onUpdate: () => {
-                revenueChart.data.datasets[0].data = targetRevenueData.map(v => v * barAnim.progress);
+                currentAnimatedRev = targetRevenueData.map(v => v * barMotion.progress);
+                revenueChart.data.datasets[0].data = [...currentAnimatedRev];
                 revenueChart.update('none');
             },
             onComplete: () => {
+                currentAnimatedRev = [...targetRevenueData];
                 revenueChart.data.datasets[0].data = [...targetRevenueData];
                 revenueChart.update('none');
             }

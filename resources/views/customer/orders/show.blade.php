@@ -50,6 +50,11 @@
                     </button>
                 </form>
             @endif
+
+            <!-- Report Issue / Confidential Complaint -->
+            <a href="{{ route('customer.complaints.create', ['order_id' => $order->id]) }}" class="btn btn-outline-danger rounded-pill px-3" title="Report issue confidentially to admin">
+                <i class="bi bi-shield-exclamation me-1"></i> Report Issue
+            </a>
         </div>
     </div>
 
@@ -71,7 +76,7 @@
             </div>
         @elseif($order->order_status === 'declined')
             <div class="alert alert-dark mb-0">
-                <i class="bi bi-slash-circle-fill me-1"></i> This order was <strong>declined</strong> by the farmer due to stock shortage.
+                <i class="bi bi-slash-circle-fill me-1"></i> This order was <strong>declined</strong> by the grower: {{ $order->decline_reason ?: 'Stall inventory unavailable.' }}
             </div>
         @else
             <div class="position-relative m-4">
@@ -255,11 +260,23 @@
                 </div>
 
                 <!-- PDF Download CTA -->
-                <a href="{{ route('customer.orders.receipt', $order->id) }}" class="btn btn-success w-100 rounded-pill py-2 shadow-sm d-flex align-items-center justify-content-center gap-2">
+                <a href="{{ route('customer.orders.receipt', $order->id) }}" class="btn btn-success w-100 rounded-pill py-2 shadow-sm d-flex align-items-center justify-content-center gap-2 mb-2">
                     <i class="bi bi-file-earmark-pdf-fill fs-5"></i>
                     <span>Download PDF Receipt</span>
                 </a>
+
+                <!-- Direct Chat CTA -->
+                <form action="{{ route('customer.messages.start') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="farmer_id" value="{{ $order->farmer_id }}">
+                    <input type="hidden" name="order_id" value="{{ $order->id }}">
+                    <button type="submit" class="btn btn-outline-success w-100 rounded-pill py-2 d-flex align-items-center justify-content-center gap-2">
+                        <i class="bi bi-chat-dots-fill fs-5"></i>
+                        <span>Chat with Stall Operator</span>
+                    </button>
+                </form>
             </div>
+        </div>
     </div>
 </div>
 

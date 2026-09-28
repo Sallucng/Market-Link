@@ -241,4 +241,69 @@ class AdminPortalTest extends TestCase
         $res2->assertRedirect();
         $this->assertTrue((bool)$customer->fresh()->is_active);
     }
+
+    public function test_admin_farmers_management_roster_and_filtering(): void
+    {
+        $fUser = User::create([
+            'name' => 'Farmer Bob',
+            'username' => 'farmerbob',
+            'email' => 'bob@farms.local',
+            'role' => 'farmer',
+            'is_active' => true,
+            'is_approved' => true,
+            'password' => bcrypt('password'),
+        ]);
+
+        $farmer = Farmer::create([
+            'user_id' => $fUser->id,
+            'stall_name' => 'Bobs Organic Apples',
+            'contact_person' => 'Farmer Bob',
+            'contact_number' => '555-1234',
+            'operating_days' => 'Saturday',
+            'pickup_time_windows' => '08:00 AM - 12:00 PM',
+            'cutoff_hours' => 2,
+            'is_approved' => true,
+            'approval_status' => 'approved',
+        ]);
+
+        $res = $this->actingAs($this->adminUser)->get(route('admin.farmers.index'));
+        $res->assertStatus(200);
+        $res->assertSee('Bobs Organic Apples');
+        $res->assertSee('Farmer Stalls');
+
+        // Suspend farmer
+        $suspendRes = $this->actingAs($this->adminUser)->post(route('admin.farmers.suspend', $farmer->id), [
+            'reason' => 'Annual compliance check',
+        ]);
+        $suspendRes->assertRedirect();
+        $farmer->refresh();
+        $this->assertEquals('suspended', $farmer->approval_status);
+        $this->assertFalse((bool)$farmer->is_approved);
+        $this->assertFalse((bool)$farmer->user->is_active);
+
+        // Reinstate farmer
+        $reinstateRes = $this->actingAs($this->adminUser)->post(route('admin.farmers.reinstate', $farmer->id));
+        $reinstateRes->assertRedirect();
+        $farmer->refresh();
+        $this->assertEquals('approved', $farmer->approval_status);
+        $this->assertTrue((bool)$farmer->is_approved);
+        $this->assertTrue((bool)$farmer->user->is_active);
+    }
+
+    public function test_admin_customers_management_roster(): void
+    {
+        $customer = User::create([
+            'name' => 'Alice Shopper',
+            'username' => 'aliceshopper',
+            'email' => 'alice@shopper.local',
+            'role' => 'customer',
+            'is_active' => true,
+            'password' => bcrypt('password'),
+        ]);
+
+        $res = $this->actingAs($this->adminUser)->get(route('admin.customers.index'));
+        $res->assertStatus(200);
+        $res->assertSee('Alice Shopper');
+        $res->assertSee('Customer Accounts');
+    }
 }

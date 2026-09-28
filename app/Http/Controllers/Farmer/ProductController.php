@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Farmer;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Farmer;
+use App\Models\Favorite;
+use App\Models\Notification;
+use App\Models\OrderItem;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -102,10 +105,15 @@ class ProductController extends Controller
             'is_available' => 'nullable|boolean',
         ]);
 
+        $wasSoldOut = $product->is_sold_out || $product->stock_quantity == 0;
         $validated['is_sold_out'] = $validated['stock_quantity'] == 0;
         $validated['is_available'] = $request->has('is_available');
 
         $product->update($validated);
+
+        if ($wasSoldOut && !$product->is_sold_out && $product->stock_quantity > 0) {
+            $this->dispatchRestockAlerts($product, $farmer);
+        }
 
         return redirect()->route('farmer.products.index')->with('success', 'Product updated successfully!');
     }
@@ -114,6 +122,16 @@ class ProductController extends Controller
     {
         $farmer = $this->getFarmer();
         $product = Product::where('farmer_id', $farmer->id)->findOrFail($id);
+
+        $hasActiveOrders = OrderItem::where('product_id', $product->id)
+            ->whereHas('order', function ($q) {
+                $q->whereIn('order_status', ['placed', 'accepted', 'ready_for_pickup', 'pending', 'ready']);
+            })->exists();
+
+        if ($hasActiveOrders) {
+            return back()->with('error', "Cannot delete '{$product->name}' because it is included in active customer pre-orders. Mark it as sold out or unavailable instead.");
+        }
+
         $product->delete();
 
         return back()->with('success', 'Product removed from your stall inventory.');
@@ -127,6 +145,11 @@ class ProductController extends Controller
         $product->is_sold_out = !$product->is_sold_out;
         if ($product->is_sold_out) {
             $product->stock_quantity = 0;
+        } else {
+            if ($product->stock_quantity == 0) {
+                $product->stock_quantity = $product->weekly_recurring_stock ?: 5;
+            }
+            $this->dispatchRestockAlerts($product, $farmer);
         }
         $product->save();
 
@@ -142,14 +165,36 @@ class ProductController extends Controller
         $replenishedCount = 0;
         foreach ($products as $product) {
             if ($product->weekly_recurring_stock > 0) {
+                $wasSoldOut = $product->is_sold_out || $product->stock_quantity == 0;
                 $product->stock_quantity = $product->weekly_recurring_stock;
                 $product->is_sold_out = false;
                 $product->is_available = true;
                 $product->save();
+
+                if ($wasSoldOut) {
+                    $this->dispatchRestockAlerts($product, $farmer);
+                }
                 $replenishedCount++;
             }
         }
 
         return back()->with('success', "Weekly Harvest Template Applied: {$replenishedCount} products replenished for upcoming market day!");
+    }
+
+    protected function dispatchRestockAlerts(Product $product, Farmer $farmer): void
+    {
+        $favoritedCustomerIds = Favorite::where('item_type', 'product')
+            ->where('item_id', $product->id)
+            ->pluck('customer_id');
+
+        foreach ($favoritedCustomerIds as $customerId) {
+            Notification::firstOrCreate([
+                'user_id' => $customerId,
+                'title' => "Restock Alert: {$product->name}",
+                'message' => "{$product->name} is back in stock at {$farmer->stall_name}! Reserve your pre-order now.",
+                'type' => 'restock',
+                'created_at' => now(),
+            ]);
+        }
     }
 }

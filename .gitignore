@@ -25,3 +25,9 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+/*.png
+/scratch/
+/capture_frames.js
+/check_current_messages.cjs
+/debug_bar.js
+/update_images_db.php

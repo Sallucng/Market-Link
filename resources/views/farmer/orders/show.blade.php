@@ -76,6 +76,16 @@
                         </button>
                     </form>
                 @endif
+
+                <!-- Message Customer -->
+                <form action="{{ route('farmer.messages.start') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="customer_id" value="{{ $order->customer_id }}">
+                    <input type="hidden" name="order_id" value="{{ $order->id }}">
+                    <button type="submit" class="btn btn-outline-success btn-sm rounded-pill px-3">
+                        <i class="bi bi-chat-dots-fill me-1"></i> Message Customer
+                    </button>
+                </form>
             </div>
         </div>
     </div>

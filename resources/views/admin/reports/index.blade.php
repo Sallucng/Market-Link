@@ -27,48 +27,42 @@
     </div>
 
     <!-- Overview Stats Cards -->
-    <div class="row row-cols-1 row-cols-md-3 g-4 mb-4 align-items-stretch">
-        <div class="col">
-            <div class="card card-custom stat-card tilt-card p-4 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="text-muted small fw-semibold text-uppercase font-mono-meta">Total Pre-Orders Placed</div>
-                        <h2 class="display-6 fw-bold text-dark mb-0 mt-1 stat-counter" data-target="{{ $totalOrders }}">0</h2>
-                        <small class="text-muted">Platform reservations</small>
-                    </div>
-                    <div class="p-3 bg-success bg-opacity-10 text-success rounded-circle">
-                        <i class="bi bi-receipt-cutoff fs-3"></i>
-                    </div>
+    <div class="stat-grid-3 mb-4">
+        <div class="card card-custom stat-card tilt-card p-4 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="text-muted small fw-semibold text-uppercase font-mono-meta">Total Pre-Orders Placed</div>
+                    <h2 class="display-6 fw-bold text-dark mb-0 mt-1 stat-counter" data-target="{{ $totalOrders }}">0</h2>
+                    <small class="text-muted">Platform reservations</small>
+                </div>
+                <div class="p-3 bg-success bg-opacity-10 text-success rounded-circle">
+                    <i class="bi bi-receipt-cutoff fs-3"></i>
                 </div>
             </div>
         </div>
 
-        <div class="col">
-            <div class="card card-custom stat-card tilt-card p-4 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="text-muted small fw-semibold text-uppercase font-mono-meta">Completed Pickups</div>
-                        <h2 class="display-6 fw-bold text-primary mb-0 mt-1 stat-counter" data-target="{{ $completedOrders }}">0</h2>
-                        <small class="text-primary fw-medium">Settled at stall</small>
-                    </div>
-                    <div class="p-3 bg-primary bg-opacity-10 text-primary rounded-circle">
-                        <i class="bi bi-bag-check fs-3"></i>
-                    </div>
+        <div class="card card-custom stat-card tilt-card p-4 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="text-muted small fw-semibold text-uppercase font-mono-meta">Completed Pickups</div>
+                    <h2 class="display-6 fw-bold text-primary mb-0 mt-1 stat-counter" data-target="{{ $completedOrders }}">0</h2>
+                    <small class="text-primary fw-medium">Settled at stall</small>
+                </div>
+                <div class="p-3 bg-primary bg-opacity-10 text-primary rounded-circle">
+                    <i class="bi bi-bag-check fs-3"></i>
                 </div>
             </div>
         </div>
 
-        <div class="col">
-            <div class="card card-custom stat-card tilt-card p-4 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="text-muted small fw-semibold text-uppercase font-mono-meta">In-Person Sales Volume</div>
-                        <h2 class="display-6 fw-bold text-success mb-0 mt-1 stat-counter" data-target="{{ $totalRevenue }}" data-is-currency="true">$0.00</h2>
-                        <small class="text-success fw-medium">Direct farmer earnings</small>
-                    </div>
-                    <div class="p-3 bg-success bg-opacity-10 text-success rounded-circle">
-                        <i class="bi bi-cash-stack fs-3"></i>
-                    </div>
+        <div class="card card-custom stat-card tilt-card p-4 bg-white border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="text-muted small fw-semibold text-uppercase font-mono-meta">In-Person Sales Volume</div>
+                    <h2 class="display-6 fw-bold text-success mb-0 mt-1 stat-counter" data-target="{{ $totalRevenue }}" data-is-currency="true">$0.00</h2>
+                    <small class="text-success fw-medium">Direct farmer earnings</small>
+                </div>
+                <div class="p-3 bg-success bg-opacity-10 text-success rounded-circle">
+                    <i class="bi bi-cash-stack fs-3"></i>
                 </div>
             </div>
         </div>
@@ -261,13 +255,13 @@ document.addEventListener('DOMContentLoaded', function () {
     // GSAP Motion Graphics & Entrances (antigravity-design-expert)
     // ----------------------------------------------------
     if (typeof gsap !== 'undefined') {
-        // Staggered entrance for Stat Cards
+        // Staggered entrance for Stat Cards - clean fade with clearProps so cards stay 100% leveled
         gsap.from('.stat-card', {
             opacity: 0,
-            y: 28,
-            duration: 0.65,
-            stagger: 0.1,
-            ease: 'power3.out'
+            duration: 0.45,
+            stagger: 0.05,
+            ease: 'power2.out',
+            clearProps: 'all'
         });
 
         // Staggered entrance for Analytics Chart Cards
@@ -353,7 +347,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const animatedRevenueLabelsPlugin = {
             id: 'animatedReportRevenueLabels',
             afterDatasetsDraw(chart) {
-                const { ctx, data } = chart;
+                const { ctx } = chart;
                 ctx.save();
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'bottom';
@@ -361,9 +355,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 ctx.fillStyle = '#1b4332';
 
                 chart.getDatasetMeta(0).data.forEach((bar, index) => {
-                    const currentVal = data.datasets[0].data[index];
                     const targetVal = targetMarketRevenues[index];
                     if (targetVal > 0) {
+                        const targetPixel = chart.scales.y.getPixelForValue(targetVal);
+                        const totalDistance = bar.base - targetPixel;
+                        const currentDistance = bar.base - bar.y;
+                        const progress = totalDistance > 0 ? Math.min(1, Math.max(0, currentDistance / totalDistance)) : 0;
+                        const currentVal = targetVal * progress;
                         ctx.fillText('$' + currentVal.toFixed(2), bar.x, bar.y - 4);
                     }
                 });
@@ -377,7 +375,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 labels: marketNames,
                 datasets: [{
                     label: 'Settled Sales ($)',
-                    data: targetMarketRevenues.map(() => 0),
+                    data: targetMarketRevenues,
                     backgroundColor: '#1b4332',
                     hoverBackgroundColor: '#2d6a4f',
                     borderRadius: 6,
@@ -389,7 +387,10 @@ document.addEventListener('DOMContentLoaded', function () {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                animation: false,
+                animation: {
+                    duration: 1600,
+                    easing: 'easeOutQuart'
+                },
                 plugins: {
                     legend: { display: false },
                     tooltip: {
@@ -401,7 +402,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 scales: {
                     y: {
                         beginAtZero: true,
-                        suggestedMax: maxMarketRev * 1.18,
+                        min: 0,
+                        max: Math.ceil(maxMarketRev * 1.25),
                         grid: { color: '#f1f5f9' },
                         ticks: {
                             callback: function(value) { return '$' + value; }
@@ -411,22 +413,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         grid: { display: false }
                     }
                 }
-            }
-        });
-
-        const revAnim = { progress: 0 };
-        gsap.to(revAnim, {
-            progress: 1,
-            duration: 1.6,
-            delay: 0.2,
-            ease: 'power2.out',
-            onUpdate: () => {
-                reportRevChart.data.datasets[0].data = targetMarketRevenues.map(v => v * revAnim.progress);
-                reportRevChart.update('none');
-            },
-            onComplete: () => {
-                reportRevChart.data.datasets[0].data = [...targetMarketRevenues];
-                reportRevChart.update('none');
             }
         });
     }
@@ -550,7 +536,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const animatedFarmerLabelsPlugin = {
             id: 'animatedFarmerSalesLabels',
             afterDatasetsDraw(chart) {
-                const { ctx, data } = chart;
+                const { ctx } = chart;
                 ctx.save();
                 ctx.textAlign = 'left';
                 ctx.textBaseline = 'middle';
@@ -558,9 +544,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 ctx.fillStyle = '#1b4332';
 
                 chart.getDatasetMeta(0).data.forEach((bar, index) => {
-                    const currentVal = data.datasets[0].data[index];
                     const targetVal = targetFarmerSales[index];
                     if (targetVal > 0) {
+                        const targetPixel = chart.scales.x.getPixelForValue(targetVal);
+                        const totalDistance = targetPixel - bar.base;
+                        const currentDistance = bar.x - bar.base;
+                        const progress = totalDistance > 0 ? Math.min(1, Math.max(0, currentDistance / totalDistance)) : 0;
+                        const currentVal = targetVal * progress;
                         ctx.fillText('$' + currentVal.toFixed(2), bar.x + 6, bar.y);
                     }
                 });
@@ -575,7 +565,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 datasets: [{
                     axis: 'y',
                     label: 'Completed Sales ($)',
-                    data: targetFarmerSales.map(() => 0),
+                    data: targetFarmerSales,
                     backgroundColor: '#d4a373',
                     hoverBackgroundColor: '#c48b52',
                     borderRadius: 6,
@@ -588,7 +578,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 indexAxis: 'y',
                 responsive: true,
                 maintainAspectRatio: false,
-                animation: false,
+                animation: {
+                    duration: 1600,
+                    easing: 'easeOutQuart'
+                },
                 plugins: {
                     legend: { display: false },
                     tooltip: {
@@ -600,7 +593,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 scales: {
                     x: {
                         beginAtZero: true,
-                        suggestedMax: maxFarmerSales * 1.25,
+                        min: 0,
+                        max: Math.ceil(maxFarmerSales * 1.25),
                         grid: { color: '#f1f5f9' },
                         ticks: {
                             callback: function(value) { return '$' + value; }
@@ -610,22 +604,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         grid: { display: false }
                     }
                 }
-            }
-        });
-
-        const farmersAnim = { progress: 0 };
-        gsap.to(farmersAnim, {
-            progress: 1,
-            duration: 1.6,
-            delay: 0.35,
-            ease: 'power2.out',
-            onUpdate: () => {
-                reportFarmersChart.data.datasets[0].data = targetFarmerSales.map(v => v * farmersAnim.progress);
-                reportFarmersChart.update('none');
-            },
-            onComplete: () => {
-                reportFarmersChart.data.datasets[0].data = [...targetFarmerSales];
-                reportFarmersChart.update('none');
             }
         });
     }

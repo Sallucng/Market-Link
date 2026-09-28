@@ -24,6 +24,8 @@ Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 
 Route::get('/markets', [MarketController::class, 'index'])->name('markets.index');
+Route::get('/markets/nearby', [MarketController::class, 'nearby'])->name('markets.nearby');
+Route::get('/markets/nearby/json', [MarketController::class, 'nearbyJson'])->name('markets.nearby.json');
 Route::get('/markets/{id}', [MarketController::class, 'show'])->name('markets.show');
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
@@ -81,7 +83,47 @@ Route::middleware(['auth'])->group(function () {
         // Favorites
         Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
         Route::post('/favorites/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+
+        // Customer ↔ Farmer Chat / Stall Inquiries
+        Route::get('/messages', [\App\Http\Controllers\ChatController::class, 'customerIndex'])->name('messages.index');
+        Route::post('/messages/start', [\App\Http\Controllers\ChatController::class, 'startFromCustomer'])->name('messages.start');
+        Route::post('/messages/{conversation}/send', [\App\Http\Controllers\ChatController::class, 'sendMessage'])->name('messages.send');
+        Route::get('/messages/{conversation}/poll', [\App\Http\Controllers\ChatController::class, 'pollMessages'])->name('messages.poll');
+
+        // Settings & Shopping Preferences
+        Route::get('/settings', [CustomerDashboardController::class, 'settings'])->name('settings.index');
+        Route::post('/settings', [CustomerDashboardController::class, 'updateSettings'])->name('settings.update');
+        Route::post('/settings/quick-toggle', [CustomerDashboardController::class, 'quickToggle'])->name('settings.quick-toggle');
+
+        // Confidential Farmer Complaints (Visible only to Customer & Admin)
+        Route::get('/complaints', [\App\Http\Controllers\Customer\ComplaintController::class, 'index'])->name('complaints.index');
+        Route::get('/complaints/create', [\App\Http\Controllers\Customer\ComplaintController::class, 'create'])->name('complaints.create');
+        Route::post('/complaints', [\App\Http\Controllers\Customer\ComplaintController::class, 'store'])->name('complaints.store');
+        Route::get('/complaints/{id}', [\App\Http\Controllers\Customer\ComplaintController::class, 'show'])->name('complaints.show');
     });
+});
+
+/*
+|--------------------------------------------------------------------------
+| Interactive OpenAPI / REST Documentation Viewer
+|--------------------------------------------------------------------------
+*/
+Route::get('/docs/openapi.yaml', function () {
+    $path = base_path('docs/openapi.yaml');
+    if (!file_exists($path)) {
+        abort(404);
+    }
+    return response(file_get_contents($path), 200, [
+        'Content-Type' => 'text/yaml; charset=UTF-8',
+    ]);
+});
+
+Route::get('/docs', function () {
+    return view('docs.index');
+})->name('api.docs');
+
+Route::get('/api/documentation', function () {
+    return redirect()->route('api.docs');
 });
 
 /*

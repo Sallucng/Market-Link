@@ -107,10 +107,16 @@
             left: 0;
             z-index: 1020;
             overflow-y: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
             transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
             border-right: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .admin-sidebar::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Edge, Opera */
         }
 
         .admin-sidebar-header {
@@ -256,6 +262,55 @@
             opacity: 1;
         }
 
+        /* Fully Level Responsive Stat Cards Grids */
+        .stat-grid-5 {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 1rem;
+            align-items: stretch;
+        }
+        @media (max-width: 1199px) and (min-width: 768px) {
+            .stat-grid-5 {
+                grid-template-columns: repeat(5, minmax(0, 1fr));
+                gap: 0.65rem;
+            }
+        }
+        @media (max-width: 767px) {
+            .stat-grid-5 {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 0.75rem;
+            }
+            .stat-grid-5 > :last-child:nth-child(odd) {
+                grid-column: span 2;
+            }
+        }
+
+        .stat-grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 1rem;
+            align-items: stretch;
+        }
+        @media (max-width: 767px) {
+            .stat-grid-4 {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 0.75rem;
+            }
+        }
+
+        .stat-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1.25rem;
+            align-items: stretch;
+        }
+        @media (max-width: 767px) {
+            .stat-grid-3 {
+                grid-template-columns: repeat(1, minmax(0, 1fr));
+                gap: 0.75rem;
+            }
+        }
+
         .admin-nav-link i {
             transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.15s ease;
         }
@@ -301,11 +356,16 @@
         }
 
         @media (max-width: 991.98px) {
+            .admin-main-wrapper {
+                margin-left: 0 !important;
+            }
             .admin-sidebar {
                 transform: translateX(-100%);
+                z-index: 1050;
             }
             .admin-sidebar.show {
                 transform: translateX(0);
+                box-shadow: 0 0 28px rgba(0, 0, 0, 0.45);
             }
         }
 
@@ -461,6 +521,60 @@
             .liquid-glass-menu.show {
                 animation: none !important;
             }
+        /* ── Liquid Glass Flash Alerts (Agentation Feedback) ── */
+        .alert-liquid-glass {
+            position: relative;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 14px !important;
+            padding: 0.85rem 1.25rem !important;
+            box-shadow: 0 10px 30px -4px rgba(11, 33, 22, 0.08), 0 4px 12px rgba(0, 0, 0, 0.03), inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+            border: 1px solid rgba(255, 255, 255, 0.6) !important;
+            transition: opacity 0.35s ease, transform 0.35s ease, max-height 0.35s ease, margin 0.35s ease, padding 0.35s ease;
+            overflow: hidden;
+        }
+        .alert-liquid-glass.alert-success {
+            background: rgba(236, 253, 243, 0.88) !important;
+            border: 1px solid rgba(45, 90, 39, 0.25) !important;
+            color: #14532d !important;
+        }
+        .alert-liquid-glass.alert-danger {
+            background: rgba(254, 242, 242, 0.88) !important;
+            border: 1px solid rgba(220, 38, 38, 0.25) !important;
+            color: #991b1b !important;
+        }
+        .alert-liquid-glass.alert-warning {
+            background: rgba(254, 252, 232, 0.88) !important;
+            border: 1px solid rgba(202, 138, 4, 0.28) !important;
+            color: #854d0e !important;
+        }
+        .alert-liquid-glass.alert-info {
+            background: rgba(239, 246, 255, 0.88) !important;
+            border: 1px solid rgba(37, 99, 235, 0.25) !important;
+            color: #1e40af !important;
+        }
+        .alert-liquid-glass .btn-close {
+            opacity: 0.45;
+            transition: opacity 0.2s ease;
+        }
+        .alert-liquid-glass .btn-close:hover {
+            opacity: 1;
+        }
+        .alert-liquid-glass::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            width: 100%;
+            background: currentColor;
+            opacity: 0.25;
+            transform-origin: left;
+            animation: liquid-alert-progress 2s linear forwards;
+        }
+        @keyframes liquid-alert-progress {
+            from { transform: scaleX(1); }
+            to { transform: scaleX(0); }
         }
     </style>
     @yield('styles')
@@ -513,6 +627,14 @@
 
             <!-- SECTION 2: OPERATIONS -->
             <div class="admin-nav-section-title mt-3">Platform Operations</div>
+            <a href="{{ route('admin.farmers.index') }}" class="admin-nav-link {{ request()->routeIs('admin.farmers.*') ? 'active' : '' }}">
+                <i class="bi bi-person-check-fill"></i>
+                <span>Farmer Stalls</span>
+            </a>
+            <a href="{{ route('admin.customers.index') }}" class="admin-nav-link {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">
+                <i class="bi bi-people-fill"></i>
+                <span>Customer Accounts</span>
+            </a>
             <a href="{{ route('admin.markets.index') }}" class="admin-nav-link {{ request()->routeIs('admin.markets.*') ? 'active' : '' }}">
                 <i class="bi bi-geo-alt"></i>
                 <span>Farmers Markets</span>
@@ -525,6 +647,10 @@
                 <i class="bi bi-megaphone"></i>
                 <span>Announcements</span>
             </a>
+            <a href="{{ route('admin.sales.index') }}" class="admin-nav-link {{ request()->routeIs('admin.sales.*') ? 'active' : '' }}">
+                <i class="bi bi-stars"></i>
+                <span>Farmer Sales & Spotlight</span>
+            </a>
 
             <!-- SECTION 3: MODERATION -->
             <div class="admin-nav-section-title mt-3">Content Moderation</div>
@@ -535,6 +661,23 @@
             <a href="{{ route('admin.moderation.reviews') }}" class="admin-nav-link {{ request()->routeIs('admin.moderation.reviews') ? 'active' : '' }}">
                 <i class="bi bi-chat-square-quote"></i>
                 <span>Customer Reviews</span>
+            </a>
+            <a href="{{ route('admin.complaints.index') }}" class="admin-nav-link {{ request()->routeIs('admin.complaints.*') ? 'active' : '' }} d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-shield-exclamation text-danger"></i>
+                    <span>Farmer Complaints</span>
+                </div>
+                @php $pendingCountBadge = \App\Models\Complaint::where('status', 'pending')->count(); @endphp
+                @if($pendingCountBadge > 0)
+                    <span class="badge bg-danger rounded-pill font-mono-meta" style="font-size: 0.68rem;">{{ $pendingCountBadge }}</span>
+                @endif
+            </a>
+
+            <!-- SECTION 4: SYSTEM & POLICIES -->
+            <div class="admin-nav-section-title mt-3">System & Policies</div>
+            <a href="{{ route('admin.settings.index') }}" class="admin-nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
+                <i class="bi bi-sliders2"></i>
+                <span>System Settings</span>
             </a>
         </div>
 
@@ -579,15 +722,15 @@
 
             <div class="d-flex align-items-center gap-2">
                 <!-- Topbar "See as Normal User" Link -->
-                <a href="{{ route('home') }}" target="_blank" class="btn btn-outline-secondary btn-sm d-flex align-items-center gap-2 px-3 py-1 rounded-pill">
+                <a href="{{ route('home') }}" target="_blank" class="btn btn-outline-secondary btn-sm d-flex align-items-center gap-1.5 px-2.5 py-1 rounded-pill" title="See as Normal User">
                     <i class="bi bi-box-arrow-up-right"></i>
-                    <span class="small fw-semibold">See as Normal User</span>
+                    <span class="small fw-semibold d-none d-sm-inline">See as Normal User</span>
                 </a>
 
                 <div class="dropdown">
-                    <button class="btn btn-liquid-glass dropdown-toggle d-flex align-items-center gap-2 rounded-pill px-3 py-1" type="button" data-bs-toggle="dropdown">
+                    <button class="btn btn-liquid-glass dropdown-toggle d-flex align-items-center gap-2 rounded-pill px-2.5 px-sm-3 py-1" type="button" data-bs-toggle="dropdown">
                         <i class="bi bi-person-circle text-success"></i>
-                        <span class="small fw-semibold">{{ Auth::user()->name }}</span>
+                        <span class="small fw-semibold d-none d-sm-inline">{{ Auth::user()->name }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end liquid-glass-menu shadow-lg">
                         <li><h6 class="dropdown-header">System Administrator</h6></li>
@@ -607,37 +750,45 @@
             </div>
         </header>
 
-        <!-- Global Flash Alerts -->
-        <div class="container-fluid px-4 mt-3">
+        <!-- Global Flash Alerts (Liquid Glass UX) -->
+        <div class="container-fluid px-4 mt-3" id="admin-flash-alerts">
             @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show d-flex align-items-center shadow-sm" role="alert">
-                    <i class="bi bi-check-circle-fill me-2 fs-5"></i>
-                    <div>{{ session('success') }}</div>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <div class="alert alert-success alert-liquid-glass alert-dismissible fade show d-flex align-items-center" role="alert">
+                    <i class="bi bi-check-circle-fill me-2 fs-5 text-success"></i>
+                    <div class="fw-medium text-dark">{{ session('success') }}</div>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
 
             @if(session('error'))
-                <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center shadow-sm" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
-                    <div>{{ session('error') }}</div>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <div class="alert alert-danger alert-liquid-glass alert-dismissible fade show d-flex align-items-center" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2 fs-5 text-danger"></i>
+                    <div class="fw-medium text-dark">{{ session('error') }}</div>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
 
             @if(session('warning'))
-                <div class="alert alert-warning alert-dismissible fade show d-flex align-items-center shadow-sm" role="alert">
-                    <i class="bi bi-info-circle-fill me-2 fs-5"></i>
-                    <div>{{ session('warning') }}</div>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <div class="alert alert-warning alert-liquid-glass alert-dismissible fade show d-flex align-items-center" role="alert">
+                    <i class="bi bi-info-circle-fill me-2 fs-5 text-warning"></i>
+                    <div class="fw-medium text-dark">{{ session('warning') }}</div>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            @if(session('status'))
+                <div class="alert alert-info alert-liquid-glass alert-dismissible fade show d-flex align-items-center" role="alert">
+                    <i class="bi bi-info-circle-fill me-2 fs-5 text-primary"></i>
+                    <div class="fw-medium text-dark">{{ session('status') }}</div>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
 
             @if(session('info'))
-                <div class="alert alert-info alert-dismissible fade show d-flex align-items-center shadow-sm" role="alert">
-                    <i class="bi bi-info-circle-fill me-2 fs-5"></i>
-                    <div>{{ session('info') }}</div>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <div class="alert alert-info alert-liquid-glass alert-dismissible fade show d-flex align-items-center" role="alert">
+                    <i class="bi bi-info-circle-fill me-2 fs-5 text-primary"></i>
+                    <div class="fw-medium text-dark">{{ session('info') }}</div>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
         </div>
@@ -695,6 +846,40 @@
                     backdrop.classList.add('d-none');
                     backdrop.classList.remove('show');
                 });
+            }
+
+            // Auto-dismiss liquid glass flash notifications in 1.8-2 seconds (Agentation UX)
+            const alerts = document.querySelectorAll('.alert-liquid-glass, #admin-flash-alerts .alert');
+            alerts.forEach(function (alert) {
+                let timer = setTimeout(function () {
+                    dismissAlert(alert);
+                }, 2000);
+
+                alert.addEventListener('mouseenter', function () {
+                    clearTimeout(timer);
+                });
+                alert.addEventListener('mouseleave', function () {
+                    timer = setTimeout(function () {
+                        dismissAlert(alert);
+                    }, 1000);
+                });
+            });
+
+            function dismissAlert(alert) {
+                alert.style.transition = 'opacity 0.35s ease, transform 0.35s ease, max-height 0.35s ease, margin 0.35s ease, padding 0.35s ease';
+                alert.style.opacity = '0';
+                alert.style.transform = 'translateY(-8px)';
+                setTimeout(function () {
+                    alert.style.maxHeight = '0';
+                    alert.style.paddingTop = '0';
+                    alert.style.paddingBottom = '0';
+                    alert.style.marginTop = '0';
+                    alert.style.marginBottom = '0';
+                    alert.style.border = 'none';
+                    setTimeout(function () {
+                        if (alert.parentNode) alert.remove();
+                    }, 350);
+                }, 350);
             }
         });
     </script>
