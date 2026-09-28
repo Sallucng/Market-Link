@@ -107,10 +107,14 @@
         </div>
     </div>
 
+    @php
+        $inStock = request()->has('in_stock') ? request()->boolean('in_stock') : true;
+    @endphp
+
     <!-- Mobile-First Horizontal Category & Quick Filter Chips -->
     <div class="filter-chips-row mb-3">
         <a href="{{ request()->fullUrlWithQuery(['category' => null, 'page' => null]) }}" 
-           class="filter-chip {{ !request('category') && !request('in_stock') && !request('day') ? 'active' : '' }}">
+           class="filter-chip {{ !request('category') && $inStock && !request('day') ? 'active' : '' }}">
             <span>🌱 All Products</span>
         </a>
         @foreach($categories as $cat)
@@ -125,8 +129,8 @@
                 <span>{{ $cat->name }}</span>
             </a>
         @endforeach
-        <a href="{{ request()->fullUrlWithQuery(['in_stock' => request('in_stock') ? null : 1, 'page' => null]) }}" 
-           class="filter-chip {{ request('in_stock') ? 'active' : '' }}">
+        <a href="{{ request()->fullUrlWithQuery(['in_stock' => $inStock ? 0 : 1, 'page' => null]) }}" 
+           class="filter-chip {{ $inStock ? 'active' : '' }}" title="{{ $inStock ? 'Click to show all (including out-of-stock)' : 'Click to filter in-stock only' }}">
             <i class="bi bi-lightning-charge"></i>
             <span>In-Stock Only</span>
         </a>
@@ -145,23 +149,24 @@
     <!-- Mobile Search & Filter Action Bar (Visible only on <992px) -->
     <div class="card card-custom p-2 mb-3 d-lg-none bg-white">
         <div class="d-flex align-items-center gap-2">
-            <form action="{{ route('products.index') }}" method="GET" class="flex-grow-1 position-relative">
+            <form action="{{ route('products.index') }}" method="GET" class="flex-grow-1 position-relative" id="mobileProductSearchForm">
                 @foreach(request()->except('q', 'page') as $k => $v)
                     <input type="hidden" name="{{ $k }}" value="{{ $v }}">
                 @endforeach
                 <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-2.5 text-muted small"></i>
-                <input type="text" name="q" value="{{ request('q') }}" class="form-control form-control-sm ps-4 pe-4" placeholder="Search tomatoes, bakery, farm..." style="border-radius: 8px;">
+                <input type="text" name="q" id="mobileProductSearchInput" value="{{ request('q') }}" class="form-control form-control-sm ps-4 pe-4" placeholder="Search tomatoes, bakery, farm..." style="border-radius: 8px;" autocomplete="off">
                 @if(request('q'))
                     <a href="{{ request()->fullUrlWithQuery(['q' => null]) }}" class="position-absolute top-50 end-0 translate-middle-y me-2 text-muted text-decoration-none small">
                         <i class="bi bi-x-circle-fill"></i>
                     </a>
                 @endif
+                <div id="mobileProductSearchSuggestions" class="position-absolute start-0 end-0 bg-white border rounded-3 shadow-lg p-2 d-none" style="top: 100%; z-index: 1050; margin-top: 4px; max-height: 280px; overflow-y: auto;"></div>
             </form>
             <button class="btn btn-sm btn-brand-outline d-flex align-items-center gap-1 flex-shrink-0 px-2.5 py-1.5" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileFilterDrawer" style="border-radius: 8px;">
                 <i class="bi bi-sliders"></i>
                 <span>Filters</span>
                 @php
-                    $activeFilterCount = (request('category') ? 1 : 0) + (request('market') ? 1 : 0) + (request('day') ? 1 : 0) + (request('max_price') ? 1 : 0) + (request('in_stock') ? 1 : 0);
+                    $activeFilterCount = (request('category') ? 1 : 0) + (request('market') ? 1 : 0) + (request('day') ? 1 : 0) + (request('max_price') ? 1 : 0) + (request()->has('in_stock') && !request()->boolean('in_stock') ? 1 : 0);
                 @endphp
                 @if($activeFilterCount > 0)
                     <span class="badge bg-success rounded-pill font-mono-meta ms-1">{{ $activeFilterCount }}</span>
@@ -207,9 +212,9 @@
                     Price: &le; ${{ request('max_price') }} <i class="bi bi-x-circle-fill text-muted"></i>
                 </a>
             @endif
-            @if(request('in_stock'))
+            @if(request()->has('in_stock') && !request()->boolean('in_stock'))
                 <a href="{{ request()->fullUrlWithQuery(['in_stock' => null, 'page' => null]) }}" class="badge bg-white text-dark border text-decoration-none px-2.5 py-1.5 rounded-pill d-inline-flex align-items-center gap-1 shadow-sm">
-                    In Stock Only <i class="bi bi-x-circle-fill text-muted"></i>
+                    All Items (Including Out-of-Stock) <i class="bi bi-x-circle-fill text-muted"></i>
                 </a>
             @endif
             <a href="{{ route('products.index') }}" class="small text-danger text-decoration-none ms-auto fw-semibold">
@@ -227,15 +232,16 @@
                     <a href="{{ route('products.index') }}" class="small text-muted text-decoration-none">Reset All</a>
                 </div>
 
-                <form action="{{ route('products.index') }}" method="GET">
-                    <!-- Search Keyword -->
+                <form action="{{ route('products.index') }}" method="GET" id="desktopFilterForm">
+                    <!-- Search Keyword with Live Recommendations -->
                     <div class="mb-3">
                         <label class="form-label small fw-semibold text-secondary">Search Keyword</label>
-                        <div class="position-relative">
-                            <input type="text" name="q" value="{{ request('q') }}" class="form-control form-control-sm pe-4" placeholder="e.g. Tomatoes, Kale, Apples...">
+                        <div class="position-relative" id="desktopSearchWrap">
+                            <input type="text" name="q" id="desktopProductSearchInput" value="{{ request('q') }}" class="form-control form-control-sm pe-4" placeholder="e.g. Tomatoes, Kale, Apples..." autocomplete="off">
                             @if(request('q'))
                                 <a href="{{ request()->fullUrlWithQuery(['q' => null]) }}" class="position-absolute top-50 end-0 translate-middle-y me-2 text-muted text-decoration-none small">✕</a>
                             @endif
+                            <div id="desktopProductSearchSuggestions" class="position-absolute start-0 end-0 bg-white border rounded-3 shadow-lg p-2 d-none" style="top: 100%; z-index: 1050; margin-top: 4px; max-height: 280px; overflow-y: auto;"></div>
                         </div>
                     </div>
 
@@ -282,9 +288,10 @@
                         <input type="number" step="0.5" name="max_price" value="{{ request('max_price') }}" class="form-control form-control-sm" placeholder="e.g. 10.00">
                     </div>
 
-                    <!-- In-Stock Only Toggle -->
+                    <!-- In-Stock Only Toggle (Default ON) -->
                     <div class="mb-4 form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="in_stock" value="1" id="inStockDesktop" {{ request('in_stock') ? 'checked' : '' }}>
+                        <input type="hidden" name="in_stock" value="0">
+                        <input class="form-check-input" type="checkbox" name="in_stock" value="1" id="inStockDesktop" {{ $inStock ? 'checked' : '' }}>
                         <label class="form-check-label small fw-semibold text-secondary" for="inStockDesktop">
                             In-Stock Only
                         </label>
@@ -308,11 +315,13 @@
                     <div class="col-6 col-md-4 col-lg-4">
                         <div class="card card-custom h-100 d-flex flex-column bg-white position-relative">
                             <div class="position-relative overflow-hidden" style="border-top-left-radius: 12px; border-top-right-radius: 12px;">
-                                <img src="{{ $product->image_url ?: 'https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=600&q=80' }}" 
-                                     onerror="this.src='https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=600&q=80'"
-                                     class="card-img-top product-card-img" 
-                                     alt="{{ $product->name }}" 
-                                     style="height: 180px; object-fit: cover; transition: transform 0.3s ease;">
+                                <a href="{{ route('products.show', $product->id) }}" class="d-block text-decoration-none" title="{{ $product->name }}">
+                                    <img src="{{ $product->image_url ?: 'https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=600&q=80' }}" 
+                                         onerror="this.src='https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=600&q=80'"
+                                         class="card-img-top product-card-img" 
+                                         alt="{{ $product->name }}" 
+                                         style="height: 180px; object-fit: cover; transition: transform 0.3s ease;">
+                                </a>
                                 
                                 <span class="position-absolute top-0 end-0 m-1.5 m-md-2 badge-pastel-slate small" style="background: rgba(255,255,255,0.92); z-index: 2; font-size: 0.68rem;">
                                     {{ $product->category->name }}
@@ -458,12 +467,13 @@
                 <input type="number" step="0.5" name="max_price" value="{{ request('max_price') }}" class="form-control" placeholder="e.g. 10.00">
             </div>
 
-            <!-- In-Stock Only Switch in drawer -->
+            <!-- In-Stock Only Switch in drawer (Default ON) -->
             <div class="mb-4 form-check form-switch p-0 d-flex justify-content-between align-items-center">
                 <label class="form-check-label small fw-semibold text-secondary mb-0" for="inStockMobile">
                     Show Only In-Stock Harvests
                 </label>
-                <input class="form-check-input ms-0" type="checkbox" name="in_stock" value="1" id="inStockMobile" {{ request('in_stock') ? 'checked' : '' }} style="width: 2.2em; height: 1.2em;">
+                <input type="hidden" name="in_stock" value="0">
+                <input class="form-check-input ms-0" type="checkbox" name="in_stock" value="1" id="inStockMobile" {{ $inStock ? 'checked' : '' }} style="width: 2.2em; height: 1.2em;">
             </div>
 
             @if(request('sort'))
@@ -481,4 +491,108 @@
         </form>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    function setupRecommendations(inputId, suggestionsContainerId, formId) {
+        const input = document.getElementById(inputId);
+        const container = document.getElementById(suggestionsContainerId);
+        const form = document.getElementById(formId);
+        if (!input || !container) return;
+
+        let debounceTimer = null;
+
+        input.addEventListener('input', function () {
+            const query = input.value.trim();
+            clearTimeout(debounceTimer);
+
+            if (query.length < 2) {
+                container.innerHTML = '';
+                container.classList.add('d-none');
+                return;
+            }
+
+            debounceTimer = setTimeout(() => {
+                fetch(`/api/search/live?q=${encodeURIComponent(query)}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const suggestions = data.suggestions || [];
+                        const products = data.products || [];
+
+                        if (suggestions.length === 0 && products.length === 0) {
+                            container.innerHTML = `<div class="p-2 text-center text-muted small"><i class="bi bi-search me-1"></i> No recommendations for "<strong>${escapeHtml(query)}</strong>"</div>`;
+                            container.classList.remove('d-none');
+                            return;
+                        }
+
+                        let html = '';
+
+                        if (suggestions.length > 0) {
+                            html += `<div class="px-2 pt-1 pb-1 small fw-bold text-uppercase text-muted" style="font-size: 0.7rem; letter-spacing: 0.05em;"><i class="bi bi-lightbulb text-warning me-1"></i> Suggested Recommendations</div>`;
+                            html += `<div class="d-flex flex-wrap gap-1 p-1 mb-2">`;
+                            suggestions.forEach(sug => {
+                                html += `<button type="button" class="btn btn-sm btn-light border rounded-pill px-2.5 py-1 text-dark recommendation-chip" style="font-size: 0.8rem;" data-val="${escapeHtml(sug)}">
+                                    <i class="bi bi-arrow-up-right-circle text-success me-1"></i>${escapeHtml(sug)}
+                                </button>`;
+                            });
+                            html += `</div>`;
+                        }
+
+                        if (products.length > 0) {
+                            html += `<div class="px-2 pt-1 pb-1 small fw-bold text-uppercase text-muted border-top" style="font-size: 0.7rem; letter-spacing: 0.05em;"><i class="bi bi-basket text-success me-1"></i> Matching Produce</div>`;
+                            html += `<div class="list-group list-group-flush">`;
+                            products.forEach(prod => {
+                                html += `<a href="${prod.url}" class="list-group-item list-group-item-action d-flex align-items-center gap-2 p-2 border-0 rounded-2" style="font-size: 0.82rem;">
+                                    <img src="${prod.image}" alt="${escapeHtml(prod.name)}" class="rounded" style="width: 32px; height: 32px; object-fit: cover;">
+                                    <div class="flex-grow-1 text-truncate">
+                                        <div class="fw-semibold text-dark text-truncate">${escapeHtml(prod.name)}</div>
+                                        <div class="text-muted small">${escapeHtml(prod.farmer)}</div>
+                                    </div>
+                                    <span class="text-success fw-bold">${prod.price}</span>
+                                </a>`;
+                            });
+                            html += `</div>`;
+                        }
+
+                        container.innerHTML = html;
+                        container.classList.remove('d-none');
+
+                        // Bind chip click events
+                        container.querySelectorAll('.recommendation-chip').forEach(btn => {
+                            btn.addEventListener('click', function () {
+                                input.value = this.getAttribute('data-val');
+                                container.classList.add('d-none');
+                                if (form) form.submit();
+                            });
+                        });
+                    })
+                    .catch(() => {
+                        container.classList.add('d-none');
+                    });
+            }, 220);
+        });
+
+        document.addEventListener('click', function (e) {
+            if (!input.contains(e.target) && !container.contains(e.target)) {
+                container.classList.add('d-none');
+            }
+        });
+
+        input.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                container.classList.add('d-none');
+            }
+        });
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    setupRecommendations('desktopProductSearchInput', 'desktopProductSearchSuggestions', 'desktopFilterForm');
+    setupRecommendations('mobileProductSearchInput', 'mobileProductSearchSuggestions', 'mobileProductSearchForm');
+});
+</script>
 @endsection

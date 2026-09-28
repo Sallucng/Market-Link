@@ -65,7 +65,7 @@
         background-size: 250% auto;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        animation: shimmerGoldGreen 4.8s ease-in-out infinite 1s;
+        animation: shimmerGoldGreen 2.6s ease-in-out infinite 0.5s;
     }
 
     /* Frosted glass pills for sales and metrics */
@@ -549,11 +549,13 @@
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="card card-custom h-100 d-flex flex-column position-relative">
                         <div class="position-relative">
-                            <img src="{{ $product->image_url ?: 'https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=600&q=80' }}" 
-                                 onerror="this.src='https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=600&q=80'"
-                                 class="card-img-top" 
-                                 alt="{{ $product->name }}" 
-                                 style="height: 175px; object-fit: cover; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+                            <a href="{{ route('products.show', $product->id) }}" class="d-block text-decoration-none" title="{{ $product->name }}">
+                                <img src="{{ $product->image_url ?: 'https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=600&q=80' }}" 
+                                     onerror="this.src='https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=600&q=80'"
+                                     class="card-img-top" 
+                                     alt="{{ $product->name }}" 
+                                     style="height: 175px; object-fit: cover; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+                            </a>
                             
                             <span class="position-absolute top-0 end-0 m-2 badge-pastel-slate" style="background: rgba(255,255,255,0.92); backdrop-filter: blur(4px); z-index: 2;">
                                 {{ $product->category->name }}

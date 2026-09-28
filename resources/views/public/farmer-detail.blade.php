@@ -246,10 +246,12 @@
                         <div class="card card-custom h-100 bg-white border-0 shadow-sm d-flex flex-column position-relative overflow-hidden">
                             <!-- Image Wrap with Optional Sale Badge -->
                             <div class="position-relative overflow-hidden">
-                                <img src="{{ $product->image_url ?: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=400&q=80' }}" 
-                                     class="card-img-top" 
-                                     alt="{{ $product->name }}"
-                                     style="height: 180px; object-fit: cover; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+                                <a href="{{ route('products.show', $product->id) }}" class="d-block text-decoration-none" title="{{ $product->name }}">
+                                    <img src="{{ $product->image_url ?: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=400&q=80' }}" 
+                                         class="card-img-top" 
+                                         alt="{{ $product->name }}"
+                                         style="height: 180px; object-fit: cover; border-top-left-radius: 12px; border-top-right-radius: 12px; transition: transform 0.3s ease;">
+                                </a>
                                 
                                 @if($isOnSale)
                                     <div class="position-absolute top-0 start-0 m-2 z-2">

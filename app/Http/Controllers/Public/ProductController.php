@@ -60,8 +60,9 @@ class ProductController extends Controller
             });
         }
 
-        // In-Stock Only Filter
-        if ($request->boolean('in_stock')) {
+        // In-Stock Only Filter (Defaults to ON)
+        $inStock = $request->has('in_stock') ? $request->boolean('in_stock') : true;
+        if ($inStock) {
             $query->where('stock_quantity', '>', 0);
         }
 
@@ -168,11 +169,23 @@ class ProductController extends Controller
                 ];
             });
 
+        // Direct product name recommendations / suggestions (e.g. typing "app" -> "Apples")
+        $suggestions = Product::where('is_available', true)
+            ->whereHas('farmer.user', function ($uq) {
+                $uq->where('is_approved', true)->where('is_active', true);
+            })
+            ->where('name', 'LIKE', "%{$q}%")
+            ->distinct()
+            ->take(6)
+            ->pluck('name')
+            ->toArray();
+
         return response()->json([
+            'suggestions' => $suggestions,
             'products' => $products,
             'farmers' => $farmers,
             'markets' => $markets,
-            'total' => $products->count() + $farmers->count() + $markets->count()
+            'total' => count($suggestions) + $products->count() + $farmers->count() + $markets->count()
         ]);
     }
 
