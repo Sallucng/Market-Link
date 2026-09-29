@@ -17,6 +17,7 @@ class AdminUserSeeder extends Seeder
             ['email' => 'admin@marketlink.com'],
             [
                 'name'              => 'Platform Administrator',
+                'username'          => 'admin',
                 'password'          => Hash::make('Admin123!'),
                 'role'              => 'admin',
                 'status'            => 'active',

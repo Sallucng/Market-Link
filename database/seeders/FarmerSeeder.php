@@ -91,6 +91,7 @@ class FarmerSeeder extends Seeder
                 ['email' => $data['email']],
                 [
                     'name'              => $data['name'],
+                    'username'          => explode('@', $data['email'])[0],
                     'password'          => Hash::make('Farmer123!'),
                     'role'              => 'farmer',
                     'status'            => 'active',

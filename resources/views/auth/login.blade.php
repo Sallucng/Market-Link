@@ -15,6 +15,22 @@
                     <p class="text-muted small">Sign in to manage your pre-orders, stall inventory, or system</p>
                 </div>
 
+                <!-- Quick Demo Credentials Helper -->
+                <div class="p-2 mb-3 bg-light rounded-3 border text-center" style="font-size: 0.78rem;">
+                    <div class="text-muted fw-semibold mb-1"><i class="bi bi-key-fill text-warning me-1"></i> Quick Demo Accounts (Click to Fill):</div>
+                    <div class="d-flex flex-wrap justify-content-center gap-1">
+                        <button type="button" class="btn btn-sm btn-outline-dark rounded-pill py-0 px-2 fw-semibold" style="font-size: 0.72rem;" onclick="fillDemo('admin@marketlink.com', 'Admin123!')">
+                            🛡️ Admin
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-success rounded-pill py-0 px-2 fw-semibold" style="font-size: 0.72rem;" onclick="fillDemo('farmer.john@marketlink.com', 'Farmer123!')">
+                            👨‍🌾 Farmer
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-primary rounded-pill py-0 px-2 fw-semibold" style="font-size: 0.72rem;" onclick="fillDemo('customer.alice@marketlink.com', 'Customer123!')">
+                            🛒 Customer
+                        </button>
+                    </div>
+                </div>
+
                 @if(session('success'))
                     <div class="alert alert-success d-flex align-items-center small py-2 mb-3" role="alert">
                         <i class="bi bi-check-circle-fill me-2 fs-6"></i>
@@ -107,4 +123,16 @@
         </div>
     </div>
 </div>
+
+<script>
+function fillDemo(login, pass) {
+    var loginEl = document.getElementById('loginField');
+    var passEl = document.getElementById('passwordField');
+    if (loginEl && passEl) {
+        loginEl.value = login;
+        passEl.value = pass;
+        loginEl.focus();
+    }
+}
+</script>
 @endsection

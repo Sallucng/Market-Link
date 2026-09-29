@@ -31,6 +31,7 @@ class OrderSeeder extends Seeder
                 ['email' => $data['email']],
                 [
                     'name'              => $data['name'],
+                    'username'          => explode('@', $data['email'])[0],
                     'password'          => Hash::make('Customer123!'),
                     'role'              => 'customer',
                     'status'            => 'active',

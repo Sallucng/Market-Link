@@ -42,9 +42,10 @@ if [ -n "${DB_HOST}" ]; then
     echo "Connecting to MySQL database at ${DB_HOST}:${DB_PORT:-3306}..."
     php artisan migrate --force || true
 
-    # Optional seeding on initial boot
-    if [ "${RUN_SEEDER}" = "true" ]; then
-        echo "Running initial database seeding..."
+    # Auto-seed database if empty or if requested
+    USER_COUNT=$(php artisan tinker --execute="echo App\Models\User::count();" 2>/dev/null || echo "0")
+    if [ "$USER_COUNT" = "0" ] || [ "${RUN_SEEDER}" = "true" ]; then
+        echo "Database has 0 users or RUN_SEEDER requested. Running initial database seeding..."
         php artisan db:seed --force || true
     fi
 fi

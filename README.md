@@ -157,14 +157,15 @@ Visit the application in your browser:
 
 The database comes populated with verified accounts for testing every user role:
 
-| Role | Email | Password | Access & Purpose |
+| Role | Username / Email | Password | Access & Purpose |
 |---|---|---|---|
-| **System Admin** | `admin@marketlink.local` | `Admin@123` | Full platform governance, vendor verification, audit logs. |
-| **Approved Farmer** | `farmer@marketlink.local` | `Farmer@123` | Active stall vendor (*Green Valley Organic Farm*), live inventory, orders. |
-| **Secondary Farmer** | `orchard@marketlink.local` | `Farmer@123` | Active vendor (*Sunshine Orchards & Apiary*) at Riverside Market. |
-| **Pending Farmer** | `newharvest@marketlink.local` | `Farmer@123` | Newly registered vendor awaiting Admin approval before products show. |
-| **Customer** | `customer@marketlink.local` | `Customer@123` | Local shopper with active and completed pre-orders, saved favorites. |
-| **Secondary Customer** | `david@marketlink.local` | `Customer@123` | Additional shopper for concurrent reservation testing. |
+| **System Admin** | `admin` or `admin@marketlink.com` | `Admin123!` *(or `Admin@123`)* | Full platform governance, vendor verification, audit logs. |
+| **Approved Farmer** | `farmer.john` or `farmer.john@marketlink.com` *(or `farmer`)* | `Farmer123!` *(or `Farmer@123`)* | Active stall vendor (*Sunrise Organic Acres*), live inventory, orders. |
+| **Secondary Farmer** | `maria.orchards` or `maria.orchards@marketlink.com` | `Farmer123!` *(or `Farmer@123`)* | Active vendor (*Golden Valley Orchards*) with stone fruits & apples. |
+| **Customer** | `customer.alice` or `customer.alice@marketlink.com` *(or `customer`)* | `Customer123!` *(or `Customer@123`)* | Local shopper with active and completed pre-orders, saved favorites. |
+| **Secondary Customer** | `customer.bob` or `customer.bob@marketlink.com` | `Customer123!` *(or `Customer@123`)* | Additional shopper for concurrent reservation testing. |
+
+> 💡 **Tip:** On the Sign In page (`/login`), you can also simply click the **Quick Demo Accounts** buttons (`🛡️ Admin`, `👨‍🌾 Farmer`, `🛒 Customer`) to instantly auto-fill credentials with 1 click!
 
 ---
 
