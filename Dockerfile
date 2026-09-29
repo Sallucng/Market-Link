@@ -1,5 +1,5 @@
 # Production Dockerfile for MarketLink on Render.com (100% Free Tier Compatible)
-FROM php:8.2-apache
+FROM php:8.3-apache
 
 # Install system dependencies & Node.js 20 LTS
 RUN apt-get update && apt-get install -y \
@@ -39,7 +39,7 @@ WORKDIR /var/www/html
 COPY . .
 
 # Install PHP dependencies without dev packages
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-reqs
 
 # Install Node dependencies & build production frontend assets
 RUN npm ci || npm install
