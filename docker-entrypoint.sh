@@ -1,6 +1,15 @@
 #!/bin/bash
 set -e
 
+# If a secret .env file exists (Render Secret Files feature), copy and load it
+if [ -f "/etc/secrets/.env" ]; then
+    echo "Applying /etc/secrets/.env to .env..."
+    cp /etc/secrets/.env .env
+    set -a
+    . ./.env 2>/dev/null || true
+    set +a
+fi
+
 # Adapt Apache configuration to dynamic Render $PORT
 PORT="${PORT:-80}"
 echo "Configuring Apache to listen on port ${PORT}..."
