@@ -165,8 +165,6 @@ The database comes populated with verified accounts for testing every user role:
 | **Customer** | `customer.alice` or `customer.alice@marketlink.com` *(or `customer`)* | `Customer123!` *(or `Customer@123`)* | Local shopper with active and completed pre-orders, saved favorites. |
 | **Secondary Customer** | `customer.bob` or `customer.bob@marketlink.com` | `Customer123!` *(or `Customer@123`)* | Additional shopper for concurrent reservation testing. |
 
-> 💡 **Tip:** On the Sign In page (`/login`), you can also simply click the **Quick Demo Accounts** buttons (`🛡️ Admin`, `👨‍🌾 Farmer`, `🛒 Customer`) to instantly auto-fill credentials with 1 click!
-
 ---
 
 ## 🔒 Google OAuth & Security Configuration
