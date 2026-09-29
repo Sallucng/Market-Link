@@ -1347,10 +1347,11 @@
             aiMessages.scrollTop = aiMessages.scrollHeight;
 
             try {
-                const response = await fetch("{{ route('ai.assistant') }}", {
+                const response = await fetch("/api/ai-assistant", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Accept': 'application/json',
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
                     body: JSON.stringify({ message: text })
