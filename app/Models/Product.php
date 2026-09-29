@@ -95,7 +95,62 @@ class Product extends Model
 
     public function getImageAttribute(): ?string
     {
-        return $this->attributes['image_url'] ?? ($this->attributes['image'] ?? null);
+        return $this->image_url;
+    }
+
+    public function getImageUrlAttribute(?string $value): ?string
+    {
+        $val = $value ?? ($this->attributes['image'] ?? null);
+        if (empty($val)) {
+            return $this->getDefaultProduceImage();
+        }
+
+        if (str_starts_with($val, 'http://') || str_starts_with($val, 'https://')) {
+            return $val;
+        }
+
+        if (file_exists(public_path('storage/' . $val))) {
+            return asset('storage/' . $val);
+        }
+        if (file_exists(public_path($val))) {
+            return asset($val);
+        }
+
+        return $this->getProduceImageByPath($val);
+    }
+
+    protected function getProduceImageByPath(string $path): string
+    {
+        $images = [
+            'heirloom_tomatoes' => 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=800&q=80',
+            'romaine_lettuce'   => 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=80',
+            'rainbow_carrots'   => 'https://images.unsplash.com/photo-1447175008436-054170c2e979?auto=format&fit=crop&w=800&q=80',
+            'honeycrisp_apples' => 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=800&q=80',
+            'strawberries'      => 'https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&w=800&q=80',
+            'yellow_peaches'    => 'https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&fit=crop&w=800&q=80',
+            'goat_cheese'       => 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=800&q=80',
+            'pasture_butter'    => 'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=800&q=80',
+            'pasture_eggs'      => 'https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?auto=format&fit=crop&w=800&q=80',
+            'whole_chicken'     => 'https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=800&q=80',
+            'sweet_basil'       => 'https://images.unsplash.com/photo-1608686207856-001b95cf60ca?auto=format&fit=crop&w=800&q=80',
+            'rosemary'          => 'https://images.unsplash.com/photo-1515586838455-8f8f940d6853?auto=format&fit=crop&w=800&q=80',
+            'wild_arugula'      => 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=800&q=80',
+            'swiss_chard'       => 'https://images.unsplash.com/photo-1524179091875-bf99a9a6fa57?auto=format&fit=crop&w=800&q=80',
+            'golden_beets'      => 'https://images.unsplash.com/photo-1593105544559-ecb03bf76f82?auto=format&fit=crop&w=800&q=80',
+        ];
+
+        foreach ($images as $key => $url) {
+            if (str_contains($path, $key)) {
+                return $url;
+            }
+        }
+
+        return $this->getDefaultProduceImage();
+    }
+
+    protected function getDefaultProduceImage(): string
+    {
+        return 'https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=800&q=80';
     }
 
     public function setImageAttribute(?string $value): void

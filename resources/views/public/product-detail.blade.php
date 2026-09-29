@@ -118,6 +118,7 @@
                 <div class="product-zoom-container" id="productZoomContainer">
                     <img id="mainProductImg"
                          src="{{ $product->image_url ?: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=800&q=80' }}" 
+                         onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=800&q=80'"
                          alt="{{ $product->name }}" 
                          class="img-fluid rounded-3 w-100 d-block" 
                          style="max-height: 440px; height: 440px; object-fit: cover;">
@@ -155,7 +156,11 @@
                             data-img-src="{{ $thumb['url'] }}"
                             title="{{ $thumb['label'] }}"
                             style="width: 64px; height: 64px; cursor: pointer;">
-                        <img src="{{ $thumb['url'] }}" alt="{{ $thumb['label'] }}" class="w-100 h-100 rounded-2" style="object-fit: cover;">
+                        <img src="{{ $thumb['url'] }}" 
+                             onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=800&q=80'"
+                             alt="{{ $thumb['label'] }}" 
+                             class="w-100 h-100 rounded-2" 
+                             style="object-fit: cover;">
                     </button>
                 @endforeach
             </div>

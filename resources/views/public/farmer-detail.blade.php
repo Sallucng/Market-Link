@@ -399,13 +399,13 @@
                     <!-- Operating Days -->
                     <div>
                         <div class="text-muted fw-semibold mb-1"><i class="bi bi-calendar-check text-primary me-1"></i> Operating Days</div>
-                        <div class="fw-semibold text-dark">{{ $farmer->operating_days ?: 'Saturday, Sunday' }}</div>
+                        <div class="fw-semibold text-dark">{{ is_array($farmer->operating_days) ? implode(', ', $farmer->operating_days) : ($farmer->operating_days ?: 'Saturday, Sunday') }}</div>
                     </div>
 
                     <!-- Pickup Windows -->
                     <div>
                         <div class="text-muted fw-semibold mb-1"><i class="bi bi-clock-history text-warning me-1"></i> Pickup Windows</div>
-                        <div class="fw-semibold text-dark">{{ $farmer->pickup_time_windows ?: '08:30 AM - 10:30 AM, 11:00 AM - 01:00 PM' }}</div>
+                        <div class="fw-semibold text-dark">{{ is_array($farmer->pickup_time_windows) ? implode(', ', $farmer->pickup_time_windows) : ($farmer->pickup_time_windows ?: '08:30 AM - 10:30 AM, 11:00 AM - 01:00 PM') }}</div>
                     </div>
 
                     <!-- Order Cutoff -->

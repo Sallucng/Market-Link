@@ -179,19 +179,25 @@
                             <i class="bi bi-person-fill text-secondary me-1"></i> {{ $farmer->contact_person }}
                         </div>
 
-                        <div class="small mb-2" style="position: relative; z-index: 2;">
-                            <a href="{{ route('markets.show', $farmer->market_id) }}" class="text-decoration-none text-success fw-medium">
-                                <i class="bi bi-geo-alt-fill text-danger me-1"></i> {{ $farmer->market->name ?? 'Assigned Market' }}
-                            </a>
-                        </div>
+                        @if($farmer->market_id && $farmer->market)
+                            <div class="small mb-2" style="position: relative; z-index: 2;">
+                                <a href="{{ route('markets.show', $farmer->market_id) }}" class="text-decoration-none text-success fw-medium">
+                                    <i class="bi bi-geo-alt-fill text-danger me-1"></i> {{ $farmer->market->name }}
+                                </a>
+                            </div>
+                        @else
+                            <div class="small mb-2 text-muted" style="position: relative; z-index: 2;">
+                                <i class="bi bi-geo-alt text-muted me-1"></i> Community Market Vendor
+                            </div>
+                        @endif
 
                         <div class="small text-muted mb-2">
-                            <i class="bi bi-calendar3 text-success me-1"></i> <strong>Days:</strong> {{ $farmer->operating_days ?: ($farmer->market->operating_days ?? 'Market Days') }}
+                            <i class="bi bi-calendar3 text-success me-1"></i> <strong>Days:</strong> {{ is_array($farmer->operating_days) ? implode(', ', $farmer->operating_days) : ($farmer->operating_days ?: ($farmer->market->operating_days ?? 'Market Days')) }}
                         </div>
 
                         @if($farmer->pickup_time_windows)
                             <div class="small text-muted mb-2">
-                                <i class="bi bi-clock text-warning me-1"></i> <strong>Pickup:</strong> {{ $farmer->pickup_time_windows }}
+                                <i class="bi bi-clock text-warning me-1"></i> <strong>Pickup:</strong> {{ is_array($farmer->pickup_time_windows) ? implode(', ', $farmer->pickup_time_windows) : $farmer->pickup_time_windows }}
                             </div>
                         @endif
 

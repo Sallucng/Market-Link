@@ -138,7 +138,7 @@
                                     </div>
                                     <div>
                                         <span class="text-muted small fw-semibold text-uppercase d-block" style="font-size: 0.7rem;">Operating Days</span>
-                                        <span class="badge bg-white text-dark border">{{ $group['operating_days'] ?: 'Saturday, Sunday' }}</span>
+                                        <span class="badge bg-white text-dark border">{{ is_array($group['operating_days']) ? implode(', ', $group['operating_days']) : ($group['operating_days'] ?: 'Saturday, Sunday') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -200,7 +200,7 @@
                                            class="form-control form-control-sm bg-white" 
                                            required>
                                     <small class="text-muted d-block mt-1" style="font-size: 0.72rem;">
-                                        Open Days: <strong>{{ $group['operating_days'] ?: 'Saturday, Sunday' }}</strong>
+                                        Open Days: <strong>{{ is_array($group['operating_days']) ? implode(', ', $group['operating_days']) : ($group['operating_days'] ?: 'Saturday, Sunday') }}</strong>
                                     </small>
                                 </div>
 
@@ -209,7 +209,8 @@
                                         Available Time Window <span class="text-danger">*</span>
                                     </label>
                                     @php
-                                        $slots = array_map('trim', explode(',', $group['pickup_time_windows'] ?: '08:30 AM - 10:30 AM, 11:00 AM - 01:00 PM'));
+                                        $pickupWindowsStr = is_array($group['pickup_time_windows']) ? implode(',', $group['pickup_time_windows']) : ($group['pickup_time_windows'] ?: '08:30 AM - 10:30 AM, 11:00 AM - 01:00 PM');
+                                        $slots = array_map('trim', explode(',', $pickupWindowsStr));
                                     @endphp
                                     <select name="pickup_time_slot[{{ $farmerId }}]" class="form-select form-select-sm bg-white" required>
                                         @foreach($slots as $slot)

@@ -82,7 +82,7 @@
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
                                 <label class="form-label small fw-semibold text-dark">Operating Market Days <span class="text-danger">*</span></label>
-                                <input type="text" name="operating_days" class="form-control form-control-sm" value="{{ old('operating_days', $farmer->operating_days) }}" placeholder="e.g. Saturday, Sunday" required>
+                                <input type="text" name="operating_days" class="form-control form-control-sm" value="{{ old('operating_days', is_array($farmer->operating_days) ? implode(', ', $farmer->operating_days) : (string)$farmer->operating_days) }}" placeholder="e.g. Saturday, Sunday" required>
                                 <small class="text-muted" style="font-size: 0.72rem;">Days when your stall is active for customer collections</small>
                             </div>
 
@@ -95,7 +95,7 @@
 
                         <div class="mb-0">
                             <label class="form-label small fw-semibold text-dark">Available Pickup Time Slots (Comma-separated) <span class="text-danger">*</span></label>
-                            <input type="text" name="pickup_time_windows" class="form-control form-control-sm" value="{{ old('pickup_time_windows', $farmer->pickup_time_windows) }}" placeholder="08:00 AM - 10:00 AM, 10:30 AM - 12:30 PM, 01:00 PM - 03:00 PM" required>
+                            <input type="text" name="pickup_time_windows" class="form-control form-control-sm" value="{{ old('pickup_time_windows', is_array($farmer->pickup_time_windows) ? implode(', ', $farmer->pickup_time_windows) : (string)$farmer->pickup_time_windows) }}" placeholder="08:00 AM - 10:00 AM, 10:30 AM - 12:30 PM, 01:00 PM - 03:00 PM" required>
                             <small class="text-muted" style="font-size: 0.72rem;">Shoppers select from these windows at checkout</small>
                         </div>
                     </div>

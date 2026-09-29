@@ -53,11 +53,24 @@ class FarmerProfile extends Model
         return [
             'latitude' => 'float',
             'longitude' => 'float',
-            'operating_days' => 'array',
             'is_approved' => 'boolean',
             'cutoff_hours' => 'integer',
             'settings' => 'array',
         ];
+    }
+
+    public function getOperatingDaysAttribute($value)
+    {
+        return new \App\Support\OperatingDays($value);
+    }
+
+    public function setOperatingDaysAttribute($value): void
+    {
+        if (is_array($value)) {
+            $this->attributes['operating_days'] = json_encode($value);
+        } else {
+            $this->attributes['operating_days'] = $value;
+        }
     }
 
     protected static function boot()
