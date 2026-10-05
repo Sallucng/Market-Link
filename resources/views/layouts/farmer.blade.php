@@ -29,7 +29,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
     <!-- Space UI Essentials & Vite Assets -->
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/agentation.jsx'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
         :root {

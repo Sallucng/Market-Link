@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
+    libsqlite3-dev \
     zip \
     unzip \
     ca-certificates \
@@ -18,8 +19,8 @@ RUN apt-get update && apt-get install -y \
     && apt-get update && apt-get install -y nodejs \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install PHP extensions required by Laravel & MySQL
-RUN docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd opcache
+# Install PHP extensions required by Laravel, SQLite & MySQL
+RUN docker-php-ext-install pdo pdo_mysql pdo_sqlite mbstring exif pcntl bcmath gd opcache
 
 # Install latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

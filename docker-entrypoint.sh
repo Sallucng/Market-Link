@@ -37,17 +37,27 @@ if [ "${APP_ENV}" = "production" ]; then
     php artisan view:cache || true
 fi
 
-# Run database migrations if database connection is available
-if [ -n "${DB_HOST}" ]; then
-    echo "Connecting to MySQL database at ${DB_HOST}:${DB_PORT:-3306}..."
-    php artisan migrate --force || true
-
-    # Auto-seed database if empty or if requested
-    USER_COUNT=$(php artisan tinker --execute="echo App\Models\User::count();" 2>/dev/null || echo "0")
-    if [ "$USER_COUNT" = "0" ] || [ "${RUN_SEEDER}" = "true" ]; then
-        echo "Database has 0 users or RUN_SEEDER requested. Running initial database seeding..."
-        php artisan db:seed --force || true
+# Prepare SQLite database if using SQLite or default
+if [ "${DB_CONNECTION:-sqlite}" = "sqlite" ] || [ -z "${DB_HOST}" ]; then
+    echo "Preparing SQLite database at database/database.sqlite..."
+    mkdir -p database
+    if [ ! -f "database/database.sqlite" ]; then
+        touch database/database.sqlite
     fi
+    chown -R www-data:www-data database
+    chmod -R 775 database
+    chmod 664 database/database.sqlite 2>/dev/null || true
+fi
+
+# Run database migrations
+echo "Running database migrations..."
+php artisan migrate --force || true
+
+# Auto-seed database if empty or if requested
+USER_COUNT=$(php artisan tinker --execute="echo App\Models\User::count();" 2>/dev/null || echo "0")
+if [ "$USER_COUNT" = "0" ] || [ "${RUN_SEEDER}" = "true" ]; then
+    echo "Database has 0 users or RUN_SEEDER requested. Running initial database seeding..."
+    php artisan db:seed --force || true
 fi
 
 # Hand over process execution to Apache foreground runner
