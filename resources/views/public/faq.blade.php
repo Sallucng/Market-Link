@@ -96,15 +96,12 @@
                 </div>
                 <h3 class="heading-serif fw-bold text-dark mb-2">{{ __('Still Have Questions?') }}</h3>
                 <p class="text-secondary small col-md-8 mx-auto mb-4" style="line-height: 1.6;">
-                    {{ __('Our community team and automated assistant are here to help you navigate local markets, connect with family growers, or resolve orders.') }}
+                    {{ __('Our community team is here to help you navigate local markets, connect with family growers, or resolve orders.') }}
                 </p>
                 <div class="d-flex flex-wrap justify-content-center gap-3">
                     <a href="{{ route('contact') }}" class="btn btn-brand rounded-pill px-4 py-2">
                         <i class="bi bi-envelope me-1"></i> {{ __('Contact Community Team') }}
                     </a>
-                    <button type="button" class="btn btn-light border rounded-pill px-4 py-2 text-dark fw-semibold" onclick="document.getElementById('ai-toggle-btn')?.click()">
-                        <i class="bi bi-robot text-success me-1"></i> {{ __('Ask AI Assistant') }}
-                    </button>
                 </div>
             </div>
         </div>
