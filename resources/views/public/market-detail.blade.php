@@ -17,7 +17,7 @@
     <div class="card card-custom overflow-hidden bg-white border-0 shadow-sm mb-4">
         <div class="row g-0">
             <div class="col-lg-4 col-md-5">
-                <img src="{{ $market->image_url ?: 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=800&q=80' }}" 
+                <img src="{{ $market->image_url }}" 
                      alt="{{ $market->name }}" 
                      class="w-100 h-100" 
                      style="object-fit: cover; min-height: 220px; max-height: 320px;">

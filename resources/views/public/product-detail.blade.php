@@ -117,8 +117,7 @@
             <div class="card card-custom p-2 bg-white border-0 shadow-sm overflow-hidden position-relative">
                 <div class="product-zoom-container" id="productZoomContainer">
                     <img id="mainProductImg"
-                         src="{{ $product->image_url ?: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=800&q=80' }}" 
-                         onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=800&q=80'"
+                         src="{{ $product->image_url }}" 
                          alt="{{ $product->name }}" 
                          class="img-fluid rounded-3 w-100 d-block" 
                          style="max-height: 440px; height: 440px; object-fit: cover;">
@@ -140,7 +139,7 @@
 
             <!-- Thumbnail Selector Strip (Daraz-style) -->
             @php
-                $mainImg = $product->image_url ?: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=800&q=80';
+                $mainImg = $product->image_url;
                 $farmerCover = $product->farmer->cover_image_url ?: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80';
                 $farmerAvatar = $product->farmer->image_url ?: 'https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?auto=format&fit=crop&w=800&q=80';
                 $galleryThumbs = [

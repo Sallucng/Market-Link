@@ -123,7 +123,7 @@ class Product extends Model
     {
         $images = [
             'heirloom_tomatoes' => 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=800&q=80',
-            'romaine_lettuce'   => 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=80',
+            'romaine_lettuce'   => 'https://images.unsplash.com/photo-1556801712-76c8eb07bbc9?auto=format&fit=crop&w=800&q=80',
             'rainbow_carrots'   => 'https://images.unsplash.com/photo-1447175008436-054170c2e979?auto=format&fit=crop&w=800&q=80',
             'honeycrisp_apples' => 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=800&q=80',
             'strawberries'      => 'https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&w=800&q=80',
@@ -131,11 +131,11 @@ class Product extends Model
             'goat_cheese'       => 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=800&q=80',
             'pasture_butter'    => 'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=800&q=80',
             'pasture_eggs'      => 'https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?auto=format&fit=crop&w=800&q=80',
-            'whole_chicken'     => 'https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=800&q=80',
-            'sweet_basil'       => 'https://images.unsplash.com/photo-1608686207856-001b95cf60ca?auto=format&fit=crop&w=800&q=80',
-            'rosemary'          => 'https://images.unsplash.com/photo-1515586838455-8f8f940d6853?auto=format&fit=crop&w=800&q=80',
+            'whole_chicken'     => 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=800&q=80',
+            'sweet_basil'       => 'https://images.unsplash.com/photo-1749655248287-d1e0acb5f8d1?auto=format&fit=crop&w=800&q=80',
+            'rosemary'          => 'https://images.unsplash.com/photo-1764488034691-eda628fbdb7c?auto=format&fit=crop&w=800&q=80',
             'wild_arugula'      => 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=800&q=80',
-            'swiss_chard'       => 'https://images.unsplash.com/photo-1524179091875-bf99a9a6fa57?auto=format&fit=crop&w=800&q=80',
+            'swiss_chard'       => 'https://images.unsplash.com/photo-1579113800032-c38bd7635818?auto=format&fit=crop&w=800&q=80',
             'golden_beets'      => 'https://images.unsplash.com/photo-1593105544559-ecb03bf76f82?auto=format&fit=crop&w=800&q=80',
         ];
 
@@ -150,7 +150,26 @@ class Product extends Model
 
     protected function getDefaultProduceImage(): string
     {
-        return 'https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=800&q=80';
+        $fallbacks = [
+            1  => 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=800&q=80', // Heirloom Tomatoes
+            2  => 'https://images.unsplash.com/photo-1556801712-76c8eb07bbc9?auto=format&fit=crop&w=800&q=80', // Romaine
+            3  => 'https://images.unsplash.com/photo-1447175008436-054170c2e979?auto=format&fit=crop&w=800&q=80', // Carrots
+            4  => 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=800&q=80', // Apples
+            5  => 'https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&w=800&q=80', // Strawberries
+            6  => 'https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&fit=crop&w=800&q=80', // Peaches
+            7  => 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=800&q=80', // Cheese
+            8  => 'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=800&q=80', // Butter
+            9  => 'https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?auto=format&fit=crop&w=800&q=80', // Eggs
+            10 => 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=800&q=80', // Chicken
+            11 => 'https://images.unsplash.com/photo-1749655248287-d1e0acb5f8d1?auto=format&fit=crop&w=800&q=80', // Basil
+            12 => 'https://images.unsplash.com/photo-1764488034691-eda628fbdb7c?auto=format&fit=crop&w=800&q=80', // Rosemary
+            13 => 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=800&q=80', // Arugula
+            14 => 'https://images.unsplash.com/photo-1579113800032-c38bd7635818?auto=format&fit=crop&w=800&q=80', // Swiss Chard
+            15 => 'https://images.unsplash.com/photo-1593105544559-ecb03bf76f82?auto=format&fit=crop&w=800&q=80', // Beets
+        ];
+        $id = $this->id ?? abs(crc32($this->name ?? '1'));
+        $idx = (($id - 1) % count($fallbacks)) + 1;
+        return $fallbacks[$idx] ?? $fallbacks[1];
     }
 
     public function setImageAttribute(?string $value): void

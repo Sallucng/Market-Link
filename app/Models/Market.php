@@ -91,7 +91,31 @@ class Market extends Model
 
     public function getImageAttribute($value): ?string
     {
-        return $value ?: $this->image_url;
+        return $this->image_url;
+    }
+
+    public function getImageUrlAttribute(?string $value): ?string
+    {
+        $val = $value ?? ($this->attributes['image'] ?? null);
+        if (!empty($val)) {
+            if (str_starts_with($val, 'http://') || str_starts_with($val, 'https://')) {
+                return $val;
+            }
+            if (file_exists(public_path('storage/' . $val))) {
+                return asset('storage/' . $val);
+            }
+            if (file_exists(public_path($val))) {
+                return asset($val);
+            }
+        }
+
+        $fallbacks = [
+            1 => 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=800&q=80',
+            2 => 'https://images.unsplash.com/photo-1533900298318-6b8da08a523e?auto=format&fit=crop&w=800&q=80',
+            3 => 'https://images.unsplash.com/photo-1516253593875-bd7ba052fbc5?auto=format&fit=crop&w=800&q=80',
+        ];
+
+        return $fallbacks[$this->id ?? 1] ?? 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=800&q=80';
     }
 
     public function setImageAttribute(?string $value): void

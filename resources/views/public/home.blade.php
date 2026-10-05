@@ -550,8 +550,7 @@
                     <div class="card card-custom h-100 d-flex flex-column position-relative">
                         <div class="position-relative">
                             <a href="{{ route('products.show', $product->id) }}" class="d-block text-decoration-none" title="{{ $product->name }}">
-                                <img src="{{ $product->image_url ?: 'https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=600&q=80' }}" 
-                                     onerror="this.src='https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=600&q=80'"
+                                <img src="{{ $product->image_url }}" 
                                      class="card-img-top" 
                                      alt="{{ $product->name }}" 
                                      style="height: 175px; object-fit: cover; border-top-left-radius: 12px; border-top-right-radius: 12px;">
@@ -882,11 +881,11 @@ document.addEventListener('DOMContentLoaded', function () {
         );
     }
 
-    // 11. T = 2.4s - 3.4s: Category Bento Cards Domino Stagger
+    // 11. Category Bento Cards Entrance
     tl.fromTo('.category-bento-card',
-        { opacity: 0, y: 22 },
-        { opacity: 1, y: 0, duration: 0.55, stagger: 0.07, ease: 'power2.out', clearProps: 'opacity,transform' },
-        2.3
+        { y: 14 },
+        { y: 0, duration: 0.45, stagger: 0.05, ease: 'power2.out', clearProps: 'transform' },
+        0.4
     );
 
     // Interactive 3D Spatial Micro-Tilt on Bento Search Card (antigravity-design-expert)

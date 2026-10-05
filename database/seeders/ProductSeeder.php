@@ -45,7 +45,7 @@ class ProductSeeder extends Seeder
                 'unit'              => 'kg',
                 'stock_quantity'    => 60,
                 'weekly_quota'      => 80,
-                'image_path'        => 'products/heirloom_tomatoes.jpg',
+                'image_url'         => 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=800&q=80',
             ],
             [
                 'farmer_profile_id' => $farmer1->id,
@@ -56,7 +56,7 @@ class ProductSeeder extends Seeder
                 'unit'              => 'head',
                 'stock_quantity'    => 45,
                 'weekly_quota'      => 60,
-                'image_path'        => 'products/romaine_lettuce.jpg',
+                'image_url'         => 'https://images.unsplash.com/photo-1556801712-76c8eb07bbc9?auto=format&fit=crop&w=800&q=80',
             ],
             [
                 'farmer_profile_id' => $farmer1->id,
@@ -67,7 +67,7 @@ class ProductSeeder extends Seeder
                 'unit'              => 'bunch',
                 'stock_quantity'    => 50,
                 'weekly_quota'      => 75,
-                'image_path'        => 'products/rainbow_carrots.jpg',
+                'image_url'         => 'https://images.unsplash.com/photo-1447175008436-054170c2e979?auto=format&fit=crop&w=800&q=80',
             ],
 
             // Farmer 2 (Fruits & Berries)
@@ -80,7 +80,7 @@ class ProductSeeder extends Seeder
                 'unit'              => 'kg',
                 'stock_quantity'    => 80,
                 'weekly_quota'      => 100,
-                'image_path'        => 'products/honeycrisp_apples.jpg',
+                'image_url'         => 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=800&q=80',
             ],
             [
                 'farmer_profile_id' => $farmer2->id,
@@ -91,7 +91,7 @@ class ProductSeeder extends Seeder
                 'unit'              => 'box',
                 'stock_quantity'    => 40,
                 'weekly_quota'      => 60,
-                'image_path'        => 'products/strawberries.jpg',
+                'image_url'         => 'https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&w=800&q=80',
             ],
             [
                 'farmer_profile_id' => $farmer2->id,
@@ -102,7 +102,7 @@ class ProductSeeder extends Seeder
                 'unit'              => 'kg',
                 'stock_quantity'    => 35,
                 'weekly_quota'      => 50,
-                'image_path'        => 'products/yellow_peaches.jpg',
+                'image_url'         => 'https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&fit=crop&w=800&q=80',
             ],
 
             // Farmer 3 (Dairy & Poultry)
@@ -115,7 +115,7 @@ class ProductSeeder extends Seeder
                 'unit'              => 'piece',
                 'stock_quantity'    => 30,
                 'weekly_quota'      => 40,
-                'image_path'        => 'products/goat_cheese.jpg',
+                'image_url'         => 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=800&q=80',
             ],
             [
                 'farmer_profile_id' => $farmer3->id,
@@ -126,7 +126,7 @@ class ProductSeeder extends Seeder
                 'unit'              => 'piece',
                 'stock_quantity'    => 25,
                 'weekly_quota'      => 35,
-                'image_path'        => 'products/pasture_butter.jpg',
+                'image_url'         => 'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=800&q=80',
             ],
             [
                 'farmer_profile_id' => $farmer3->id,
@@ -137,7 +137,7 @@ class ProductSeeder extends Seeder
                 'unit'              => 'dozen',
                 'stock_quantity'    => 50,
                 'weekly_quota'      => 70,
-                'image_path'        => 'products/pasture_eggs.jpg',
+                'image_url'         => 'https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?auto=format&fit=crop&w=800&q=80',
             ],
             [
                 'farmer_profile_id' => $farmer3->id,
@@ -148,7 +148,7 @@ class ProductSeeder extends Seeder
                 'unit'              => 'piece',
                 'stock_quantity'    => 20,
                 'weekly_quota'      => 30,
-                'image_path'        => 'products/whole_chicken.jpg',
+                'image_url'         => 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=800&q=80',
             ],
 
             // Farmer 4 (Herbs & Specialty Greens)
@@ -161,7 +161,7 @@ class ProductSeeder extends Seeder
                 'unit'              => 'bunch',
                 'stock_quantity'    => 40,
                 'weekly_quota'      => 50,
-                'image_path'        => 'products/sweet_basil.jpg',
+                'image_url'         => 'https://images.unsplash.com/photo-1749655248287-d1e0acb5f8d1?auto=format&fit=crop&w=800&q=80',
             ],
             [
                 'farmer_profile_id' => $farmer4->id,
@@ -172,7 +172,7 @@ class ProductSeeder extends Seeder
                 'unit'              => 'bunch',
                 'stock_quantity'    => 35,
                 'weekly_quota'      => 45,
-                'image_path'        => 'products/rosemary.jpg',
+                'image_url'         => 'https://images.unsplash.com/photo-1764488034691-eda628fbdb7c?auto=format&fit=crop&w=800&q=80',
             ],
             [
                 'farmer_profile_id' => $farmer4->id,
@@ -183,7 +183,7 @@ class ProductSeeder extends Seeder
                 'unit'              => 'bunch',
                 'stock_quantity'    => 30,
                 'weekly_quota'      => 50,
-                'image_path'        => 'products/wild_arugula.jpg',
+                'image_url'         => 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=800&q=80',
             ],
 
             // Farmer 5 (Vegetables & Roots)
@@ -196,7 +196,7 @@ class ProductSeeder extends Seeder
                 'unit'              => 'bunch',
                 'stock_quantity'    => 35,
                 'weekly_quota'      => 50,
-                'image_path'        => 'products/swiss_chard.jpg',
+                'image_url'         => 'https://images.unsplash.com/photo-1579113800032-c38bd7635818?auto=format&fit=crop&w=800&q=80',
             ],
             [
                 'farmer_profile_id' => $farmer5->id,
@@ -207,7 +207,7 @@ class ProductSeeder extends Seeder
                 'unit'              => 'bunch',
                 'stock_quantity'    => 40,
                 'weekly_quota'      => 60,
-                'image_path'        => 'products/golden_beets.jpg',
+                'image_url'         => 'https://images.unsplash.com/photo-1593105544559-ecb03bf76f82?auto=format&fit=crop&w=800&q=80',
             ],
         ];
 
@@ -225,7 +225,9 @@ class ProductSeeder extends Seeder
                     'unit'           => $p['unit'],
                     'stock_quantity' => $p['stock_quantity'],
                     'weekly_quota'   => $p['weekly_quota'],
-                    'image_path'     => $p['image_path'],
+                    'image_url'      => $p['image_url'],
+                    'image_path'     => $p['image_url'],
+                    'image'          => $p['image_url'],
                     'is_available'   => true,
                     'is_moderated'   => false,
                 ]

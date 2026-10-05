@@ -23,6 +23,7 @@ class MarketSeeder extends Seeder
                 'open_time'      => '08:00',
                 'close_time'     => '14:00',
                 'status'         => 'active',
+                'image_url'      => 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=800&q=80',
             ],
             [
                 'name'           => 'Ferry Plaza Farmers Market',
@@ -34,6 +35,7 @@ class MarketSeeder extends Seeder
                 'open_time'      => '08:00',
                 'close_time'     => '14:00',
                 'status'         => 'active',
+                'image_url'      => 'https://images.unsplash.com/photo-1533900298318-6b8da08a523e?auto=format&fit=crop&w=800&q=80',
             ],
             [
                 'name'           => 'Riverside Waterfront Farmers Market',
@@ -45,6 +47,7 @@ class MarketSeeder extends Seeder
                 'open_time'      => '15:00',
                 'close_time'     => '19:00',
                 'status'         => 'active',
+                'image_url'      => 'https://images.unsplash.com/photo-1516253593875-bd7ba052fbc5?auto=format&fit=crop&w=800&q=80',
             ],
         ];
 

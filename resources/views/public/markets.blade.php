@@ -124,7 +124,7 @@
                     <div class="card card-custom h-100 p-3 bg-white border shadow-sm position-relative">
                         <div class="d-flex gap-3">
                             <div class="position-relative flex-shrink-0">
-                                <img src="{{ $top->image_url ?: 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=300&q=80' }}" 
+                                <img src="{{ $top->image_url }}" 
                                      alt="{{ $top->name }}" 
                                      class="rounded-3 shadow-sm" 
                                      style="width: 105px; height: 105px; object-fit: cover;">
@@ -237,7 +237,7 @@
                     <div class="card card-custom p-3 mb-3 bg-white market-item-card" 
                          onclick="focusMarker({{ $market->latitude }}, {{ $market->longitude }}, '{{ addslashes($market->name) }}')">
                         <div class="d-flex gap-3 mb-2">
-                            <img src="{{ $market->image_url ?: 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=200&q=80' }}" 
+                            <img src="{{ $market->image_url }}" 
                                  alt="{{ $market->name }}" 
                                  class="rounded-3 shadow-sm flex-shrink-0" 
                                  style="width: 58px; height: 58px; object-fit: cover;">

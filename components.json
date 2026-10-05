@@ -17,5 +17,8 @@
     "lib": "@/lib",
     "hooks": "@/hooks"
   },
-  "iconLibrary": "tabler"
+  "iconLibrary": "tabler",
+  "registries": {
+    "@spaceui": "https://www.spaceui.one/r/{name}.json"
+  }
 }

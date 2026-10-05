@@ -122,8 +122,10 @@
                class="filter-chip {{ request('category') == $cat->id ? 'active' : '' }}">
                 @if($cat->slug == 'vegetables') 🥕
                 @elseif($cat->slug == 'fruits') 🍎
-                @elseif($cat->slug == 'dairy-eggs') 🥛
+                @elseif($cat->slug == 'dairy-eggs' || $cat->slug == 'dairy') 🥛
+                @elseif($cat->slug == 'poultry') 🍗
                 @elseif($cat->slug == 'baked-goods') 🥖
+                @elseif($cat->slug == 'organic-herbs' || $cat->slug == 'herbs') 🌿
                 @else 🍯
                 @endif
                 <span>{{ $cat->name }}</span>
@@ -316,8 +318,7 @@
                         <div class="card card-custom h-100 d-flex flex-column bg-white position-relative">
                             <div class="position-relative overflow-hidden" style="border-top-left-radius: 12px; border-top-right-radius: 12px;">
                                 <a href="{{ route('products.show', $product->id) }}" class="d-block text-decoration-none" title="{{ $product->name }}">
-                                    <img src="{{ $product->image_url ?: 'https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=600&q=80' }}" 
-                                         onerror="this.src='https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=600&q=80'"
+                                    <img src="{{ $product->image_url }}" 
                                          class="card-img-top product-card-img" 
                                          alt="{{ $product->name }}" 
                                          style="height: 180px; object-fit: cover; transition: transform 0.3s ease;">
