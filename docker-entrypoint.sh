@@ -60,6 +60,8 @@ SetEnv DB_DATABASE ${DB_DATABASE:-/var/www/html/database/database.sqlite}
 SetEnv APP_ENV ${APP_ENV:-production}
 SetEnv APP_NAME "MarketLink"
 SetEnv LOG_CHANNEL stderr
+SetEnv SESSION_DRIVER file
+SetEnv CACHE_STORE file
 EOF
 a2enconf marketlink-env 2>/dev/null || true
 
