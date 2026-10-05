@@ -18,29 +18,37 @@ class AiAssistantController extends Controller
      */
     public function query(Request $request)
     {
-        $userMessage = trim($request->input('message', ''));
+        try {
+            $userMessage = trim($request->input('message', ''));
 
-        if (empty($userMessage)) {
+            if (empty($userMessage)) {
+                return response()->json([
+                    'reply' => "Hello! I am your **MarketLink AI Assistant**. Ask me anything about local farmers markets, stall locations, seasonal produce, prices, customer-farmer messaging, or how our pre-order pickup works!"
+                ]);
+            }
+
+            // 1. Attempt Real Google Gemini AI API Call
+            $geminiReply = $this->callGeminiWithContext($userMessage);
+
+            if (!empty($geminiReply)) {
+                return response()->json([
+                    'reply' => $geminiReply,
+                    'source' => 'gemini'
+                ]);
+            }
+
+            // 2. Graceful Fallback to Local Database Search Engine
             return response()->json([
-                'reply' => "Hello! I am your **MarketLink AI Assistant**. Ask me anything about local farmers markets, stall locations, seasonal produce, prices, customer-farmer messaging, or how our pre-order pickup works!"
+                'reply' => $this->localFallbackReply($userMessage),
+                'source' => 'local_fallback'
+            ]);
+        } catch (\Throwable $e) {
+            Log::error("AiAssistantController exception: " . $e->getMessage());
+            return response()->json([
+                'reply' => "I am here to help you navigate MarketLink! You can ask about our local farmers markets, seasonal produce, vendor stalls, or pre-order pickup times. What would you like to explore today?",
+                'source' => 'safe_fallback'
             ]);
         }
-
-        // 1. Attempt Real Google Gemini AI API Call
-        $geminiReply = $this->callGeminiWithContext($userMessage);
-
-        if (!empty($geminiReply)) {
-            return response()->json([
-                'reply' => $geminiReply,
-                'source' => 'gemini'
-            ]);
-        }
-
-        // 2. Graceful Fallback to Local Database Search Engine
-        return response()->json([
-            'reply' => $this->localFallbackReply($userMessage),
-            'source' => 'local_fallback'
-        ]);
     }
 
     /**

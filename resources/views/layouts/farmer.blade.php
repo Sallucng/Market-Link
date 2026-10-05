@@ -30,6 +30,9 @@
 
     <!-- Space UI Essentials & Vite Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @if(app()->isLocal() || request()->getHost() === 'localhost' || request()->getHost() === '127.0.0.1')
+        @vite('resources/js/agentation.jsx')
+    @endif
 
     <style>
         :root {

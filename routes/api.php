@@ -34,6 +34,9 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
+// Public AI Assistant
+Route::post('/ai-assistant', [\App\Http\Controllers\Public\AiAssistantController::class, 'query']);
+
 // Authentication
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register/customer', [AuthController::class, 'registerCustomer']);

@@ -102,6 +102,9 @@
                     <a href="{{ route('contact') }}" class="btn btn-brand rounded-pill px-4 py-2">
                         <i class="bi bi-envelope me-1"></i> {{ __('Contact Community Team') }}
                     </a>
+                    <button type="button" class="btn btn-light border rounded-pill px-4 py-2 text-dark fw-semibold" onclick="document.getElementById('ai-toggle-btn')?.click()">
+                        <i class="bi bi-robot text-success me-1"></i> {{ __('Ask AI Assistant') }}
+                    </button>
                 </div>
             </div>
         </div>

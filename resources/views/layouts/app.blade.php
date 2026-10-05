@@ -26,6 +26,9 @@
 
     <!-- Space UI Essentials & Vite Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @if(app()->isLocal() || request()->getHost() === 'localhost' || request()->getHost() === '127.0.0.1')
+        @vite('resources/js/agentation.jsx')
+    @endif
 
     <style>
         :root {
@@ -378,6 +381,43 @@
         .bento-card:hover {
             border-color: #cfcbbe;
             box-shadow: 0 6px 18px -4px rgba(0, 0, 0, 0.04);
+        }
+
+        /* MarketLink AI Floating Assistant */
+        #ai-assistant-bubble {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1050;
+        }
+        #ai-assistant-window {
+            position: fixed;
+            bottom: 90px;
+            right: 24px;
+            width: 360px;
+            height: 480px;
+            z-index: 1050;
+            display: none;
+            box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.14);
+            border: 1px solid var(--border-card);
+            border-radius: 16px;
+            overflow: hidden;
+            background: #ffffff;
+        }
+
+        @media (max-width: 767.98px) {
+            #ai-assistant-bubble {
+                bottom: 18px !important;
+                right: 18px !important;
+            }
+            #ai-assistant-window {
+                bottom: 86px !important;
+                right: 12px !important;
+                left: 12px !important;
+                width: auto !important;
+                max-width: 360px !important;
+                margin: 0 auto !important;
+            }
         }
 
         /* ==========================================================================
@@ -967,8 +1007,38 @@
         </div>
     </footer>
 
+    <!-- Floating AI Assistant Chatbot (MarketLink Assistant) -->
+    <div id="ai-assistant-bubble">
+        <button id="ai-toggle-btn" class="btn btn-success rounded-circle shadow-lg d-flex align-items-center justify-content-center p-3" style="width: 58px; height: 58px;" title="Chat with MarketLink AI Assistant">
+            <i class="bi bi-robot fs-4"></i>
+        </button>
+    </div>
 
-    <!-- Global Omnisearch Modal (Ctrl+K / Mobile Search) -->
+    <div id="ai-assistant-window" class="card shadow-lg border-0">
+        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center py-2 px-3">
+            <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-robot fs-5"></i>
+                <div>
+                    <h6 class="mb-0 fw-bold" style="font-size: 0.95rem;">MarketLink Assistant</h6>
+                    <small class="text-white-50" style="font-size: 0.72rem;">Ask about markets, stalls and products</small>
+                </div>
+            </div>
+            <button id="ai-close-btn" class="btn btn-sm btn-link text-white p-0 fs-5 text-decoration-none">&times;</button>
+        </div>
+        <div id="ai-messages" class="card-body p-3 overflow-auto" style="height: 360px; font-size: 0.88rem; background-color: #f8fafc;">
+            <div class="d-flex mb-3">
+                <div class="bg-white p-2 rounded-3 shadow-sm border" style="max-width: 85%;">
+                    👋 Hello! I am your **MarketLink Assistant**. I can help you find fresh produce, check market schedules, explore vendor stalls, and answer pickup questions. How can I help today?
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-white border-top p-2">
+            <form id="ai-chat-form" class="d-flex gap-2">
+                <input type="text" id="ai-input" class="form-control form-control-sm" placeholder="Ask about timings, products..." autocomplete="off">
+                <button type="submit" class="btn btn-sm btn-success px-3">Send</button>
+            </form>
+        </div>
+    </div>
     <div class="modal fade" id="globalSearchModal" tabindex="-1" aria-labelledby="globalSearchModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content border-0 shadow-lg" style="border-radius: 20px; overflow: hidden; background: #ffffff;">
@@ -1242,6 +1312,95 @@
         function escapeHtml(str) {
             return (str || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         }
+    </script>
+
+    <!-- MarketLink AI Assistant Interactive Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const aiToggleBtn = document.getElementById('ai-toggle-btn');
+            const aiCloseBtn = document.getElementById('ai-close-btn');
+            const aiWindow = document.getElementById('ai-assistant-window');
+            const aiChatForm = document.getElementById('ai-chat-form');
+            const aiInput = document.getElementById('ai-input');
+            const aiMessages = document.getElementById('ai-messages');
+
+            if (aiToggleBtn && aiWindow) {
+                aiToggleBtn.addEventListener('click', () => {
+                    const isOpen = aiWindow.style.display === 'block';
+                    aiWindow.style.display = isOpen ? 'none' : 'block';
+                    if (!isOpen && aiInput) aiInput.focus();
+                });
+
+                if (aiCloseBtn) {
+                    aiCloseBtn.addEventListener('click', () => {
+                        aiWindow.style.display = 'none';
+                    });
+                }
+
+                if (aiChatForm && aiInput && aiMessages) {
+                    aiChatForm.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        const text = aiInput.value.trim();
+                        if (!text) return;
+
+                        // User bubble
+                        const userMsgDiv = document.createElement('div');
+                        userMsgDiv.className = 'd-flex justify-content-end mb-2';
+                        userMsgDiv.innerHTML = `<div class="bg-success text-white p-2.5 rounded-3 shadow-sm" style="max-width: 85%; font-size: 0.88rem;">${escapeHtml(text)}</div>`;
+                        aiMessages.appendChild(userMsgDiv);
+                        aiInput.value = '';
+                        aiMessages.scrollTop = aiMessages.scrollHeight;
+
+                        // Loading bubble
+                        const loadingDiv = document.createElement('div');
+                        loadingDiv.className = 'd-flex mb-2';
+                        loadingDiv.innerHTML = `<div class="bg-white p-2.5 rounded-3 shadow-sm border text-muted" style="max-width: 85%; font-size: 0.88rem;"><i class="bi bi-hourglass-split me-1 text-success"></i> Thinking...</div>`;
+                        aiMessages.appendChild(loadingDiv);
+                        aiMessages.scrollTop = aiMessages.scrollHeight;
+
+                        try {
+                            const response = await fetch("/api/ai-assistant", {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                },
+                                body: JSON.stringify({ message: text })
+                            });
+
+                            if (!response.ok) {
+                                throw new Error('HTTP ' + response.status);
+                            }
+
+                            const data = await response.json();
+                            loadingDiv.remove();
+
+                            const botDiv = document.createElement('div');
+                            botDiv.className = 'd-flex mb-2';
+                            botDiv.innerHTML = `<div class="bg-white p-2.5 rounded-3 shadow-sm border" style="max-width: 85%; font-size: 0.88rem; line-height: 1.5;">${formatMarkdown(data.reply || 'Sorry, I could not process that.')}</div>`;
+                            aiMessages.appendChild(botDiv);
+                            aiMessages.scrollTop = aiMessages.scrollHeight;
+                        } catch (err) {
+                            loadingDiv.remove();
+                            const errDiv = document.createElement('div');
+                            errDiv.className = 'd-flex mb-2';
+                            errDiv.innerHTML = `<div class="bg-danger text-white p-2.5 rounded-3 shadow-sm" style="max-width: 85%; font-size: 0.88rem;">Failed to connect to assistant. Please try again.</div>`;
+                            aiMessages.appendChild(errDiv);
+                            aiMessages.scrollTop = aiMessages.scrollHeight;
+                        }
+                    });
+                }
+            }
+
+            function formatMarkdown(text) {
+                return (text || '')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-success text-decoration-underline fw-semibold">$1</a>')
+                    .replace(/\n/g, '<br>');
+            }
+        });
     </script>
 
     <script>
